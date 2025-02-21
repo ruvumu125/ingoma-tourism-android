@@ -17,6 +17,7 @@ import com.ingoma.tourism.utils.DayViewContainer;
 import com.ingoma.tourism.utils.MonthViewContainer;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
+import com.kizitonwose.calendar.core.DayPosition;
 import com.kizitonwose.calendar.core.OutDateStyle;
 import com.kizitonwose.calendar.view.CalendarView;
 import com.kizitonwose.calendar.view.MonthDayBinder;
@@ -75,18 +76,19 @@ public class HotelDatePickerActivity extends AppCompatActivity {
                 // Get the current date
                 LocalDate currentDate = LocalDate.now();
 
-                // Check if the date is in the past
-                if (YearMonth.from(data.getDate()).isBefore(currentMonth) ||data.getDate().isBefore(currentDate) ) {
-                    // Disable the date (e.g., gray it out)
-                    container.textView.setTextColor(Color.GRAY); // Change text color
-                    container.textView.setAlpha(0.5f); // Make it semi-transparent
-                    container.textView.setClickable(false); // Disable clicks
+                if (data.getPosition() != DayPosition.MonthDate || YearMonth.from(data.getDate()).isBefore(currentMonth) ||data.getDate().isBefore(currentDate)) {
+
+                    container.textView.setTextColor(Color.GRAY);
+                    container.textView.setAlpha(0.5f);
+                    container.textView.setClickable(false);
                 } else {
-                    // Enable the date (e.g., reset to default appearance)
-                    container.textView.setTextColor(Color.BLACK); // Reset text color
-                    container.textView.setAlpha(1f); // Make it fully visible
-                    container.textView.setClickable(true); // Enable clicks
+
+                    container.textView.setTextColor(Color.BLACK);
+                    container.textView.setAlpha(1f);
+                    container.textView.setClickable(true);
+
                 }
+
 
                 // Set the day of the month
                 container.textView.setText(String.valueOf(data.getDate().getDayOfMonth()));
