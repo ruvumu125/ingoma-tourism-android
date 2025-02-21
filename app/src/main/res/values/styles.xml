@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme"  parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorSecondary">@color/primary_variant</item>
+    </style>
+    <style name="AppThemeT" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorSecondary">@color/primary_variant</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
+        <item name="android:navigationBarColor">?attr/backgroundColor</item>
+    </style>
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorSecondary">@color/primary_variant</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
+    </style>
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Theme.Goe.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Goe.AppBarOverlay">
+    </style>
+    <style name="Theme.Goe" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorSecondary">@color/primary_variant</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
+        <item name="android:navigationBarColor">?attr/backgroundColor</item>
+    </style>
+
+    <style name="Theme.IngomaTourism" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="Theme.MyAppT" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+
+
+
+    <style name="Theme.Goibibo" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Personnalisation du thème -->
+    </style>
+
+    <style name="Theme.Goe.ToolbarFont">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:actionMenuTextColor">@color/blue_link</item>
+        <item name="android:fontFamily">@font/app_font</item>
+        <item name="actionMenuTextColor">@color/blue_link</item>
+        <item name="textAllCaps">false</item>
+    </style>
+    <style name="ActionBarTabStyle">
+        <item name="actionBarTabStyle">@style/Widget.AppCompat.Light.ActionBar.TabView</item>
+    </style>
+    <style name="ActionBarWidgetTheme">
+        <item name="actionBarWidgetTheme">@null</item>
+    </style>
+    <style name="ActionBarTabText">
+    </style>
+    <style name="ActionOverFlowButton">
+    </style>
+    <style name="ActionBar">
+    </style>
+    <style name="ActionBar.Goibibo">
+    </style>
+    <style name="ActionBar.Solid">
+    </style>
+    <style name="ActionBarWidgetTheme.Goibibo">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/search_hint_color</item>
+    </style>
+
+    <style name="ActionOverFlowButton.Goibibo">
+        <item name="android:src">@drawable/menu_overflow</item>
+    </style>
+    <style name="ActionBarTabText.Goibibo">
+        <item name="android:textColor">@color/detail_view_text</item>
+    </style>
+    <style name="ActionBar.Solid.Goibibo">
+        <item name="android:background">@drawable/actionbar_background</item>
+        <item name="background">@drawable/actionbar_background</item>
+        <item name="subtitleTextStyle">@style/ActionBar.Goibibo.Subtitle</item>
+        <item name="titleTextStyle">@style/ActionBar.Goibibo.Title</item>
+    </style>
+    <style name="ActionBar.Goibibo.Title">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="ActionBar.Goibibo.Subtitle">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="MyDialogTheme">
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+    </style>
+    <style name="MyDatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+
+    <style name="TextStyles.Label.Base">
+        <item name="android:textSize">@dimen/text_size_label_base</item>
+    </style>
+    <style name="TextStyles.Label.Large">
+        <item name="android:textSize">@dimen/text_size_label_large</item>
+    </style>
+    <style name="TextStyles.Label.Medium">
+        <item name="android:textSize">@dimen/text_size_label_medium</item>
+    </style>
+    <style name="TextStyles.Label.Small">
+        <item name="android:textSize">@dimen/text_size_label_small</item>
+    </style>
+    <style name="TextStyles.Label">
+    </style>
+    <style name="TextStyles">
+    </style>
+
+    <style name="TextStyles.Label.Small.w1">
+        <item name="fontFamily">@font/app_font</item>
+    </style>
+    <style name="TextStyles.Label.Base.w3">
+        <item name="fontFamily">@font/app_font_semibold</item>
+    </style>
+    <style name="TextStyles.Label.Medium.w3">
+        <item name="fontFamily">@font/app_font_semibold</item>
+    </style>
+    <style name="Theme.Goibibo.Toolbar">
+        <item name="android:colorControlActivated">@color/white</item>
+    </style>
+    <style name="TextStyles.Label.Large.w3">
+        <item name="fontFamily">@font/app_font_semibold</item>
+    </style>
+    <style name="TextStyles.Label.Small.w2">
+        <item name="fontFamily">@font/app_font_medium</item>
+    </style>
+
+
+    <style name="h5AvenirMedium">
+        <item name="fontFamily">@font/avenir_semi_bold</item>
+    </style>
+    <style name="TextStyles.Label.Base.w1">
+        <item name="fontFamily">@font/app_font</item>
+    </style>
+    <style name="TextStyles.Label.Small.w3">
+        <item name="fontFamily">@font/app_font_semibold</item>
+    </style>
+    <style name="H5Avenir">
+        <item name="fontFamily">@font/avenir_regular</item>
+    </style>
+    <style name="h5AvenirBold">
+        <item name="fontFamily">@font/avenir_bold</item>
+    </style>
+    <style name="H1Avenir">
+        <item name="fontFamily">@font/avenir_semi_bold</item>
+    </style>
+    <style name="H1TextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">-0.0041</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
+    </style>
+    <style name="H2BoldTextAppearance">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">@null</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
+    </style>
+    <style name="H3Avenir">
+        <item name="fontFamily">@font/avenir_regular</item>
+    </style>
+    <style name="H5TextAppearance">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">@null</item>
+        <item name="fontFamily">@font/gilroy_regular</item>
+    </style>
+    <style name="ToolbarTitleStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:fontFamily">@font/gilroy_bold</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
+    </style>
+    <style name="H4TextAppearance">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:letterSpacing">@null</item>
+        <item name="fontFamily">@font/gilroy_semi_bold</item>
+    </style>
+    <style name="H2AvenirCheckbox">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">@null</item>
+        <item name="fontFamily">@font/avenir</item>
+    </style>
+    <style name="PrimaryButtonStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:shadowColor">@color/colorAccent</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:inset">0dp</item>
+        <item name="android:letterSpacing">-0.0041</item>
+        <item name="backgroundColor">@color/colorAccent</item>
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="cornerRadius">5dp</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
+        <item name="rippleColor">@color/colorAccentDark</item>
+    </style>
+    <style name="H3TextAppearance">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">@null</item>
+        <item name="fontFamily">@font/gilroy_regular</item>
+    </style>
+    <style name="GMH1TextAppearance">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorTextUnderlined</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">-0.0001</item>
+        <item name="fontFamily">@font/gilroy_regular</item>
+    </style>
+    <style name="TextStyles.Label.Large.w1">
+        <item name="fontFamily">@font/app_font</item>
+    </style>
+    <style name="TextStyles.Label.Large.w2">
+        <item name="fontFamily">@font/app_font_medium</item>
+    </style>
+    <style name="TextStyles.Label.Medium.w1">
+        <item name="fontFamily">@font/app_font</item>
+    </style>
+    <style name="TextStyles.Label.Medium.w2">
+        <item name="fontFamily">@font/app_font_medium</item>
+    </style>
+    <style name="H2TextAppearance">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">@null</item>
+        <item name="fontFamily">@font/gilroy_semi_bold</item>
+    </style>
+    <style name="CalendarDayTextAppearance">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">@null</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
+    </style>
+
+    <style name="nav_theme">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:id="@+id/lyt_parent_item"
+    android:tag="layout/view_h_detail_location_poi_text_0"
+    android:background="@drawable/htl_blue_ripple_with_border"
+    android:paddingTop="6dp"
+    android:paddingBottom="5dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/lyt_sub_title_wrap"
+        android:background="@drawable/white_round_rect_4dp"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/htl_line_grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:text="1222222"
+            android:textColor="@color/icon_grey"
+            android:id="@+id/location"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextStyles.Label.Small.w1"/>
+    </LinearLayout>
+    <TextView
+        android:textColor="@color/htl_dark_grey_old"
+        android:id="@+id/distance"
+        android:text="12 km a pied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:includeFontPadding="false"
+        android:layout_marginStart="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextStyles.Label.Base.w1"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

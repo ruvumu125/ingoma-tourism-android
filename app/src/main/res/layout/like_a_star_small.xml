@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:id="@+id/mainLyt"
+    android:tag="layout/like_5_star_0"
+    android:background="@drawable/bg_srp_tag"
+    android:paddingLeft="5dp"
+    android:paddingTop="4dp"
+    android:paddingRight="6dp"
+    android:paddingBottom="4dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/img5Star"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:srcCompat="@drawable/ic_htl_like_5_star"/>
+    <TextView
+        android:textColor="#717171"
+        android:gravity="center"
+        android:text="@string/amenities"
+        android:id="@+id/like_5starTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        style="@style/TextStyles.Label.Small.w1"/>
+</LinearLayout>

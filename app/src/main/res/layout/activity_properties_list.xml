@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:id="@+id/detail_activity_lyt"
+    android:tag="layout/activity_hotel_srp_0"
+    android:background="#f4f4f4"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:orientation="vertical"
+        android:id="@+id/htab_appbar"
+        android:background="@color/toolbarBG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="6dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/lytCollapsing"
+            android:tag="binding_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="enterAlways">
+            <include
+                android:orientation="vertical"
+                android:id="@+id/lytParentEdtRv"
+                android:background="?attr/toolbarBG"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="@dimen/htl_dtl_toolbar_height"
+                android:layout_marginRight="12dp"
+                app:layout_scrollFlags="enterAlways"
+                layout="@layout/lyt_htl_srp_edit_card"/>
+            <LinearLayout
+                android:gravity="top"
+                android:id="@+id/lytToolbar"
+                android:tag="binding_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="none"
+                app:layout_scrollFlags="enterAlways">
+                <include
+                    android:id="@+id/toolbarLyt"
+                    layout="@layout/hotels_getaways_srp_toolbar"/>
+            </LinearLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        <View
+            android:id="@+id/editSeparator"
+            android:background="#eff3f8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/lytFiltersContainer"
+            android:tag="binding_3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <include
+                android:visibility="gone"
+                android:id="@+id/lytShimmerFilter"
+                layout="@layout/lyt_shimmer_top_filters_getaways"/>
+
+            <LinearLayout
+                android:id="@+id/rvTopFiltersUnified"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnCount="3"
+                    android:rowCount="1"
+                    android:useDefaultMargins="true"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp">
+
+                    <LinearLayout
+                        android:id="@+id/Ll_sort"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/bg_sort_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_marginEnd="8dp">
+
+                        <ImageView
+                            android:paddingEnd="5dp"
+                            android:visibility="visible"
+                            android:id="@+id/iv_sort_icon"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/htl_sort_filter_drawable"/>
+
+                        <TextView
+                            android:id="@+id/tv_sort"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sort"
+                            android:textSize="16sp"
+                            android:textColor="@color/htl_color_grey"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_sort_button">
+
+                        <ImageView
+                            android:paddingEnd="5dp"
+                            android:visibility="visible"
+                            android:id="@+id/iv_filter_icon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_filters_filter_unified"
+                            app:tint="@color/black_70" />
+
+                        <TextView
+                            android:id="@+id/tv_filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Filters"
+                            android:textSize="16sp"
+                            android:textColor="@color/htl_color_grey"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:background="@drawable/bg_sort_button">
+
+                        <ImageView
+                            android:paddingEnd="5dp"
+                            android:visibility="visible"
+                            android:id="@+id/iv_location_icon"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_filters_location_unified"
+                            app:tint="@color/black_70" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Location"
+                            android:textSize="16sp"
+                            android:textColor="@color/htl_color_grey"/>
+
+                    </LinearLayout>
+                </GridLayout>
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSrpList"
+        android:background="@color/bg_htl_dtls"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="always"
+        android:nestedScrollingEnabled="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:visibility="gone"
+        android:id="@+id/lytShimmerScrollV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:orientation="vertical"
+            android:tag="binding_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                android:id="@+id/lytShimmerGetawaysSrp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/lyt_getaway_shimmer"/>
+            <include
+                android:id="@+id/lytShimmerSrpNew"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/lyt_srp_shimmer"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

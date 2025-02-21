@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorTransparent"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_card"
+        android:background="@drawable/white_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_16"
+        tools:ignore="MissingConstraints">
+
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/view_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:sliderAnimationDuration="600"
+            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderAutoCycleEnabled="true"
+            app:sliderIndicatorAnimationDuration="600"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorMargin="15dp"
+            app:sliderIndicatorOrientation="horizontal"
+            app:sliderIndicatorPadding="3dp"
+            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorSelectedColor="#5A5A5A"
+            app:sliderIndicatorUnselectedColor="#FFF"
+            app:sliderScrollTimeInSec="1"
+            app:sliderStartAutoCycle="true" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_wishlist_container"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_pager"
+            app:layout_constraintStart_toStartOf="@+id/view_pager">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_wishlist"
+                android:padding="13.3dp"
+                android:visibility="visible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_wishlist"
+                    android:background="@drawable/ic_wishlist_unselected_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="17dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96107054" />
+
+        <RelativeLayout
+            android:id="@+id/m23"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/hotel_type"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:textColor="@color/white"
+                    android:id="@+id/tv_hotel_type"
+                    android:background="@drawable/card_text_view_background"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Resort"
+                    android:alpha="0.8"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:backgroundTint="@color/colorGray"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toTopOf="@+id/view_pager"
+                    style="@style/TextStyles.Label.Small.w1"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/hotel_type"
+                android:id="@+id/bisimwa"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:ellipsize="end"
+                    android:id="@+id/tv_hotel_name_yudita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Hotel source du Nil"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_guest_review_rating"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                    style="@style/H2BoldTextAppearance" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/bisimwa"
+                android:id="@+id/willy"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/lytRoomInfoParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/rating_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/hotel_average_rating_bg"
+                        android:text="3/5"
+                        android:layout_marginEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:textSize="8dp"
+                        android:layout_gravity="end"
+                        app:textAllCaps="true"
+                        android:textColor="@color/black"
+                        style="@style/TextStyles.Label.Small.w1"/>
+
+                    <TextView
+                        android:id="@+id/tv_rating_mention"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Very Good"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/black"
+                        style="@style/TextStyles.Label.Medium.w3"/>
+
+                    <TextView
+                        android:id="@+id/tv_review_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(120 Reviews)"
+                        android:textSize="12sp"
+                        android:textColor="#666"
+                        style="@style/TextStyles.Label.Small.w1"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/willy"
+                android:id="@+id/nanga"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
+                    android:id="@+id/linearLayoutCompat"
+                    android:paddingBottom="@dimen/padding_16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="4"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_star">
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.4">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:textColor="@color/colorTextLight"
+                            android:ellipsize="end"
+                            android:id="@+id/tv_hotel_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="Avenue de l'universite Bujumbura Burundi,zone Gihosha"
+                            android:drawablePadding="8dp"
+                            style="@style/TextStyles.Label.Small.w1" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.6">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:textColor="@color/colorTextSecondary"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/starts_from"
+                            android:maxLines="1"
+                            app:fontFamily="@font/avenir_semi_bold"
+                            style="@style/H3Avenir" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorDustyRed"
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:id="@+id/tv_starting_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="35 0000 BIF"
+                                android:maxLines="1"
+                                app:fontFamily="@font/avenir_semi_bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                style="@style/H5Avenir" />
+                            <View
+                                android:background="@color/colorOrange"
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:rotation="171"
+                                app:layout_constraintBottom_toBottomOf="@+id/tv_starting_price"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/tv_starting_price"
+                                app:layout_constraintTop_toTopOf="@+id/tv_starting_price" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_gravity="end"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorPrimary"
+                                android:ellipsize="end"
+                                android:text="70 000"
+                                android:id="@+id/tv_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+
+                                android:letterSpacing="-0.027"
+                                style="@style/H2BoldTextAppearance" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textSize="10sp"
+                                android:textColor="@color/colorPrimary"
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:id="@+id/tv_bdt_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/bdt"
+                                android:maxLines="1"
+                                android:fontFamily="@font/gilroy_bold"
+                                android:layout_marginStart="4dp"
+                                app:fontFamily="@font/avenir_semi_bold"
+                                style="@style/H5TextAppearance" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:textColor="@color/colorTextPrimary"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:id="@+id/tv_day_or_night_to_stay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/for_1_night_per_room"
+                            android:maxLines="1"
+                            app:fontFamily="@font/avenir_regular"
+                            style="@style/H5Avenir" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:visibility="gone"
+                            android:textSize="8dp"
+                            android:textColor="@color/white"
+                            android:layout_gravity="end"
+                            android:id="@+id/tv_discount"
+                            android:background="@drawable/orange_bg"
+                            android:text="44% OFF"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            app:textAllCaps="true"
+                            style="@style/H5Avenir" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/rv_hotel_facility"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toBottomOf="@+id/m23"
+            app:layout_constraintVertical_bias="0" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:textColor="#18214d"
+            android:id="@+id/tv_additional_discount"
+            android:background="@drawable/light_green_bg"
+            android:visibility="gone"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="@dimen/padding_16"
+            android:paddingEnd="@dimen/padding_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_hotel_facility"
+            style="@style/H3Avenir" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
