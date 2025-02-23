@@ -23,6 +23,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textview.MaterialTextView;
+import com.ingoma.tourism.dialog.GuestSelectionDialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,16 +31,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class HotelSearchActivity extends AppCompatActivity {
+public class HotelSearchActivity extends AppCompatActivity implements GuestSelectionDialogFragment.CallBackListener {
 
     private TextView tv_toolbar_title;
     private AppCompatImageButton ivBack;
-    private LinearLayoutCompat layout_check_in_date,layout_check_out_date;
+    private LinearLayoutCompat layout_check_in_date,layout_check_out_date,layout_guest;
 
-    private AppCompatTextView checkinDate,checkoutDate;
+    private AppCompatTextView checkinDate,checkoutDate,tv_no_of_guest;
     private MaterialTextView checkinDay,checkoutDay;
 
     private String checkinStr,checkoutStr;
+    private int nbAdultes=1;
+    private int nbChildren=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +50,20 @@ public class HotelSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hotel_search);
 
         // Find TextViews
+        tv_toolbar_title=(TextView) findViewById(R.id.tv_toolbar_title);
         checkinDay = findViewById(R.id.tv_check_in_day);
         checkinDate = findViewById(R.id.tv_check_in_date);
         checkoutDay = findViewById(R.id.tv_checkout_day);
         checkoutDate = findViewById(R.id.tv_checkout_date);
+        tv_no_of_guest = findViewById(R.id.tv_no_of_guest);
+        layout_check_in_date=findViewById(R.id.layout_check_in_date);
+        layout_check_out_date=findViewById(R.id.layout_check_out_date);
+        layout_guest=findViewById(R.id.layout_guest);
 
 
         //padding status bar and bottom navigation bar
         View toolbar = findViewById(R.id.customToolbar);
-        View yudaya= findViewById(R.id.yudaya);
         paddingStatusBar(toolbar);
-        //paddingStatusBar(yudaya);
 
 
         // Define the date format
@@ -75,26 +81,27 @@ public class HotelSearchActivity extends AppCompatActivity {
         displayDefaultDates(checkinStr,checkoutStr);
 
 
-
-
-        //date picker
-        layout_check_in_date=findViewById(R.id.layout_check_in_date);
-        layout_check_out_date=findViewById(R.id.layout_check_out_date);
-
-        layout_check_in_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openHotelDatePickerActivity();
-            }
+        layout_check_in_date.setOnClickListener(v ->{
+            openHotelDatePickerActivity();
         });
-        layout_check_out_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openHotelDatePickerActivity();
-            }
+        layout_check_out_date.setOnClickListener( v ->{
+            openHotelDatePickerActivity();
         });
 
-        tv_toolbar_title=(TextView) findViewById(R.id.tv_toolbar_title);
+        layout_guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                GuestSelectionDialogFragment guestSelectionDialogFragment = new GuestSelectionDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("nbAdultes", nbAdultes);
+                bundle.putInt("nbChildren", nbChildren);
+                guestSelectionDialogFragment.setArguments(bundle);
+
+                guestSelectionDialogFragment.show(getSupportFragmentManager(), "GuestSelectionBottomSheetDialog");
+            }
+        });
+
         tv_toolbar_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,4 +179,16 @@ public class HotelSearchActivity extends AppCompatActivity {
         activityResultLauncher.launch(intent);
     }
 
+    @Override
+    public void onGuestSelected(int adultesNumber, int childrenNumber) {
+        nbAdultes=adultesNumber;
+        nbChildren=childrenNumber;
+        int sum=adultesNumber+childrenNumber;
+        if (sum>1){
+            tv_no_of_guest.setText(String.valueOf(sum)+" voyageurs");
+        }
+        else{
+           tv_no_of_guest.setText(String.valueOf(sum)+" voyageur");
+        }
+    }
 }

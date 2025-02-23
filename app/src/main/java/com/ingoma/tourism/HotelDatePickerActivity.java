@@ -177,15 +177,17 @@ public class HotelDatePickerActivity extends AppCompatActivity {
 
                 // Highlight check-in date - only for month dates
                 if (checkInDate != null && data.getDate().isEqual(checkInDate.getDate()) && data.getPosition() == DayPosition.MonthDate) {
-                    Log.d("BindMethod", "Highlighting check-in date: " + data.getDate().toString()); // Log check-in highlight
-                    container.textView.setBackgroundColor(Color.BLUE);
+                   // Log.d("BindMethod", "Highlighting check-in date: " + data.getDate().toString()); // Log check-in highlight
+                    //container.textView.setBackgroundColor(Color.BLUE);
+                    container.textView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                     container.textView.setTextColor(Color.WHITE);
                 }
 
                 // Highlight check-out date - only for month dates
                 if (checkOutDate != null && data.getDate().isEqual(checkOutDate.getDate()) && data.getPosition() == DayPosition.MonthDate) {
-                    Log.d("BindMethod", "Highlighting check-out date: " + data.getDate().toString()); // Log check-out highlight
-                    container.textView.setBackgroundColor(Color.BLUE);
+                    //Log.d("BindMethod", "Highlighting check-out date: " + data.getDate().toString()); // Log check-out highlight
+                    //container.textView.setBackgroundColor(Color.BLUE);
+                    container.textView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                     container.textView.setTextColor(Color.WHITE);
                 }
             }
@@ -297,8 +299,8 @@ public class HotelDatePickerActivity extends AppCompatActivity {
             return;
         }
 
-        String checkIn = checkInDate != null ? checkInDate.getDate().toString() : "Not set";
-        String checkOut = checkOutDate != null ? checkOutDate.getDate().toString() : "Not set";
+        String checkIn = checkInDate.getDate().toString();
+        String checkOut = checkOutDate.getDate().toString();
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra("checkInDateResponse",checkIn);

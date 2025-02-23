@@ -39,13 +39,15 @@
     <string name="more_than_4_guests">More than 4 guests?</string>
     <string name="add_another_room">Add Another Room</string>
     <string name="remove">Remove</string>
-    <string name="adult">Adult</string>
-    <string name="children">Children</string>
-    <string name="hotel_child_age_range">0–10 years</string>
+    <string name="adult">Adultes</string>
+    <string name="children">Enfants</string>
+    <string name="hotel_child_age_range">0–10 ans</string>
     <string name="home">Home</string>
     <string name="bookings">Bookings</string>
     <string name="offer">Offer</string>
     <string name="inbox">Inbox</string>
     <string name="offers">Offers</string>
     <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
