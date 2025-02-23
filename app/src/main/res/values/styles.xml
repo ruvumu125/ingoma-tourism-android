@@ -248,7 +248,7 @@
         <item name="backgroundTint">@color/colorAccent</item>
         <item name="cornerRadius">5dp</item>
         <item name="fontFamily">@font/gilroy_bold</item>
-        <item name="rippleColor">@color/colorAccentDark</item>
+        <item name="rippleColor">@color/colorPrimary</item>
     </style>
     <style name="H3TextAppearance">
         <item name="android:textSize">13sp</item>

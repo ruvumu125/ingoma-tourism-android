@@ -13,7 +13,7 @@
         android:id="@+id/legendText1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="SUN"
+        android:text="LUN."
         android:layout_weight="1"
         style="@style/CalendarDayTextAppearance"/>
     <TextView
@@ -21,14 +21,14 @@
         android:id="@+id/legendText2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="MON"
+        android:text="MAR."
         android:layout_weight="1" style="@style/CalendarDayTextAppearance"/>
     <TextView
         android:gravity="center"
         android:id="@+id/legendText3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TUE"
+        android:text="MER."
         android:layout_weight="1"
         style="@style/CalendarDayTextAppearance"/>
     <TextView
@@ -36,7 +36,7 @@
         android:id="@+id/legendText4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="WED"
+        android:text="JEU."
         android:layout_weight="1"
         style="@style/CalendarDayTextAppearance"/>
     <TextView
@@ -44,7 +44,7 @@
         android:id="@+id/legendText5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="THU"
+        android:text="VEN."
         android:layout_weight="1"
         style="@style/CalendarDayTextAppearance"/>
     <TextView
@@ -52,7 +52,7 @@
         android:id="@+id/legendText6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="FRI"
+        android:text="SAM."
         android:layout_weight="1"
         style="@style/CalendarDayTextAppearance"/>
     <TextView
@@ -60,7 +60,7 @@
         android:id="@+id/legendText7"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="SAT"
+        android:text="DIM."
         android:layout_weight="1"
         style="@style/CalendarDayTextAppearance"/>
 </LinearLayout>

@@ -1,11 +1,14 @@
 package com.ingoma.tourism;
 
-import static com.kizitonwose.calendar.core.ExtensionsKt.daysOfWeek;
-
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,34 +33,63 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.Set;
+
 
 
 public class HotelDatePickerActivity extends AppCompatActivity {
 
     private CalendarView calendarView;
     private MaterialButton btnShowDates;
-    private AppCompatTextView tvSelectedDates;
-    private LocalDate startDate = null;
-    private LocalDate endDate = null;
+    private AppCompatTextView tvSelectedDates,checkInDateTextView,checkOutDateTextView;
 
     // Declare variables to store check-in and check-out dates
     private CalendarDay checkInDate = null;
     private CalendarDay checkOutDate = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_date_picker);
 
+
         calendarView = findViewById(R.id.calendarView);
         tvSelectedDates = findViewById(R.id.tvDayCount);
+        checkInDateTextView = findViewById(R.id.tvStartDate);
+        checkOutDateTextView = findViewById(R.id.tvEndDate);
         btnShowDates= findViewById(R.id.btnDone);
+
+        // Get default dates from hotel search activity
+        Intent intent = getIntent();
+        String checkinDate = intent.getStringExtra("checkinDate");
+        String checkoutDate = intent.getStringExtra("checkoutDate");
+        List<String> defaultSelectedDateStrings = Arrays.asList(
+                checkinDate,
+                checkoutDate
+        );
+
+        // Parse the strings into LocalDate objects and convert them to CalendarDay
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startLocalDate = LocalDate.parse(defaultSelectedDateStrings.get(0), formatter);
+        LocalDate endLocalDate = LocalDate.parse(defaultSelectedDateStrings.get(1), formatter);
+
+        // Convert LocalDate to CalendarDay
+        checkInDate = new CalendarDay(startLocalDate, DayPosition.MonthDate); // Assuming these are valid month dates
+        checkOutDate = new CalendarDay(endLocalDate, DayPosition.MonthDate);
+
+
         // Set click listener for the button
-        btnShowDates.setOnClickListener(v -> showSelectedDates());
+        btnShowDates.setOnClickListener(v -> {
+            showSelectedDates();
+        });
 
         // Set up the calendar
         YearMonth currentMonth = YearMonth.now();
@@ -70,6 +102,8 @@ public class HotelDatePickerActivity extends AppCompatActivity {
 
         // Use the first day of the week (e.g., DayOfWeek.MONDAY)
         calendarView.setup(startMonth, endMonth, daysOfWeek.get(0));
+
+
 
         // Set the MonthDayBinder
         calendarView.setDayBinder(new MonthDayBinder<DayViewContainer>() {
@@ -117,8 +151,19 @@ public class HotelDatePickerActivity extends AppCompatActivity {
 
                 // Highlight today's date with a circular background (only for month dates)
                 if (data.getDate().isEqual(LocalDate.now()) && data.getPosition() == DayPosition.MonthDate) {
+
+                    // Convert 40dp to pixels (for different screen densities)
+                    int sizeInPx = (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 40, container.textView.getResources().getDisplayMetrics()
+                    );
+
+                    // Force width and height to be 40dp (equal, making it a circle)
+                    ViewGroup.LayoutParams params = container.textView.getLayoutParams();
+                    params.width = sizeInPx;
+                    params.height = sizeInPx;
+                    container.textView.setLayoutParams(params);
                     container.textView.setBackgroundResource(R.drawable.circle_background_grey);
-                    container.textView.setTextColor(Color.WHITE); // Set text color for better visibility
+                    container.textView.setTextColor(Color.BLACK);
                 }
 
                 // Highlight selected dates (check-in and check-out range) - only for month dates
@@ -168,12 +213,18 @@ public class HotelDatePickerActivity extends AppCompatActivity {
             }
         });
 
+
+
         // Scroll to the current month
         calendarView.scrollToMonth(currentMonth);
 
+        //Default selection-calculate number of nights,show checkin and checkout dates on textview
+        handleDateSelection(checkOutDate);
+
     }
 
-    // Method to handle date selection
+
+        // Method to handle date selection
     private void handleDateSelection(CalendarDay selectedDay) {
         if (checkInDate == null) {
             // If check-in date is not set, set it
@@ -203,12 +254,16 @@ public class HotelDatePickerActivity extends AppCompatActivity {
             }
         }
 
+        // Update the TextViews with the formatted dates
+        checkInDateTextView.setText(formatDate(checkInDate));
+        checkOutDateTextView.setText(formatDate(checkOutDate));
+
         // Calculate the number of days between check-in and check-out
         long daysBetween = calculateDaysBetween(checkInDate, checkOutDate);
         Log.d("DaysBetween", "Days between check-in and check-out: " + daysBetween);
 
         // Update the TextView with the number of days
-        tvSelectedDates.setText("Days between: " + daysBetween);
+        tvSelectedDates.setText(daysBetween+" nuits");
 
         // Refresh the calendar to update the UI
         calendarView.notifyCalendarChanged();
@@ -234,18 +289,33 @@ public class HotelDatePickerActivity extends AppCompatActivity {
 
     // Method to display selected dates
     private void showSelectedDates() {
-        if (checkInDate == null && checkOutDate == null) {
-            //datesTextView.setText("Selected Dates: None");
-            Toast.makeText(this, "Selected Dates: None", Toast.LENGTH_SHORT).show();
-        } else {
-            String checkIn = checkInDate != null ? checkInDate.getDate().toString() : "Not set";
-            String checkOut = checkOutDate != null ? checkOutDate.getDate().toString() : "Not set";
+        if (checkInDate == null || checkOutDate == null) {
 
-            Toast.makeText(this, checkIn, Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, checkOut, Toast.LENGTH_SHORT).show();
-            //datesTextView.setText("Check-in: " + checkIn + "\nCheck-out: " + checkOut);
+            Toast toast = Toast.makeText(this, "Veuillez sélectionner une date de départ", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
         }
+
+        String checkIn = checkInDate != null ? checkInDate.getDate().toString() : "Not set";
+        String checkOut = checkOutDate != null ? checkOutDate.getDate().toString() : "Not set";
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("checkInDateResponse",checkIn);
+        resultIntent.putExtra("checkOutDateResponse",checkOut);
+        setResult(RESULT_OK, resultIntent);
+        finish(); // Finish and return data
     }
+
+    // Method to format the date as "28 Feb 2025"
+    private String formatDate(CalendarDay date) {
+        if (date == null) {
+            return "Not set";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.ENGLISH);
+        return date.getDate().format(formatter);
+    }
+
 
 
 }
