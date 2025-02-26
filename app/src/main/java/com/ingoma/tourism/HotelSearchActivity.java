@@ -79,11 +79,11 @@ public class HotelSearchActivity extends AppCompatActivity implements GuestSelec
 
         // Get today's date
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, 1); // Move to tomorrow
+        calendar.add(Calendar.DAY_OF_YEAR, 2); // Move to tomorrow
         checkinStr = sdf.format(calendar.getTime());
 
         // Get next-next day's date (2 days later from today)
-        calendar.add(Calendar.DAY_OF_YEAR, 3); // Move to the day after tomorrow
+        calendar.add(Calendar.DAY_OF_YEAR, 4); // Move to the day after tomorrow
         checkoutStr = sdf.format(calendar.getTime());
 
         displayDefaultDates(checkinStr,checkoutStr);

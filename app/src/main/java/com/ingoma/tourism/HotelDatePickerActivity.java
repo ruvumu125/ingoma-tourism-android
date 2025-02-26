@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,25 +19,19 @@ import com.ingoma.tourism.utils.MonthViewContainer;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
 import com.kizitonwose.calendar.core.DayPosition;
-import com.kizitonwose.calendar.core.OutDateStyle;
 import com.kizitonwose.calendar.view.CalendarView;
 import com.kizitonwose.calendar.view.MonthDayBinder;
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder;
-import com.kizitonwose.calendar.view.ViewContainer;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import java.util.Set;
-
 
 
 public class HotelDatePickerActivity extends AppCompatActivity {
@@ -52,6 +43,7 @@ public class HotelDatePickerActivity extends AppCompatActivity {
     // Declare variables to store check-in and check-out dates
     private CalendarDay checkInDate = null;
     private CalendarDay checkOutDate = null;
+    private boolean isFirstClick = true;
 
 
 
@@ -151,18 +143,7 @@ public class HotelDatePickerActivity extends AppCompatActivity {
 
                 // Highlight today's date with a circular background (only for month dates)
                 if (data.getDate().isEqual(LocalDate.now()) && data.getPosition() == DayPosition.MonthDate) {
-
-                    // Convert 40dp to pixels (for different screen densities)
-                    int sizeInPx = (int) TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP, 40, container.textView.getResources().getDisplayMetrics()
-                    );
-
-                    // Force width and height to be 40dp (equal, making it a circle)
-                    ViewGroup.LayoutParams params = container.textView.getLayoutParams();
-                    params.width = sizeInPx;
-                    params.height = sizeInPx;
-                    container.textView.setLayoutParams(params);
-                    container.textView.setBackgroundResource(R.drawable.circle_background_grey);
+                    container.textView.setBackgroundResource(R.drawable.rectangle_background_grey);
                     container.textView.setTextColor(Color.BLACK);
                 }
 
@@ -220,39 +201,53 @@ public class HotelDatePickerActivity extends AppCompatActivity {
         // Scroll to the current month
         calendarView.scrollToMonth(currentMonth);
 
-        //Default selection-calculate number of nights,show checkin and checkout dates on textview
-        handleDateSelection(checkOutDate);
+        // Set default dates and refresh the calendar
+        if (checkInDate != null && checkOutDate != null) {
+            // Update the TextViews with the formatted dates
+            checkInDateTextView.setText(formatDate(checkInDate));
+            checkOutDateTextView.setText(formatDate(checkOutDate));
+
+            // Calculate the number of days between check-in and check-out
+            long daysBetween = calculateDaysBetween(checkInDate, checkOutDate);
+            Log.d("DaysBetween", "Days between check-in and check-out: " + daysBetween);
+
+            // Update the TextView with the number of days
+            tvSelectedDates.setText(daysBetween + " nuits");
+
+            // Refresh the calendar to update the UI
+            calendarView.notifyCalendarChanged();
+            calendarView.invalidate();
+            calendarView.requestLayout();
+        }
 
     }
 
-
-        // Method to handle date selection
     private void handleDateSelection(CalendarDay selectedDay) {
-        if (checkInDate == null) {
-            // If check-in date is not set, set it
-            checkInDate = selectedDay;
-        } else if (checkOutDate == null) {
-            // If check-out date is not set
-            if (selectedDay.getDate().isAfter(checkInDate.getDate())) {
-                // If the new date is after check-in date, set it as check-out date
-                checkOutDate = selectedDay;
-            } else if (selectedDay.getDate().isBefore(checkInDate.getDate())) {
-                // If the new date is before check-in date, reset check-in date and clear check-out date
-                checkInDate = selectedDay;
-                checkOutDate = null;
-            }
+        if (isFirstClick) {
+            // On the first click, reset the default dates and set the new checkInDate
+            checkInDate = selectedDay; // Set the new checkInDate
+            checkOutDate = null; // Reset checkOutDate
+            isFirstClick = false; // Mark that the first click is done
         } else {
-            // If both check-in and check-out dates are set
-            if (selectedDay.getDate().isAfter(checkOutDate.getDate())) {
-                // If the new date is after the current check-out date, extend the range
-                checkOutDate = selectedDay;
-            } else if (selectedDay.getDate().isBefore(checkInDate.getDate())) {
-                // If the new date is before the current check-in date, reset check-in date and clear check-out date
+            // Handle subsequent selections as before
+            if (checkInDate == null) {
                 checkInDate = selectedDay;
-                checkOutDate = null;
-            } else if (selectedDay.getDate().isAfter(checkInDate.getDate()) && selectedDay.getDate().isBefore(checkOutDate.getDate())) {
-                // If the new date is between check-in and check-out, decrease the range
-                checkOutDate = selectedDay;
+            } else if (checkOutDate == null) {
+                if (selectedDay.getDate().isAfter(checkInDate.getDate())) {
+                    checkOutDate = selectedDay;
+                } else if (selectedDay.getDate().isBefore(checkInDate.getDate())) {
+                    checkInDate = selectedDay;
+                    checkOutDate = null;
+                }
+            } else {
+                if (selectedDay.getDate().isAfter(checkOutDate.getDate())) {
+                    checkOutDate = selectedDay;
+                } else if (selectedDay.getDate().isBefore(checkInDate.getDate())) {
+                    checkInDate = selectedDay;
+                    checkOutDate = null;
+                } else if (selectedDay.getDate().isAfter(checkInDate.getDate()) && selectedDay.getDate().isBefore(checkOutDate.getDate())) {
+                    checkOutDate = selectedDay;
+                }
             }
         }
 
@@ -265,7 +260,7 @@ public class HotelDatePickerActivity extends AppCompatActivity {
         Log.d("DaysBetween", "Days between check-in and check-out: " + daysBetween);
 
         // Update the TextView with the number of days
-        tvSelectedDates.setText(daysBetween+" nuits");
+        tvSelectedDates.setText(daysBetween + " nuits");
 
         // Refresh the calendar to update the UI
         calendarView.notifyCalendarChanged();
