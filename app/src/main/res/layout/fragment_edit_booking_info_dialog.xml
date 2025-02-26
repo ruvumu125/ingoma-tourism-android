@@ -85,7 +85,7 @@
                 android:layout_below="@+id/customToolbar">
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:orientation="vertical"
-                    android:id="@+id/layout_destination"
+                    android:id="@+id/layout_destination_edit"
                     android:padding="@dimen/padding_16"
                     android:focusable="true"
                     android:clickable="true"
@@ -100,7 +100,7 @@
                         app:textAllCaps="true"
                         style="@style/H4TextAppearance"/>
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_from_city"
+                        android:id="@+id/tv_from_city_edit"
                         android:layout_width="wrap_content"
                         android:textColor="@color/black"
                         android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                     android:weightSum="2">
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:orientation="vertical"
-                        android:id="@+id/layout_check_in_date"
+                        android:id="@+id/layout_check_in_date_edit"
                         android:padding="@dimen/padding_16"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_check_in_date"
+                                android:id="@+id/tv_check_in_date_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -154,7 +154,7 @@
                                 android:textColor="@color/black"
                                 style="@style/TextStyles.Label.Large.w2"/>
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_check_in_day"
+                                android:id="@+id/tv_check_in_day_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -164,7 +164,7 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:orientation="vertical"
-                        android:id="@+id/layout_check_out_date"
+                        android:id="@+id/layout_check_out_date_edit"
                         android:padding="@dimen/padding_16"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_checkout_date"
+                                android:id="@+id/tv_checkout_date_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -192,7 +192,7 @@
                                 android:textColor="@color/black"
                                 style="@style/TextStyles.Label.Large.w2"/>
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_checkout_day"
+                                android:id="@+id/tv_checkout_day_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -212,7 +212,7 @@
                     android:weightSum="2">
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:orientation="vertical"
-                        android:id="@+id/layout_guest"
+                        android:id="@+id/layout_guest_edit"
                         android:padding="@dimen/padding_16"
                         android:focusable="true"
                         android:clickable="true"
@@ -233,7 +233,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_no_of_guest"
+                                android:id="@+id/tv_no_of_guest_edit"
                                 android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -282,7 +282,7 @@
                     android:weightSum="2">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDone"
+                        android:id="@+id/btnDoneEdit"
                         android:padding="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

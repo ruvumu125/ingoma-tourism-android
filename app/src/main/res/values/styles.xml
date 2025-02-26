@@ -308,6 +308,13 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
+    <style name="TextStyles.Label.Base.w2">
+        <item name="fontFamily">@font/app_font_medium</item>
+    </style>
+    <style name="TextStyles.Label.Base.w2.MediumEmphasis">
+        <item name="android:textColor">@color/app_color_content_medium_emphasis</item>
+    </style>
+
 
 
 

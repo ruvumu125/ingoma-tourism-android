@@ -51,6 +51,7 @@
 
             <!-- Horizontal LinearLayout for Text + Down Arrow -->
             <LinearLayout
+                android:id="@+id/Ll_date_guest_infos"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +59,7 @@
 
                 <!-- First TextView (Hello Maja) -->
                 <TextView
-                    android:id="@+id/text_hello_maja"
+                    android:id="@+id/tv_date_guest"
                     android:text="hello maja"
                     android:textColor="@color/toolbarCustomSubTitleColor"
                     android:ellipsize="end"

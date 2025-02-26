@@ -50,4 +50,7 @@
     <string name="profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="most_popular_locations">Most Popular Locations</string>
+    <string name="htl_sort_by">Sort By</string>
+    <string name="htl_confirm">Confirmer</string>
 </resources>

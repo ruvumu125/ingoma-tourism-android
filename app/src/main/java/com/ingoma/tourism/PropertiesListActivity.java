@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -20,20 +23,34 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.ingoma.tourism.adapter.HotelAdapter;
+import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
+import com.ingoma.tourism.dialog.GuestSelectionDialogFragment;
+import com.ingoma.tourism.dialog.PropertySortDialogFragment;
 import com.ingoma.tourism.model.HotelModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class PropertiesListActivity extends AppCompatActivity {
+public class PropertiesListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener {
 
     private LinearLayout Ll_sort;
 
     private RecyclerView hotelRecyclerView;
     private HotelAdapter hotelAdapter;
     private List<HotelModel> hotelList;
+
+    private TextView toolbar_custom_title,tv_date_guest;
+    private LinearLayout Ll_date_guest_infos;
+
+    String checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +63,32 @@ public class PropertiesListActivity extends AppCompatActivity {
         paddingStatusBar(toolbar);
         paddingBottomNavigationBar(RootLayout);
 
+        //initialize views
+        toolbar_custom_title=findViewById(R.id.toolbar_custom_title);
+        tv_date_guest=findViewById(R.id.tv_date_guest);
+        Ll_date_guest_infos=findViewById(R.id.Ll_date_guest_infos);
         Ll_sort=(LinearLayout) findViewById(R.id.Ll_sort);
-        Ll_sort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                startActivity(new Intent(PropertiesListActivity.this, PropertiesDetailsActivity.class));
-            }
+        // Get default dates from hotel search activity
+        Intent intent = getIntent();
+        checkinDate = intent.getStringExtra("checkinDate");
+        checkoutDate = intent.getStringExtra("checkoutDate");
+        checkinDateFrench = intent.getStringExtra("checkinDateFrench");
+        checkoutDateFrench = intent.getStringExtra("checkoutDateFrench");
+        city_or_property = intent.getStringExtra("city_or_property");
+        nb_adultes = intent.getStringExtra("nb_adultes");
+        nb_enfants = intent.getStringExtra("nb_enfants");
+
+        //set textview
+        toolbar_custom_title.setText(city_or_property);
+        String guest_info=displayGuestInfo(nb_adultes,nb_enfants);
+        tv_date_guest.setText(checkinDateFrench+" - "+checkoutDateFrench+", "+guest_info);
+
+
+        Ll_sort.setOnClickListener(view -> {
+
+            PropertySortDialogFragment propertySortDialogFragment = new PropertySortDialogFragment();
+            propertySortDialogFragment.show(getSupportFragmentManager(), "PropertySortBottomSheetDialog");
         });
 
         // Initialize RecyclerView
@@ -65,6 +101,56 @@ public class PropertiesListActivity extends AppCompatActivity {
         // Set adapter
         hotelAdapter = new HotelAdapter(this, hotelList);
         hotelRecyclerView.setAdapter(hotelAdapter);
+
+        Ll_date_guest_infos.setOnClickListener(view -> {
+
+            EditBookingInfoDialogFragment editBookingInfoDialogFragment = new EditBookingInfoDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("city_or_property", city_or_property);
+            bundle.putString("checkinDate", checkinDate);
+            bundle.putString("checkoutDate", checkoutDate);
+            bundle.putString("nb_adultes", nb_adultes);
+            bundle.putString("nb_enfants", nb_enfants);
+            editBookingInfoDialogFragment.setArguments(bundle);
+            editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
+        });
+    }
+
+    private String displayGuestInfo(String nb_adultes,String nb_enfants){
+
+        String guest_info="";
+        if (Integer.valueOf(nb_adultes)>1){
+
+            if (Integer.valueOf(nb_enfants)>0){
+
+                if (Integer.valueOf(nb_enfants)==1){
+                    guest_info=nb_adultes+" adultes"+" "+nb_enfants+" enfant";
+                }
+                else {
+                    guest_info=nb_adultes+" adultes"+" "+nb_enfants+" enfants";
+                }
+
+            } else{
+                guest_info=nb_adultes+" adultes";
+            }
+        }
+        else{
+
+            if (Integer.valueOf(nb_enfants)>0){
+
+                if (Integer.valueOf(nb_enfants)==1){
+                    guest_info=nb_adultes+" adulte"+" "+nb_enfants+" enfant";
+                }
+                else {
+                    guest_info=nb_adultes+" adulte"+" "+nb_enfants+" enfants";
+                }
+
+            } else{
+                guest_info=nb_adultes+" adulte";
+            }
+        }
+
+        return guest_info;
     }
 
     public int getNavigationBarHeight(Activity activity) {
@@ -154,5 +240,23 @@ public class PropertiesListActivity extends AppCompatActivity {
         ));
 
         return hotels;
+    }
+
+
+    @Override
+    public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
+
+        checkinDate=checkinDate_response;
+        checkoutDate=checkoutDate_response;
+        checkinDateFrench=checkinDateFrenchFormat_response;
+        checkoutDateFrench=checkoutDateFrenchFormat_response;
+        city_or_property=city_or_property_response;
+        nb_adultes=String.valueOf(adultesNumber_response);
+        nb_enfants=String.valueOf(childrenNumber_response);
+
+        //set textview
+        toolbar_custom_title.setText(city_or_property_response);
+        String guest_info=displayGuestInfo(String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response));
+        tv_date_guest.setText(checkinDateFrench+" - "+checkoutDateFrench+", "+guest_info);
     }
 }

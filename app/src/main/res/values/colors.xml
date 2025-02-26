@@ -99,4 +99,10 @@
     <color name="colorTextUnderlined">#4073bf</color>
     <color name="whiteBlue">#280f1583</color>
     <color name="rangeColor">#d1e5ff</color>
+    <color name="app_color_primaryB">#2276e3</color>
+    <color name="app_color_content_medium_emphasis">#717171</color>
+    <color name="app_color_icon_default">#b0b0b0</color>
+    <color name="grey_light">#9b9b9b</color>
+    <color name="htl_disabled_background">#cbcbcb</color>
+    <color name="app_color_content_high_emphasis">#222222</color>
 </resources>

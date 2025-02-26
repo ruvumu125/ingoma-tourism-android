@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     app:cardCornerRadius="4dp"
-    app:cardElevation="4dp"
+    android:layout_marginBottom="1dp"
     android:background="@android:color/white">
 
     <LinearLayout
@@ -17,8 +16,8 @@
         <!-- Image Icon -->
         <ImageView
             android:id="@+id/img_city"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/ic_htl_has_location"
             android:contentDescription="City Icon"
             android:layout_marginEnd="8dp"/>
@@ -37,17 +36,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="City Name"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                style="@style/TextStyles.Label.Small.w2"
+                />
 
             <TextView
                 android:id="@+id/tv_properties_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10 Properties Available"
-                android:textSize="14sp"
-                android:layout_marginTop="3dp"
-                android:textColor="@android:color/darker_gray"/>
+                style="@style/TextStyles.Label.Small.w1"/>
         </LinearLayout>
     </LinearLayout>
 

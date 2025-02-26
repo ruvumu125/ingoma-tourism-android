@@ -1,11 +1,9 @@
 package com.ingoma.tourism.dialog;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,108 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.button.MaterialButton;
 import com.ingoma.tourism.R;
 
 
-public class GuestSelectionDialogFragment extends BottomSheetDialogFragment {
+public class PropertySortDialogFragment extends BottomSheetDialogFragment {
 
-    private TextView tv_ad,tv_ch;
-    private int nbAdultes=1;
-    private int nbChildren=0;
-    private AppCompatImageButton ib_ad_min,ib_ad_plus,ib_ch_min,ib_ch_plus;
-    private MaterialButton btn_done;
-
-    private CallBackListener callBackListener;
-
-    public interface CallBackListener {
-        void onGuestSelected(int adultesNumber, int childrenNumber);
-    }
-
-    public void setCallBackListener(CallBackListener listener) {
-        this.callBackListener = listener;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (callBackListener == null) { // If not set manually
-            try {
-                callBackListener = (CallBackListener) context;
-            } catch (ClassCastException e) {
-                throw new ClassCastException(context.toString() + " must implement CallBackListener");
-            }
-        }
-    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View root=inflater.inflate(R.layout.fragment_guest_selection_dialog, container, false);
 
-        tv_ad=root.findViewById(R.id.tv_ad);
-        tv_ch=root.findViewById(R.id.tv_ch);
-        ib_ad_min=root.findViewById(R.id.ib_ad_min);
-        ib_ad_plus=root.findViewById(R.id.ib_ad_plus);
-        ib_ch_min=root.findViewById(R.id.ib_ch_min);
-        ib_ch_plus=root.findViewById(R.id.ib_ch_plus);
-        btn_done=root.findViewById(R.id.btn_done);
-
-        // Retrieve data from the arguments
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            nbAdultes = arguments.getInt("nbAdultes");
-            nbChildren =  arguments.getInt("nbChildren");
-
-            tv_ad.setText(String.valueOf(nbAdultes));
-            tv_ch.setText(String.valueOf(nbChildren));
-        }
-
-        //increment/decrement adult
-        ib_ad_plus.setOnClickListener(v -> {
-            if (nbAdultes < 10) {
-                nbAdultes++;
-                tv_ad.setText(String.valueOf(nbAdultes));
-            }
-        });
-
-        ib_ad_min.setOnClickListener(v -> {
-            if (nbAdultes > 1) {
-                nbAdultes--;
-                tv_ad.setText(String.valueOf(nbAdultes));
-            }
-        });
-
-        //increment/decrement children
-        ib_ch_plus.setOnClickListener(v -> {
-            if (nbChildren < 10) {
-                nbChildren++;
-                tv_ch.setText(String.valueOf(nbChildren));
-            }
-        });
-
-        ib_ch_min.setOnClickListener(v -> {
-            if (nbChildren >= 1) {
-                nbChildren--;
-                tv_ch.setText(String.valueOf(nbChildren));
-            }
-        });
-
-        btn_done.setOnClickListener(v ->{
-
-            if (callBackListener != null) {
-                callBackListener.onGuestSelected(nbAdultes, nbChildren);
-                dismiss(); // Close the dialog
-            }
-        });
-
-
+        View root=inflater.inflate(R.layout.fragment_property_sort_dialog, container, false);
         return root;
     }
 
@@ -134,6 +44,7 @@ public class GuestSelectionDialogFragment extends BottomSheetDialogFragment {
                 if (dialog != null) {
                     View bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
                     if (bottomSheet != null) {
+                        
                         bottomSheet.setBackgroundResource(R.drawable.bottomsheet_round_bg);
                         bottomSheet.setClipToOutline(true);  // Apply rounded corners after view creation
                     }
@@ -174,7 +85,4 @@ public class GuestSelectionDialogFragment extends BottomSheetDialogFragment {
             }
         }
     }
-
-
-
 }
