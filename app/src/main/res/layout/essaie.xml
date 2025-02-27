@@ -1,55 +1,153 @@
-<androidx.cardview.widget.CardView
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:orientation="vertical"
+    android:background="#3ea1a1a1"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp"
-    android:background="@android:color/white">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
-    <LinearLayout
+    <RelativeLayout
+        android:background="@color/colorBG"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
-        <!-- Image Icon -->
-        <ImageView
-            android:id="@+id/img_city"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_htl_has_location"
-            android:contentDescription="City Icon"
-            android:layout_marginEnd="8dp"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="6dp"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_24"
+            app:subtitle="@string/app_name"
+            app:title="@string/app_name"
+            style="@style/Widget.MaterialComponents.Toolbar.Surface">
+            <RelativeLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/colorBG"
+                android:paddingTop="@dimen/toolbar_padding_8"
+                android:paddingBottom="@dimen/padding_16"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="6dp">
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/iv_search_back"
+                    android:background="@color/colorTransparent"
+                    android:padding="@dimen/padding_16"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_left"
+                    android:scaleType="fitStart"
+                    android:layout_marginEnd="16dp"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/flights"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="16dp"
+                    style="@style/H1TextAppearance"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-        <!--ic_city_blue_grey and recent_search_hotel and ic_htl_has_location-->
-
-        <!-- Vertical Layout (City Name & Properties Count) -->
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:layout_gravity="center"
+            android:id="@+id/chip_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tv_city_name"
+            android:layout_marginTop="-20dp"
+            android:layout_below="@+id/customToolbar"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/trip_chip_group"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="City Name"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:layout_height="38dp"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:elevation="6dp"
+                app:checkedChip="@+id/cOneway"
+                app:selectionRequired="true"
+                app:singleLine="true"
+                app:singleSelection="true">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cOneway"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/one_way"
+                    android:checkable="true"
+                    app:chipMinHeight="42dp"
+                    style="@style/Widget.GZ.Chip.Choice"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cRoundWay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/round_way"
+                    android:checkable="true"
+                    app:chipMinHeight="42dp"
+                    style="@style/Widget.GZ.Chip.Choice"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cMultiCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/added_to"
+                    app:chipMinHeight="42dp"
+                    style="@style/Widget.GZ.Chip.Choice"/>
+            </com.google.android.material.chip.ChipGroup>
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/tv_properties_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10 Properties Available"
-                android:textSize="14sp"
-                android:layout_marginTop="3dp"
-                android:textColor="@android:color/darker_gray"/>
-        </LinearLayout>
-    </LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chip_layout">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</androidx.cardview.widget.CardView>
+                <TextView
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:id="@+id/tv_snack_message"
+                    android:background="@drawable/white_bg"
+                    android:padding="16dp"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:elevation="7dp"
+                    app:backgroundTint="@color/background_transparent_10"
+                    app:layout_constraintBottom_toBottomOf="@+id/ll_main"
+                    app:layout_constraintTop_toTopOf="@+id/ll_main"
+                    app:layout_constraintVertical_bias="0.99"
+                    style="@style/H3Avenir"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
+                    android:id="@+id/ll_main"
+                    android:focusableInTouchMode="true"
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,5 +1,6 @@
 package com.ingoma.tourism.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -41,8 +42,9 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
     private LinearLayoutCompat layout_check_in_date,layout_check_out_date,layout_guest,layout_destination;
     private AppCompatTextView tv_from_city,checkinDate,checkoutDate,tv_no_of_guest;
     private MaterialTextView checkinDay,checkoutDay;
-    private String city_or_property_edit,checkinDateEdit,checkoutDateEdit,nb_adultes_edit,nb_enfants_edit;
+    private String property_type,city_or_property_edit,checkinDateEdit,checkoutDateEdit,nb_adultes_edit,nb_enfants_edit;
     private MaterialButton btnDone;
+    private LinearLayoutCompat Llc_guest;
 
     private CallBackListener callBackListener;
 
@@ -62,6 +64,7 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
@@ -78,6 +81,7 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
         layout_check_out_date=root.findViewById(R.id.layout_check_out_date_edit);
         layout_guest=root.findViewById(R.id.layout_guest_edit);
         layout_destination=root.findViewById(R.id.layout_destination_edit);
+        Llc_guest=root.findViewById(R.id.Llc_guest);
         btnDone=root.findViewById(R.id.btnDoneEdit);
 
         // Retrieve data from the arguments
@@ -89,6 +93,14 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
             checkoutDateEdit= arguments.getString("checkoutDate");
             nb_adultes_edit= arguments.getString("nb_adultes");
             nb_enfants_edit= arguments.getString("nb_enfants");
+            property_type = arguments.getString("property_type");
+
+            if (property_type.equals("hotel")){
+                Llc_guest.setVisibility(View.VISIBLE);
+            }
+            else {
+                Llc_guest.setVisibility(View.GONE);
+            }
 
             displayDefaultDates(checkinDateEdit,checkoutDateEdit);
             sumOfGuest(Integer.valueOf(nb_adultes_edit), Integer.valueOf(nb_enfants_edit));

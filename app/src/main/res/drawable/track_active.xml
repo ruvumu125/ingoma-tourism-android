@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:height="4dp" /> <!-- Adjust height as needed -->
+    <solid android:color="@color/primary" /> <!-- Active track color -->
+</shape>

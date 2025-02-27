@@ -315,6 +315,68 @@
         <item name="android:textColor">@color/app_color_content_medium_emphasis</item>
     </style>
 
+    <style name="Widget">
+        <item name="android:textAppearance">@style/chipTextAppearance</item>
+        <item name="android:textColor">@color/dynamic_chip_text_color</item>
+        <item name="chipBackgroundColor">@color/dynamic_chip_background</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Chip</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="singleSelection">true</item>
+    </style>
+
+    <style name="Widget.GZ">
+        <item name="android:textAppearance">@style/chipTextAppearance</item>
+        <item name="android:textColor">@color/dynamic_chip_text_color</item>
+        <item name="chipBackgroundColor">@color/dynamic_chip_background</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Chip</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="singleSelection">true</item>
+    </style>
+
+    <style name="Widget.GZ.Chip">
+        <item name="android:textAppearance">@style/chipTextAppearance</item>
+        <item name="android:textColor">@color/dynamic_chip_text_color</item>
+        <item name="chipBackgroundColor">@color/dynamic_chip_background</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Chip</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="singleSelection">true</item>
+    </style>
+    <style name="Widget.GZ.Chip.Choice">
+        <item name="android:textAppearance">@style/chipTextAppearance</item>
+        <item name="android:textColor">@color/dynamic_chip_text_color</item>
+        <item name="chipBackgroundColor">@color/dynamic_chip_background</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Chip</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="singleSelection">true</item>
+    </style>
+    <style name="chipTextAppearance">
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/gilroy_bold</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
+    </style>
+    <style name="ThemeOverlay">
+        <item name="android:textColor">@color/dynamic_chip_text_color</item>
+    </style>
+    <style name="ThemeOverlay.App">
+        <item name="android:textColor">@color/dynamic_chip_text_color</item>
+    </style>
+    <style name="ThemeOverlay.App.Chip">
+        <item name="android:textColor">@color/dynamic_chip_text_color</item>
+    </style>
+
+    <style name="ShapeAppearance">
+        <item name="cornerFamily">@null</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+    <style name="ShapeAppearance.App">
+        <item name="cornerFamily">@null</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+    <style name="ShapeAppearance.App.SmallComponent">
+        <item name="cornerFamily">@null</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
 
 
 

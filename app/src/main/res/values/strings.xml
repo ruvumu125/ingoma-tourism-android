@@ -51,6 +51,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="most_popular_locations">Most Popular Locations</string>
-    <string name="htl_sort_by">Sort By</string>
+    <string name="htl_sort_by">Trier par</string>
     <string name="htl_confirm">Confirmer</string>
+    <string name="htl_filters">Filters</string>
+    <string name="clear">Réinitialiser </string>
+    <string name="htl_no_properties">No Properties found. Remove filters to view more properties.</string>
+    <string name="show_properties">Show Properties</string>
+    <string name="flights">Flights</string>
+    <string name="one_way">Hôtel</string>
+    <string name="round_way">Maison de Passage </string>
 </resources>

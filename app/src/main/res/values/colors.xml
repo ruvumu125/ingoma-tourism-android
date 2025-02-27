@@ -105,4 +105,6 @@
     <color name="grey_light">#9b9b9b</color>
     <color name="htl_disabled_background">#cbcbcb</color>
     <color name="app_color_content_high_emphasis">#222222</color>
+    <color name="app_color_secondary_red">#ff3a5c</color>
+    <color name="background_transparent_10">#e6000000</color>
 </resources>

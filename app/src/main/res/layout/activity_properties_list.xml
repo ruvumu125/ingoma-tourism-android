@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:layout_marginEnd="8dp">
+                        android:layout_marginEnd="5dp">
 
                         <ImageView
                             android:paddingEnd="5dp"
@@ -109,13 +109,15 @@
                             android:id="@+id/tv_sort"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sort"
-                            android:textSize="16sp"
-                            android:textColor="@color/htl_color_grey"/>
+                            android:text="Trier"
+                            android:textColor="@color/htl_color_grey"
+                            style="@style/TextStyles.Label.Medium.w1"
+                            />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/Ll_filter"
                         android:orientation="horizontal"
                         android:gravity="center"
                         android:clickable="true"
@@ -124,7 +126,7 @@
                         android:layout_height="match_parent"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="3dp"
                         android:background="@drawable/bg_sort_button">
 
                         <ImageView
@@ -140,13 +142,15 @@
                             android:id="@+id/tv_filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Filters"
-                            android:textSize="16sp"
-                            android:textColor="@color/htl_color_grey"/>
+                            android:text="Filtres"
+                            android:textColor="@color/htl_color_grey"
+                            style="@style/TextStyles.Label.Medium.w1"
+                            />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/Ll_price"
                         android:orientation="horizontal"
                         android:gravity="center"
                         android:clickable="true"
@@ -163,16 +167,16 @@
                             android:id="@+id/iv_location_icon"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:src="@drawable/ic_filters_location_unified"
+                            android:src="@drawable/ic_filters_price_unified"
                             app:tint="@color/black_70" />
 
                         <TextView
                             android:id="@+id/tv_location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Location"
-                            android:textSize="16sp"
-                            android:textColor="@color/htl_color_grey"/>
+                            android:text="Prix"
+                            android:textColor="@color/htl_color_grey"
+                            style="@style/TextStyles.Label.Medium.w1"/>
 
                     </LinearLayout>
                 </GridLayout>
