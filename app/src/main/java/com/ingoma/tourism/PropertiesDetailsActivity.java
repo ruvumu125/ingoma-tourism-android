@@ -30,6 +30,9 @@ import com.ingoma.tourism.adapter.RulesAdapter;
 import com.ingoma.tourism.adapter.SimilarHotelsAdapter;
 import com.ingoma.tourism.adapter.SliderPropertyDetailsAdapter;
 import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
+import com.ingoma.tourism.dialog.PropertyAmenitiesDialogFragment;
+import com.ingoma.tourism.dialog.PropertyLandmarksDialogFragment;
+import com.ingoma.tourism.dialog.PropertyRulesDialogFragment;
 import com.ingoma.tourism.model.Amenity;
 import com.ingoma.tourism.model.Hotel;
 import com.ingoma.tourism.model.HotelModel;
@@ -59,7 +62,8 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
     private List<Landmark> landmarks = new ArrayList<>();
     private List<Hotel> similarHotelsList = new ArrayList<>();
 
-    String property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private TextView view_all_amenities,view_all_rules,view_all_landmarks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,9 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         tvAddress = findViewById(R.id.tv_address);
         tvPrice = findViewById(R.id.unStrikedPrice);
         tvRating = findViewById(R.id.rating_bar);
+        view_all_amenities = findViewById(R.id.view_all_amenities);
+        view_all_rules = findViewById(R.id.view_all_rules);
+        view_all_landmarks = findViewById(R.id.view_all_landmarks);
 
         // Get default dates from hotel list activity
         Intent intent = getIntent();
@@ -119,14 +126,44 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         webViewDescription.loadDataWithBaseURL(null, "<html><body style='text-align: justify;'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting</body></html>", "text/html", "UTF-8", null);
 
         // Set up RecyclerViews
+        List<Amenity> displayedAmenities = amenities.size() > 5 ? amenities.subList(0, 5) : amenities;
         rvAmenities.setLayoutManager(new LinearLayoutManager(this));
-        rvAmenities.setAdapter(new AmenitiesAdapter(amenities));
+        rvAmenities.setAdapter(new AmenitiesAdapter(displayedAmenities));
+        if (amenities.size()>5){
+            view_all_amenities.setVisibility(View.VISIBLE);
+        }
+        else{
+            view_all_amenities.setVisibility(View.GONE);
+        }
+        view_all_amenities.setOnClickListener(view -> {
+            showAllPropertyAmenities();
+        });
 
+        List<String> displayedRules = rules.size() > 5 ? rules.subList(0, 5) : rules;
         rvRules.setLayoutManager(new LinearLayoutManager(this));
-        rvRules.setAdapter(new RulesAdapter(rules));
+        rvRules.setAdapter(new RulesAdapter(displayedRules));
+        if (rules.size()>5){
+            view_all_rules.setVisibility(View.VISIBLE);
+        }
+        else{
+            view_all_rules.setVisibility(View.GONE);
+        }
+        view_all_rules.setOnClickListener(view -> {
+            showAllPropertyRules();
+        });
 
+        List<Landmark> displayedLandmark = landmarks.size() > 5 ? landmarks.subList(0, 5) : landmarks;
         rvLandmarks.setLayoutManager(new LinearLayoutManager(this));
         rvLandmarks.setAdapter(new LandmarksAdapter(landmarks));
+        if (landmarks.size()>5){
+            view_all_landmarks.setVisibility(View.VISIBLE);
+        }
+        else{
+            view_all_landmarks.setVisibility(View.GONE);
+        }
+        view_all_landmarks.setOnClickListener(view -> {
+            showAllPropertyLandmarks();
+        });
 
         rvSimilarHotels.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvSimilarHotels.setAdapter(new SimilarHotelsAdapter(getApplicationContext(),similarHotelsList));
@@ -310,13 +347,27 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         amenities.add(new Amenity("Swimming Pool",""));
         amenities.add(new Amenity("Parking",""));
         amenities.add(new Amenity("Breakfast",""));
+        amenities.add(new Amenity("Complimentary Wi-Fi",""));
+        amenities.add(new Amenity("Air conditioning and heating",""));
+        amenities.add(new Amenity("Television with cable",""));
+        amenities.add(new Amenity("Hairdryer",""));
+
+
 
         // Rules
         rules.add("Check-in: 2 PM");
         rules.add("Check-out: 11 AM");
         rules.add("No smoking allowed");
+        rules.add("Safety of stay and privacy");
+        rules.add("Cleaning of the room and performing necessary");
+        rules.add("In case of any defects");
+        rules.add("Storage of money and valuable belongings");
+        rules.add("Storage of luggage");
+        rules.add("Conduct of guests and persons");
 
         // Landmarks
+        landmarks.add(new Landmark("Palais des arts" , "2 km"));
+        landmarks.add(new Landmark("Kigali Convetion Center", "5 km"));
         landmarks.add(new Landmark("Palais des arts" , "2 km"));
         landmarks.add(new Landmark("Kigali Convetion Center", "5 km"));
 
@@ -345,5 +396,18 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
     public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
 
         displayBookingInfo(checkinDateFrenchFormat_response,checkoutDateFrenchFormat_response,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response),tvBookingInfoDate,tvBookingInfoGuest);
+    }
+
+    private void showAllPropertyAmenities() {
+        PropertyAmenitiesDialogFragment propertyAmenitiesDialogFragment = new PropertyAmenitiesDialogFragment (amenities);
+        propertyAmenitiesDialogFragment.show(getSupportFragmentManager(), propertyAmenitiesDialogFragment.getTag());
+    }
+    private void showAllPropertyRules() {
+        PropertyRulesDialogFragment propertyRulesDialogFragment = new PropertyRulesDialogFragment (rules);
+        propertyRulesDialogFragment.show(getSupportFragmentManager(), propertyRulesDialogFragment.getTag());
+    }
+    private void showAllPropertyLandmarks() {
+        PropertyLandmarksDialogFragment propertyLandmarksDialogFragment = new PropertyLandmarksDialogFragment (landmarks);
+        propertyLandmarksDialogFragment.show(getSupportFragmentManager(), propertyLandmarksDialogFragment.getTag());
     }
 }

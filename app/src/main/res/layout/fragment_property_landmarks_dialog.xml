@@ -68,7 +68,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     style="@style/TextStyles.Label.Medium.w3"/>
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/popular_amenity_rv"
+                    android:id="@+id/popular_landmark_rv"
                     android:scrollbars="none"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -51,11 +51,11 @@
 
             <TextView
                 android:textColor="#2276e3"
-                android:id="@+id/view_all_amenities"
+                android:id="@+id/view_all_rules"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="View All Amenities"
+                android:text="View All rules"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvAmenities"
                 style="@style/TextStyles.Label.Base.w3"/>
