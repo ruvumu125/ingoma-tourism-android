@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
+import com.ingoma.tourism.model.HotelModel;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import java.util.List;
 import com.ingoma.tourism.R;
@@ -15,10 +16,16 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
 
     private Context context;
     private List<String> imageUrls;
+    private OnItemClickListener onItemClickListener;
 
-    public SliderAdapter(Context context, List<String> imageUrls) {
+    public interface OnItemClickListener {
+        void onItemClick();
+    }
+
+    public SliderAdapter(Context context, List<String> imageUrls, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.imageUrls = imageUrls;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -33,6 +40,8 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
         Glide.with(context)
                 .load(imageUrls.get(position))
                 .into(holder.imageView);
+
+        holder.imageView.setOnClickListener(v -> onItemClickListener.onItemClick());
     }
 
     @Override

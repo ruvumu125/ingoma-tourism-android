@@ -376,6 +376,46 @@
         <item name="cornerFamily">@null</item>
         <item name="cornerSize">4dp</item>
     </style>
+    <style name="Theme.Goibibo.GoStyle">
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+    <style name="Theme.Goibibo.GoStyle.Toolbar">
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+    <style name="Title124PxLeftWhite">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/quicksand_bold</item>
+    </style>
+    <style name="Title218PxLeftWhite">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/quicksand_bold</item>
+    </style>
+    <style name="Caption212PxLeftWhite">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="Caption312PxCentreWhite">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">@font/quicksand_bold</item>
+    </style>
+    <style name="Body214PxCentreWhite">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="Title218PxRightlight_grey">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:gravity">right|center_horizontal</item>
+        <item name="android:fontFamily">@font/quicksand_bold</item>
+    </style>
+
 
 
 

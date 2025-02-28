@@ -4,10 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ingoma.tourism.model.HotelModel;
@@ -15,14 +15,20 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.List;
 import com.ingoma.tourism.R;
 
-public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHolder> {
+public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapter.HotelViewHolder> {
 
     private Context context;
     private List<HotelModel> hotelList;
+    private OnItemClickListener onItemClickListener;
 
-    public HotelAdapter(Context context, List<HotelModel> hotelList) {
+    public interface OnItemClickListener {
+        void onItemClick(HotelModel property);
+    }
+
+    public PropertyListAdapter(Context context, List<HotelModel> hotelList,OnItemClickListener onItemClickListener) {
         this.context = context;
         this.hotelList = hotelList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -44,7 +50,9 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         holder.hotelRating.setText("⭐ " + hotel.getRating());
 
         // Setup image slider
-        SliderAdapter sliderAdapter = new SliderAdapter(context, hotel.getImageUrls());
+        SliderAdapter sliderAdapter = new SliderAdapter(context, hotel.getImageUrls(),() -> {
+            onItemClickListener.onItemClick(hotel);
+        });
         holder.imageSlider.setSliderAdapter(sliderAdapter);
         holder.imageSlider.setAutoCycle(true);
         holder.imageSlider.setScrollTimeInSec(3);
@@ -52,6 +60,9 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         // Setup amenities RecyclerView
         //holder.amenitiesRecyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false));
         //holder.amenitiesRecyclerView.setAdapter(new AmenitiesAdapter(hotel.getAmenities()));
+
+        holder.main_card.setOnClickListener(v -> onItemClickListener.onItemClick(hotel));
+
 
 
     }
@@ -64,7 +75,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     static class HotelViewHolder extends RecyclerView.ViewHolder {
         SliderView imageSlider;
         AppCompatTextView hotelType,hotelName,hotelAddress,hotelPrice,hotelRating;
-        //RecyclerView amenitiesRecyclerView;
+        ConstraintLayout main_card;
 
         public HotelViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,7 +85,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             hotelAddress = itemView.findViewById(R.id.tv_hotel_address);
             hotelPrice = itemView.findViewById(R.id.tv_price);
             hotelRating = itemView.findViewById(R.id.rating_bar);
-            //amenitiesRecyclerView = itemView.findViewById(R.id.rv_hotel_facility);
+            main_card = itemView.findViewById(R.id.main_layout);
         }
     }
 }

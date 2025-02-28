@@ -8,45 +8,31 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowInsets;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textview.MaterialTextView;
-import com.ingoma.tourism.adapter.HotelAdapter;
+import com.ingoma.tourism.adapter.PropertyListAdapter;
 import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
-import com.ingoma.tourism.dialog.GuestSelectionDialogFragment;
 import com.ingoma.tourism.dialog.PropertyFilterDialogFragment;
 import com.ingoma.tourism.dialog.PropertyPriceFilterDialogFragment;
 import com.ingoma.tourism.dialog.PropertySortDialogFragment;
 import com.ingoma.tourism.model.HotelModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class PropertiesListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener {
 
     private LinearLayout Ll_sort,Ll_filter,Ll_price;
 
     private RecyclerView hotelRecyclerView;
-    private HotelAdapter hotelAdapter;
+    private PropertyListAdapter hotelAdapter;
     private List<HotelModel> hotelList;
 
     private TextView toolbar_custom_title,tv_date_guest;
@@ -117,7 +103,12 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         hotelList = getHotels();
 
         // Set adapter
-        hotelAdapter = new HotelAdapter(this, hotelList);
+        hotelAdapter = new PropertyListAdapter(this, hotelList,property -> {
+
+            openPropertyDetailsActivity(property);
+            // Handle click event here
+            //Toast.makeText(PropertiesListActivity.this, "Clicked: " + property.getName(), Toast.LENGTH_SHORT).show();
+        });
         hotelRecyclerView.setAdapter(hotelAdapter);
 
         Ll_date_guest_infos.setOnClickListener(view -> {
@@ -283,5 +274,20 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         toolbar_custom_title.setText(city_or_property_response);
         String guest_info=displayGuestInfo(property_type,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response));
         tv_date_guest.setText(checkinDateFrench+" - "+checkoutDateFrench+", "+guest_info);
+    }
+
+    private void openPropertyDetailsActivity(HotelModel hotelModel) {
+        Intent intent = new Intent(this, PropertiesDetailsActivity.class);
+        intent.putExtra("property_type", property_type);
+        intent.putExtra("checkinDate", checkinDate);
+        intent.putExtra("checkoutDate", checkoutDate);
+        intent.putExtra("checkinDateFrench", checkinDateFrench);
+        intent.putExtra("checkoutDateFrench", checkoutDateFrench);
+        intent.putExtra("city_or_property", city_or_property);
+        intent.putExtra("nb_adultes", nb_adultes);
+        intent.putExtra("nb_enfants",nb_enfants);
+        intent.putExtra("hotel_data", hotelModel);
+
+        startActivity(intent);
     }
 }

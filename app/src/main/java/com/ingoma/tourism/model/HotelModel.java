@@ -1,8 +1,10 @@
 package com.ingoma.tourism.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.List;
 
-public class HotelModel {
+public class HotelModel implements Parcelable {
     private String name, type, address;
     private double price, rating;
     private List<String> imageUrls;
@@ -17,6 +19,44 @@ public class HotelModel {
         this.rating = rating;
         this.imageUrls = imageUrls;
         this.amenities = amenities;
+    }
+
+    protected HotelModel(Parcel in) {
+        name = in.readString();
+        type = in.readString();
+        address = in.readString();
+        price = in.readDouble();
+        rating = in.readDouble();
+        imageUrls = in.createStringArrayList();
+        amenities = in.createStringArrayList();
+    }
+
+    public static final Creator<HotelModel> CREATOR = new Creator<HotelModel>() {
+        @Override
+        public HotelModel createFromParcel(Parcel in) {
+            return new HotelModel(in);
+        }
+
+        @Override
+        public HotelModel[] newArray(int size) {
+            return new HotelModel[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(name);
+        parcel.writeString(type);
+        parcel.writeString(address);
+        parcel.writeDouble(price);
+        parcel.writeDouble(rating);
+        parcel.writeStringList(imageUrls);
+        parcel.writeStringList(amenities);
     }
 
     public String getName() { return name; }

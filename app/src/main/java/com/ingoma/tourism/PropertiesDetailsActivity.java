@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -28,8 +29,10 @@ import com.ingoma.tourism.adapter.LandmarksAdapter;
 import com.ingoma.tourism.adapter.RulesAdapter;
 import com.ingoma.tourism.adapter.SimilarHotelsAdapter;
 import com.ingoma.tourism.adapter.SliderPropertyDetailsAdapter;
+import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
 import com.ingoma.tourism.model.Amenity;
 import com.ingoma.tourism.model.Hotel;
+import com.ingoma.tourism.model.HotelModel;
 import com.ingoma.tourism.model.Landmark;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -37,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PropertiesDetailsActivity extends AppCompatActivity {
+public class PropertiesDetailsActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener{
 
     private NestedScrollView scrollView;
     private ConstraintLayout section_sliders;
@@ -48,13 +51,15 @@ public class PropertiesDetailsActivity extends AppCompatActivity {
     private RecyclerView rvAmenities, rvRules, rvLandmarks, rvSimilarHotels;
     private WebView webViewDescription;
     private AppCompatTextView tvHotelType, tvRating;
-    private TextView tvHotelName,tvAddress,tvPrice;
+    private TextView tvHotelName,tvAddress,tvPrice,tvBookingInfoDate,tvBookingInfoGuest,tvBookingInfoUpdate;
 
     private List<String> imageUrls = new ArrayList<>();
     private List<Amenity> amenities = new ArrayList<>();
     private List<String> rules = new ArrayList<>();
     private List<Landmark> landmarks = new ArrayList<>();
     private List<Hotel> similarHotelsList = new ArrayList<>();
+
+    String property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,9 @@ public class PropertiesDetailsActivity extends AppCompatActivity {
 
 
         // Initialize Views
+        tvBookingInfoDate = findViewById(R.id.tvBookingInfoDate);
+        tvBookingInfoGuest = findViewById(R.id.tvBookingInfoGuest);
+        tvBookingInfoUpdate = findViewById(R.id.tvBookingInfoUpdate);
         sliderView = findViewById(R.id.photos_rv);
         rvAmenities = findViewById(R.id.rvAmenities);
         rvRules = findViewById(R.id.recyclerPolicies);
@@ -82,6 +90,22 @@ public class PropertiesDetailsActivity extends AppCompatActivity {
         tvPrice = findViewById(R.id.unStrikedPrice);
         tvRating = findViewById(R.id.rating_bar);
 
+        // Get default dates from hotel list activity
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("hotel_data")) {
+
+            HotelModel hotel = intent.getParcelableExtra("hotel_data");
+            checkinDate = intent.getStringExtra("checkinDate");
+            checkoutDate = intent.getStringExtra("checkoutDate");
+            checkinDateFrench = intent.getStringExtra("checkinDateFrench");
+            checkoutDateFrench = intent.getStringExtra("checkoutDateFrench");
+            city_or_property = intent.getStringExtra("city_or_property");
+            nb_adultes = intent.getStringExtra("nb_adultes");
+            nb_enfants = intent.getStringExtra("nb_enfants");
+            property_type = intent.getStringExtra("property_type");
+
+            displayBookingInfo(checkinDateFrench,checkoutDateFrench,nb_adultes,nb_enfants,tvBookingInfoDate,tvBookingInfoGuest);
+        }
 
         // Load Data
         loadHotelData();
@@ -198,6 +222,20 @@ public class PropertiesDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        tvBookingInfoUpdate.setOnClickListener(view -> {
+
+            EditBookingInfoDialogFragment editBookingInfoDialogFragment = new EditBookingInfoDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("city_or_property", city_or_property);
+            bundle.putString("checkinDate", checkinDate);
+            bundle.putString("checkoutDate", checkoutDate);
+            bundle.putString("nb_adultes", nb_adultes);
+            bundle.putString("nb_enfants", nb_enfants);
+            bundle.putString("property_type", property_type);
+            editBookingInfoDialogFragment.setArguments(bundle);
+            editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
+        });
     }
 
     public int getNavigationBarHeight(Activity activity) {
@@ -288,7 +326,24 @@ public class PropertiesDetailsActivity extends AppCompatActivity {
         similarHotelsList.add(new Hotel("Skyline Inn", "Business", "Chicago, USA", "https://cf.bstatic.com/xdata/images/hotel/max1024x768/508071222.jpg?k=2b64145ff11293391cffe3cd3a40386e0abbe99e731d11e8127c0aeb691ea214&o=&hp=1", 4.7, 100));
     }
 
+    private void displayBookingInfo(String checkinDate,String checkoutDate,String nb_adultes,String nb_enfants,TextView tvBookingInfoDate,TextView tvBookingInfoGuest){
+
+        int sum=Integer.valueOf(nb_adultes)+Integer.valueOf(nb_enfants);
+        if (sum>1){
+            tvBookingInfoGuest.setText(String.valueOf(sum)+" "+"visiteurs");
+        }
+        else {
+            tvBookingInfoGuest.setText(String.valueOf(sum)+" "+"visiteur");
+        }
+
+        tvBookingInfoDate.setText(checkinDate+" - "+checkoutDate);
+
+    }
 
 
+    @Override
+    public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
 
+        displayBookingInfo(checkinDateFrenchFormat_response,checkoutDateFrenchFormat_response,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response),tvBookingInfoDate,tvBookingInfoGuest);
+    }
 }
