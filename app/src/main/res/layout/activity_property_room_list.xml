@@ -84,33 +84,63 @@
             app:layout_constraintBottom_toTopOf="@id/filter_lyt">
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvSrpList"
-                    android:background="@color/bg_htl_dtls"
-                    android:visibility="visible"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="always"/>
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:visibility="gone"
-                    android:orientation="vertical"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <include
-                        android:id="@+id/lytShimmerGetawaysSrp"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSrpList"
+                        android:background="@color/bg_htl_dtls"
                         android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        layout="@layout/lyt_shimmer_room_selection"/>
+                        android:overScrollMode="always"/>
+
+                    <LinearLayout
+                        android:id="@+id/section_skleton"
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <include
+                            android:id="@+id/lytShimmerGetawaysSrp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            layout="@layout/lyt_room_shimmer_item"/>
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/section_shimmer"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/lyt_room_shimmer_item" />
+                    <include layout="@layout/lyt_room_shimmer_item" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/section_error"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <include layout="@layout/lyt_connection_error" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:id="@+id/main_layout"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_card"
+        android:background="@drawable/white_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_16"
+        tools:ignore="MissingConstraints">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/view_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1000"
+            app:shimmer_intensity="0.5"
+            app:shimmer_direction="left_to_right"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@drawable/shimmer_round_rect_2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_wishlist_container"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_pager"
+            app:layout_constraintStart_toStartOf="@+id/view_pager">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_wishlist"
+                android:padding="13.3dp"
+                android:visibility="visible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_wishlist"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_wishlist_unselected_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="17dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96107054" />
+
+        <RelativeLayout
+            android:id="@+id/m23"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/hotel_type"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/tv_hotel_type"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:alpha="0.8"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toTopOf="@+id/view_pager"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:textColor="@color/white"
+                        android:background="@drawable/shimmer_round_rect_2dp"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        style="@style/TextStyles.Label.Small.w1"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/hotel_type"
+                android:id="@+id/bisimwa"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    app:layout_constraintEnd_toStartOf="@+id/tv_guest_review_rating"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:ellipsize="end"
+                        android:id="@+id/tv_hotel_name_yudita"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:background="@drawable/shimmer_round_rect_2dp"
+                        style="@style/H2BoldTextAppearance" />
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/bisimwa"
+                android:id="@+id/willy"
+                android:background="@drawable/shimmer_round_rect_2dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/willy"
+                android:id="@+id/nanga"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
+                    android:id="@+id/linearLayoutCompat"
+                    android:paddingBottom="@dimen/padding_16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="4"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintStart_toStartOf="@+id/guideline6"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_star">
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.4">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:layout_width="200dp"
+                            android:layout_height="30dp"
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorTextLight"
+                                android:ellipsize="end"
+                                android:id="@+id/tv_hotel_address"
+                                android:layout_width="200dp"
+                                android:layout_height="30dp"
+                                android:maxLines="2"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                android:drawablePadding="8dp"
+                                style="@style/TextStyles.Label.Small.w1" />
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.6">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorTextSecondary"
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                android:maxLines="1"
+                                app:fontFamily="@font/avenir_semi_bold"
+                                style="@style/H3Avenir" />
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorDustyRed"
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:id="@+id/tv_starting_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="35 0000 BIF"
+
+                                android:maxLines="1"
+                                app:fontFamily="@font/avenir_semi_bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                style="@style/H5Avenir" />
+                            <View
+                                android:background="@color/colorOrange"
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:rotation="171"
+                                app:layout_constraintBottom_toBottomOf="@+id/tv_starting_price"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/tv_starting_price"
+                                app:layout_constraintTop_toTopOf="@+id/tv_starting_price" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:shimmer_auto_start="true"
+                            android:layout_gravity="end"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+
+                                android:orientation="horizontal"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tv_price"
+                                    android:textColor="@color/colorPrimary"
+                                    android:ellipsize="end"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:background="@drawable/shimmer_round_rect_2dp"
+                                    android:letterSpacing="-0.027"
+                                    style="@style/H2BoldTextAppearance" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:textSize="10sp"
+                                    android:textColor="@color/colorPrimary"
+                                    android:ellipsize="end"
+                                    android:gravity="end"
+                                    android:id="@+id/tv_bdt_price"
+                                    android:background="@drawable/shimmer_round_rect_2dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:fontFamily="@font/gilroy_bold"
+                                    android:layout_marginStart="4dp"
+                                    app:fontFamily="@font/avenir_semi_bold"
+                                    style="@style/H5TextAppearance" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="8dp"
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorTextPrimary"
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:id="@+id/tv_day_or_night_to_stay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                android:maxLines="1"
+                                app:fontFamily="@font/avenir_regular"
+                                style="@style/H5Avenir" />
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:visibility="gone"
+                            android:textSize="8dp"
+                            android:textColor="@color/white"
+                            android:layout_gravity="end"
+                            android:id="@+id/tv_discount"
+                            android:background="@drawable/orange_bg"
+                            android:text="44% OFF"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            app:textAllCaps="true"
+                            style="@style/H5Avenir" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:id="@+id/rv_hotel_facility"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toBottomOf="@+id/m23"
+            app:layout_constraintVertical_bias="0" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:textColor="#18214d"
+            android:id="@+id/tv_additional_discount"
+            android:background="@drawable/light_green_bg"
+            android:visibility="gone"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="@dimen/padding_16"
+            android:paddingEnd="@dimen/padding_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_hotel_facility"
+            style="@style/H3Avenir" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

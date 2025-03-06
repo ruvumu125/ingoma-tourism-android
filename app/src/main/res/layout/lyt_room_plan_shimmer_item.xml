@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools2="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/pink_rounded"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/lytRoomParentInfo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:id="@+id/ll_payment_wallet_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tvParentRoomHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    style="@style/TextStyles.Label.Medium.w3"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_marginLeft="5dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/roomIcon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@color/shimmering_background3"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nanga"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="horizontal"
+                android:id="@+id/linearLayoutCompat"
+                android:paddingBottom="@dimen/padding_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:weightSum="4"
+                app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/ll_star">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.4">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        app:shimmer_auto_start="true"
+                        app:shimmer_duration="1000"
+                        app:shimmer_intensity="0.5"
+                        app:shimmer_direction="left_to_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/mlv_goods_detail_description"
+                            android:background="@drawable/shimmer_round_rect_2dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:justificationMode="inter_word"
+                            android:lineSpacingExtra="1.5dp"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_gravity="end"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:ellipsize="end"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                android:id="@+id/tv_price"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:letterSpacing="-0.027"
+                                style="@style/H2BoldTextAppearance" />
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_marginStart="4dp"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:id="@+id/tv_bdt_price"
+                                android:layout_width="30dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                android:maxLines="1"
+                                android:fontFamily="@font/gilroy_bold"
+                                app:fontFamily="@font/avenir_semi_bold"
+                                style="@style/H5TextAppearance" />
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        app:shimmer_auto_start="true"
+                        app:shimmer_duration="1000"
+                        app:shimmer_intensity="0.5"
+                        app:shimmer_direction="left_to_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:textColor="@color/colorTextPrimary"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:id="@+id/tv_day_or_night_to_stay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shimmer_round_rect_2dp"
+                            android:maxLines="1"
+                            app:fontFamily="@font/avenir_regular"
+                            style="@style/H5Avenir" />
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -8,12 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import com.ingoma.tourism.R;
+import com.ingoma.tourism.model.Rule;
 
 public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RulesViewHolder> {
 
-    private List<String> rulesList;
+    private List<Rule> rulesList;
 
-    public RulesAdapter(List<String> rulesList) {
+    public RulesAdapter(List<Rule> rulesList) {
         this.rulesList = rulesList;
     }
 
@@ -26,7 +27,9 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RulesViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RulesViewHolder holder, int position) {
-        holder.tvRule.setText(rulesList.get(position));
+
+        Rule rule = rulesList.get(position);
+        holder.tvRule.setText(rule.getRuleDescription());
     }
 
     @Override

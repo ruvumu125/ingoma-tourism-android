@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:tag="layout/view_h_detail_house_rules_list_0"
+    android:background="@drawable/white_round_rect_8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textColor="#222222"
+            android:id="@+id/tvRatingo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:maxLines="3"
+            android:text="Emplacement"
+            style="@style/TextStyles.Label.Medium.w3"/>
+
+        <View
+            android:layout_below="@+id/tvRatingo"
+            android:id="@+id/separatorSection"
+            android:background="#eff3f8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:padding="13dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/separatorSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_marginTop="5dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <LinearLayout
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_marginTop="5dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <LinearLayout
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_marginTop="5dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <LinearLayout
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_marginTop="5dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <LinearLayout
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_marginTop="5dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <LinearLayout
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

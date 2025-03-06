@@ -46,7 +46,6 @@
         android:text="@string/app_name"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/lytEdit"
         app:layout_constraintStart_toEndOf="@+id/divider"
         app:layout_constraintTop_toTopOf="parent"
         style="@style/TextStyles.Label.Base.w1"/>

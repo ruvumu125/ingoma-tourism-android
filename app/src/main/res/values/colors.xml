@@ -108,4 +108,7 @@
     <color name="app_color_secondary_red">#ff3a5c</color>
     <color name="background_transparent_10">#e6000000</color>
     <color name="light_grey">#999999</color>
+    <color name="profile_divider">#e5e5e5</color>
+    <color name="flight_review_black">#de000000</color>
+    <color name="baggage_blue">#2e69b3</color>
 </resources>

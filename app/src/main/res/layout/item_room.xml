@@ -27,14 +27,14 @@
             android:paddingBottom="8dp"
             style="@style/TextStyles.Label.Medium.w3"/>
 
-        <!-- Room Image and Details Layout -->
+        <!-- Room PropertyImage and Details Layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- Room Image -->
+            <!-- Room PropertyImage -->
             <androidx.cardview.widget.CardView
                 android:layout_width="@dimen/htl_property_card_image_width1"
                 android:layout_height="@dimen/htl_property_card_image_width1"

@@ -8,7 +8,6 @@
     android:tag="layout/activity_h_detail_0"
     android:id="@+id/cordinatorLyt"
     android:background="#f4f4f4"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -34,71 +33,135 @@
                 app:layout_scrollFlags="enterAlways">
 
                 <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:tag="layout/view_h_toolbar_0"
+                    android:background="@color/toolbarBG"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/htl_dtl_toolbar_height"
-                    android:background="@android:color/white"
-                    android:elevation="6dp"
-                    android:theme="@style/Theme.Goibibo.Toolbar"
-                    android:contentInsetStart="0dp"
-                    android:contentInsetLeft="0dp"
-                    android:contentInsetStartWithNavigation="0dp"
-                    app:titleTextColor="@color/toolbarCustomTitleColor"
-                    tools:ignore="MissingConstraints">
-
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    app:contentInsetStartWithNavigation="0dp">
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/lytParentToolbar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-
-                        <RelativeLayout
-                            app:layout_constraintTop_toTopOf="parent"
+                        <FrameLayout
+                            android:id="@+id/back_press"
+                            android:padding="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/htl_dtl_toolbar_height">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/loppppp"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <!-- Back Arrow Icon (Vertically Centered) -->
-                                <ImageView
-                                    android:id="@+id/toolbar_navigation_icon"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/ic_back_arrow"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"/>
-
-                                <!-- Vertical LinearLayout for Title and Subtitle -->
-                                <LinearLayout
-                                    android:orientation="vertical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toEndOf="@id/toolbar_navigation_icon"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    android:layout_marginStart="16dp">
-
-                                    <!-- Title Text -->
-                                    <TextView
-                                        android:id="@+id/toolbar_custom_title"
-                                        android:textColor="@color/black"
-                                        android:ellipsize="end"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:text="Toolbar Title"
-                                        style="@style/TextStyles.Label.Large.w3"/>
-                                </LinearLayout>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </RelativeLayout>
-
+                            app:layout_constraintTop_toTopOf="parent">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:textColor="@color/homeTitleColor"
+                                android:id="@+id/back_press_icon"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                app:srcCompat="@drawable/ic_back_arrow_theme"/>
+                        </FrameLayout>
+                        <TextView
+                            android:textColor="@color/black"
+                            android:ellipsize="end"
+                            android:id="@+id/toolbar_custom_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="Booking review"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintBottom_toTopOf="@+id/lytSubtitleWrap"
+                            app:layout_constraintEnd_toStartOf="@+id/right_barrier"
+                            app:layout_constraintStart_toEndOf="@+id/back_press"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            style="@style/TextStyles.Label.Large.w3"/>
+                        <LinearLayout
+                            android:id="@+id/lytSubtitleWrap"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/toolbar_custom_title"
+                            app:layout_constraintTop_toBottomOf="@+id/toolbar_custom_title">
+                            <TextView
+                                android:textColor="@color/toolbarCustomSubTitleColor"
+                                android:ellipsize="end"
+                                android:id="@+id/toolbar_custom_sub_title"
+                                android:layout_width="0dp"
+                                android:text="@string/amenities"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:layout_weight="1"
+                                style="@style/TextStyles.Label.Small.w1"/>
+                            <TextView
+                                android:visibility="gone"
+                                android:textColor="@color/editTextColorDetail"
+                                android:id="@+id/lytEdit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Edit"
+                                android:paddingHorizontal="4dp"
+                                style="@style/TextStyles.Label.Small.w1"/>
+                        </LinearLayout>
+                        <androidx.constraintlayout.widget.Barrier
+                            android:id="@+id/right_barrier"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:constraint_referenced_ids="imgShare, lytCart"
+                            tools2:ignore="MissingConstraints" />
+                        <ImageView
+                            android:id="@+id/imgShare"
+                            android:focusable="true"
+                            android:visibility="gone"
+                            android:clickable="true"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginEnd="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_share_button"
+                            app:tint="@color/go_blue"/>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/lytCart"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:visibility="gone"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginRight="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+                            <ImageView
+                                android:id="@+id/ivCart"
+                                android:layout_width="19dp"
+                                android:layout_height="20dp"
+                                android:layout_marginRight="8dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_htl_cart"
+                                app:tint="@color/toolbarCustomTitleColor"/>
+                            <TextView
+                                android:textColor="@color/go_blue"
+                                android:gravity="center"
+                                android:id="@+id/tvCartItemCount"
+                                android:background="@drawable/white_circle_border_blue"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginBottom="9dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/ivCart"
+                                app:layout_constraintLeft_toLeftOf="@+id/ivCart"
+                                style="@style/TextStyles.Label.Small.w1"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -141,14 +204,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <!-- Room Image and Details Layout -->
+                            <!-- Room PropertyImage and Details Layout -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical">
 
-                                <!-- Room Image -->
+                                <!-- Room PropertyImage -->
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="@dimen/htl_property_card_image_width1"
                                     android:layout_height="@dimen/htl_property_card_image_width1"
@@ -161,7 +224,7 @@
                                         android:layout_height="match_parent">
 
                                         <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/imageView"
+                                            android:id="@+id/propertyImageView"
                                             android:layout_width="@dimen/htl_property_card_image_height"
                                             android:layout_height="@dimen/htl_property_card_image_height"
                                             android:layout_marginBottom="20dp"
@@ -202,7 +265,7 @@
                                                 android:textColor="#717171"
                                                 android:gravity="center"
                                                 android:text="@string/app_name"
-                                                android:id="@+id/like5starTitle"
+                                                android:id="@+id/tv_property_type"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="2dp"
@@ -223,7 +286,7 @@
                                             android:textColor="#222222"
                                             android:ellipsize="end"
                                             android:gravity="top|left|center_vertical|center_horizontal|center|start"
-                                            android:id="@+id/txtHotelName"
+                                            android:id="@+id/tvPropertyName"
                                             android:text="@string/amenities"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -244,7 +307,7 @@
                                             android:textColor="#717171"
                                             android:ellipsize="end"
                                             android:gravity="top|left|center_vertical|center_horizontal|center|start"
-                                            android:id="@+id/txtAddress"
+                                            android:id="@+id/tvPropertyAddress"
                                             android:text="Bujumbura , Burundi,Gitega, Dimanche"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -326,26 +389,6 @@
                                         style="@style/TextStyles.Label.Base.w3"/>
                                     <TextView
                                         android:textColor="#717171"
-                                        android:id="@+id/txtStartTime"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="1dp"
-                                        android:text="PM"
-                                        app:layout_constraintStart_toStartOf="@+id/txtStartDate"
-                                        app:layout_constraintTop_toBottomOf="@+id/txtStartDate"
-                                        style="@style/TextStyles.Label.Small.w1"/>
-                                    <TextView
-                                        android:textColor="#717171"
-                                        android:id="@+id/txtEndTime"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="1dp"
-                                        android:text="AM"
-                                        app:layout_constraintEnd_toEndOf="@+id/txtEndDate"
-                                        app:layout_constraintTop_toBottomOf="@+id/txtEndDate"
-                                        style="@style/TextStyles.Label.Small.w1"/>
-                                    <TextView
-                                        android:textColor="#717171"
                                         android:id="@+id/txtNight"
                                         android:text="2 nights"
                                         android:layout_width="wrap_content"
@@ -403,10 +446,10 @@
                                     android:orientation="horizontal"
                                     android:gravity="center_vertical">
 
-                                    <!-- Room Image -->
+                                    <!-- Room PropertyImage -->
                                     <androidx.cardview.widget.CardView
-                                        android:layout_width="@dimen/htl_property_card_image_width1"
-                                        android:layout_height="@dimen/htl_property_card_image_width1"
+                                        android:layout_width="80dp"
+                                        android:layout_height="80dp"
                                         android:layout_marginEnd="16dp"
                                         app:cardCornerRadius="@dimen/radius_small"
                                         app:cardBackgroundColor="@android:color/white">
@@ -416,9 +459,9 @@
                                             android:layout_height="match_parent">
 
                                             <androidx.appcompat.widget.AppCompatImageView
-                                                android:id="@+id/imageRoom"
-                                                android:layout_width="@dimen/htl_property_card_image_height"
-                                                android:layout_height="@dimen/htl_property_card_image_height"
+                                                android:id="@+id/roomImageView"
+                                                android:layout_width="80dp"
+                                                android:layout_height="80dp"
                                                 android:layout_marginBottom="20dp"
                                                 android:scaleType="centerCrop"
                                                 android:src="@drawable/bbbb"
@@ -442,7 +485,7 @@
                                             <TextView
                                                 android:textColor="#222222"
                                                 android:text="@string/amenities"
-                                                android:id="@+id/txtTotalOccupancy"
+                                                android:id="@+id/tvRooName"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 style="@style/TextStyles.Label.Base.w3"/>
@@ -454,11 +497,12 @@
                                             android:layout_height="wrap_content"
                                             android:orientation="horizontal"
                                             android:gravity="center_vertical"
-                                            android:paddingBottom="8dp">
+                                            android:paddingTop="2dp"
+                                            android:paddingBottom="2dp">
 
                                             <TextView
                                                 android:text="@string/check_now"
-                                                android:id="@+id/txtTitle"
+                                                android:id="@+id/tvPlanName"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
@@ -469,35 +513,20 @@
                                         </LinearLayout>
 
                                         <LinearLayout
-                                            android:visibility="gone"
+                                            android:visibility="visible"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:orientation="horizontal"
-                                            android:gravity="center_vertical"
-                                            android:paddingBottom="8dp">
-
-                                            <WebView
-                                                android:id="@+id/mlv_goods_detail_description"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                tools2:ignore="WebViewLayout" />
-                                        </LinearLayout>
-
-                                        <LinearLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
+                                            android:layout_height="wrap_content"
                                             android:orientation="horizontal"
                                             android:gravity="center_vertical"
                                             android:paddingBottom="8dp">
 
                                             <TextView
-                                                android:text="View Room Details"
-                                                android:textColor="#222222"
-                                                android:id="@+id/txtDescription"
+                                                android:text="kkk"
+                                                android:id="@+id/tvPlanDescription"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
-                                                style="@style/TextStyles.Label.Small.w1"/>
+                                                style="@style/TextStyles.Label.Base.w1"
+                                                />
                                         </LinearLayout>
 
                                     </LinearLayout>
@@ -729,7 +758,7 @@
                                     app:layout_constraintRight_toRightOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
                                     <TextView
-                                        android:text="Select Room"
+                                        android:text="Confirmer"
                                         android:textColor="@color/white"
                                         android:id="@+id/select_room_btn_tv"
                                         android:layout_width="wrap_content"

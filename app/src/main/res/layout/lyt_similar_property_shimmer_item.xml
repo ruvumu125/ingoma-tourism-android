@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:orientation="vertical"
+    android:id="@+id/root_card"
+    android:tag="layout/view_h_detail_similar_hotel_card_0"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:tag="binding_1"
+        android:background="@drawable/grey_border_8dp_white"
+        android:padding="4dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_pager"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="126dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                app:shimmer_direction="left_to_right"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="8dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96107054" />
+
+        <RelativeLayout
+            android:id="@+id/m23"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/hotel_type"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/tv_hotel_type"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toTopOf="@+id/view_pager">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:background="@drawable/shimmer_round_rect_2dp"
+                        style="@style/TextStyles.Label.Small.w1"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:id="@+id/lytRoomInfoParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_gravity="end"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        app:shimmer_auto_start="true"
+                        app:shimmer_duration="1000"
+                        app:shimmer_intensity="0.5"
+                        app:shimmer_direction="left_to_right">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/rating_bar"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shimmer_round_rect_2dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:textSize="8dp"
+                            app:textAllCaps="true"
+                            android:textColor="@color/black"
+                            style="@style/TextStyles.Label.Small.w1"/>
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/hotel_type"
+                android:id="@+id/Ll_hotel_name"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_guest_review_rating"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:ellipsize="end"
+                        android:id="@+id/tv_hotel_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shimmer_round_rect_2dp"
+                        style="@style/H2BoldTextAppearance" />
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/Ll_hotel_name"
+                android:id="@+id/Ll_adress"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_guest_review_rating"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:ellipsize="end"
+                        android:id="@+id/tv_hotel_adress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:background="@drawable/shimmer_round_rect_2dp"
+                        style="@style/TextStyles.Label.Small.w1" />
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/Ll_adress"
+                android:id="@+id/Ll_price"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shimmer_auto_start="true"
+                        app:shimmer_duration="1000"
+                        app:shimmer_intensity="0.5"
+                        app:shimmer_direction="left_to_right">
+
+                        <TextView
+                            android:background="@drawable/shimmer_round_rect_2dp"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            style="@style/TextStyles.Label.Base.w3"/>
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

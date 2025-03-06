@@ -25,18 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="enterAlways">
-            <include
-                android:orientation="vertical"
-                android:id="@+id/lytParentEdtRv"
-                android:background="?attr/toolbarBG"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="@dimen/htl_dtl_toolbar_height"
-                android:layout_marginRight="12dp"
-                app:layout_scrollFlags="enterAlways"
-                layout="@layout/lyt_htl_srp_edit_card"/>
+
             <LinearLayout
                 android:gravity="top"
                 android:id="@+id/lytToolbar"
@@ -55,21 +44,36 @@
             android:background="#eff3f8"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
+
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/skletonFiltres"
             android:orientation="horizontal"
-            android:id="@+id/lytFiltersContainer"
-            android:tag="binding_3"
             android:layout_width="match_parent"
             android:layout_height="50dp">
-            <include
-                android:visibility="gone"
-                android:id="@+id/lytShimmerFilter"
-                layout="@layout/lyt_shimmer_top_filters_getaways"/>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/lyt_shimmer_top_filters_getaways"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/section_trier_filtres_prix"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
 
             <LinearLayout
                 android:id="@+id/rvTopFiltersUnified"
                 android:orientation="vertical"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -85,7 +89,7 @@
                     android:paddingTop="2dp">
 
                     <LinearLayout
-                        android:id="@+id/Ll_sort"
+                        android:id="@+id/layout_trier"
                         android:orientation="horizontal"
                         android:gravity="center"
                         android:clickable="true"
@@ -117,7 +121,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/Ll_filter"
+                        android:id="@+id/layout_filtrer"
                         android:orientation="horizontal"
                         android:gravity="center"
                         android:clickable="true"
@@ -150,7 +154,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/Ll_price"
+                        android:id="@+id/layout_prix"
                         android:orientation="horizontal"
                         android:gravity="center"
                         android:clickable="true"
@@ -181,9 +185,6 @@
                     </LinearLayout>
                 </GridLayout>
 
-
-
-
             </LinearLayout>
 
         </LinearLayout>
@@ -199,28 +200,62 @@
         android:nestedScrollingEnabled="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
+        android:id="@+id/error_section"
         android:visibility="gone"
-        android:id="@+id/lytShimmerScrollV"
+        android:orientation="vertical"
+        android:tag="binding_5"
+        android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <include
+            android:id="@+id/lytRool"
+            android:visibility="visible"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/lyt_connection_error"/>
+
+    </LinearLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:visibility="gone"
+        android:id="@+id/skletonPrincipale"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:orientation="vertical"
             android:tag="binding_5"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <include
-                android:id="@+id/lytShimmerGetawaysSrp"
-                android:visibility="gone"
+                android:layout_marginBottom="10dp"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/lyt_getaway_shimmer"/>
+                layout="@layout/lyt_property_list_shimmer_item"/>
+
             <include
-                android:id="@+id/lytShimmerSrpNew"
+                android:layout_marginBottom="10dp"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/lyt_srp_shimmer"/>
+                layout="@layout/lyt_property_list_shimmer_item"/>
+
+            <include
+                android:layout_marginBottom="10dp"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/lyt_property_list_shimmer_item"/>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

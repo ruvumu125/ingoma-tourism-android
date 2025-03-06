@@ -1,11 +1,9 @@
 package com.ingoma.tourism.dialog;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,18 +16,17 @@ import android.view.Window;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.ingoma.tourism.R;
-import com.ingoma.tourism.adapter.AmenitiesAdapter;
 import com.ingoma.tourism.adapter.RulesAdapter;
-import com.ingoma.tourism.model.Amenity;
+import com.ingoma.tourism.model.Rule;
 
 import java.util.List;
 
 
 public class PropertyRulesDialogFragment extends BottomSheetDialogFragment {
 
-    private List<String> rulesList;
+    private List<Rule> rulesList;
 
-    public PropertyRulesDialogFragment(List<String> rulesList) {
+    public PropertyRulesDialogFragment(List<Rule> rulesList) {
         this.rulesList = rulesList;
     }
 

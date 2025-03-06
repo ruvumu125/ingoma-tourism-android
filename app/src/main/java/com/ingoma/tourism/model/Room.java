@@ -3,34 +3,34 @@ package com.ingoma.tourism.model;
 import java.util.List;
 
 public class Room {
-    private String name;
-    private String imageUrl;
-    private int numberOfPictures;
-    private int capacity;
-    private String bedType;
-    private double surface;
-    private String amenities;
+    private int id;
+    private String type_name;
+    private int property_id;
+    private String room_size;
+    private String bed_type;
+    private int max_guests;
+    private String description;
+    private List<RoomImage> images;
+    private List<PropertyAmenity> amenities;
     private List<Plan> plans;
+    private Plan selectedPlan; // Store selected plan for this room
 
-    public Room(String name, String imageUrl, int numberOfPictures, int capacity,
-                String bedType, double surface, String amenities, List<Plan> plans) {
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.numberOfPictures = numberOfPictures;
-        this.capacity = capacity;
-        this.bedType = bedType;
-        this.surface = surface;
-        this.amenities = amenities;
-        this.plans = plans;
+    public int getId() { return id; }
+    public String getTypeName() { return type_name; }
+    public int getPropertyId() { return property_id; }
+    public String getRoomSize() { return room_size; }
+    public String getBedType() { return bed_type; }
+    public int getMaxGuests() { return max_guests; }
+    public String getDescription() { return description; }
+    public List<RoomImage> getImages() { return images; }
+    public List<PropertyAmenity> getAmenities() { return amenities; }
+    public List<Plan> getPlans() { return plans; }
+
+    public Plan getSelectedPlan() {
+        return selectedPlan;
     }
 
-    public String getName() { return name; }
-    public String getImageUrl() { return imageUrl; }
-    public int getNumberOfPictures() { return numberOfPictures; }
-    public int getCapacity() { return capacity; }
-    public String getBedType() { return bedType; }
-    public double getSurface() { return surface; }
-    public String getAmenities() { return amenities; }
-    public List<Plan> getPlans() { return plans; }
+    public void setSelectedPlan(Plan selectedPlan) {
+        this.selectedPlan = selectedPlan;
+    }
 }
-

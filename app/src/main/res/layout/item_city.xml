@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="4dp"
-    android:layout_marginBottom="1dp"
+    android:layout_marginTop="5dp"
     android:background="@android:color/white">
 
     <LinearLayout
@@ -13,18 +13,18 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <!-- Image Icon -->
+        <!-- PropertyImage Icon -->
         <ImageView
             android:id="@+id/img_city"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/ic_htl_has_location"
+            android:src="@drawable/recent_search_hotel"
             android:contentDescription="City Icon"
             android:layout_marginEnd="8dp"/>
 
         <!--ic_city_blue_grey and recent_search_hotel and ic_htl_has_location-->
 
-        <!-- Vertical Layout (City Name & Properties Count) -->
+        <!-- Vertical Layout (LocationSearch Name & Properties Count) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

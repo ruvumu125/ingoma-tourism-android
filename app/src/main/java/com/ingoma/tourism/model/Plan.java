@@ -1,18 +1,21 @@
 package com.ingoma.tourism.model;
 
 public class Plan {
-    private String name;
-    private String details;
-    private double price;
+    private int id;
+    private int room_type_id;
+    private String plan_type;
+    private String price;
+    private String currency;
+    private String created_at;
+    private String updated_at;
 
-    public Plan(String name, String details, double price) {
-        this.name = name;
-        this.details = details;
-        this.price = price;
-    }
-
-    public String getName() { return name; }
-    public String getDetails() { return details; }
-    public double getPrice() { return price; }
+    public int getId() { return id; }
+    public int getRoomTypeId() { return room_type_id; }
+    public String getPlanType() { return plan_type; }
+    public String getPrice() { return price; }
+    public String getCurrency() { return currency; }
+    public String getCreatedAt() { return created_at; }
+    public String getUpdatedAt() { return updated_at; }
 }
+
 

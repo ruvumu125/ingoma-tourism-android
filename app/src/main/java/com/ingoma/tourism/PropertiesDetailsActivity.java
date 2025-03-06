@@ -5,16 +5,16 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -27,21 +27,26 @@ import com.google.android.material.tabs.TabLayout;
 import com.ingoma.tourism.adapter.AmenitiesAdapter;
 import com.ingoma.tourism.adapter.LandmarksAdapter;
 import com.ingoma.tourism.adapter.RulesAdapter;
-import com.ingoma.tourism.adapter.SimilarHotelsAdapter;
+import com.ingoma.tourism.adapter.SimilarPropertiesAdapter;
 import com.ingoma.tourism.adapter.SliderPropertyDetailsAdapter;
+import com.ingoma.tourism.api.PropertyApiService;
+import com.ingoma.tourism.api.Retrofit2Client;
 import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
 import com.ingoma.tourism.dialog.PropertyAmenitiesDialogFragment;
 import com.ingoma.tourism.dialog.PropertyLandmarksDialogFragment;
 import com.ingoma.tourism.dialog.PropertyRulesDialogFragment;
-import com.ingoma.tourism.model.Amenity;
-import com.ingoma.tourism.model.Hotel;
-import com.ingoma.tourism.model.HotelModel;
+import com.ingoma.tourism.model.PropertyAmenity;
 import com.ingoma.tourism.model.Landmark;
+import com.ingoma.tourism.model.PropertyDetails;
+import com.ingoma.tourism.model.PropertyDetailsResponse;
+import com.ingoma.tourism.model.Rule;
 import com.smarteist.autoimageslider.SliderView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PropertiesDetailsActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener{
 
@@ -51,25 +56,34 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
     private FrameLayout fr_favorite;
 
     private SliderView sliderView;
-    private RecyclerView rvAmenities, rvRules, rvLandmarks, rvSimilarHotels;
-    private WebView webViewDescription;
+    private RecyclerView rvAmenities, rvRules, rvLandmarks, rvSimilarProperties;
+    private TextView tvDescription;
     private AppCompatTextView tvHotelType, tvRating;
-    private TextView tvHotelName,tvAddress,tvPrice,tvBookingInfoDate,tvBookingInfoGuest,tvBookingInfoUpdate;
+    private TextView toolbarTitle,tvHotelName,tvAddress,tvPrice,tvBookingInfoDate,tvBookingInfoGuest,tvBookingInfoUpdate;
 
-    private List<String> imageUrls = new ArrayList<>();
-    private List<Amenity> amenities = new ArrayList<>();
-    private List<String> rules = new ArrayList<>();
-    private List<Landmark> landmarks = new ArrayList<>();
-    private List<Hotel> similarHotelsList = new ArrayList<>();
-
-    private String property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String property_adress,property_first_image,property_minimum_price,price_currency,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private TextView view_all_amenities,view_all_rules,view_all_landmarks;
+    private LinearLayout select_room_btn;
+    private String property_id, property_name;
+    private TabLayout tabLayout;
+
+    private RelativeLayout section_content;
+    private LinearLayout section_skleton,section_error;
+    private ConstraintLayout section_footer_price;
+    private View section_skeleton_footer_price;
+    private TextView tv_property_price,tv_price_currency;
+
+    private Retrofit2Client retrofit2Client;
+    private PropertyApiService propertyApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_properties_details);
+
+        retrofit2Client=new Retrofit2Client(getApplicationContext());
+        propertyApiService = retrofit2Client.createService(PropertyApiService.class);
 
         //padding status bar and bottom navigation bar
         View RootLayout = findViewById(R.id.rootLayout);
@@ -79,6 +93,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
 
         // Initialize Views
+        toolbarTitle = findViewById(R.id.toolbarTitle);
         tvBookingInfoDate = findViewById(R.id.tvBookingInfoDate);
         tvBookingInfoGuest = findViewById(R.id.tvBookingInfoGuest);
         tvBookingInfoUpdate = findViewById(R.id.tvBookingInfoUpdate);
@@ -86,8 +101,8 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         rvAmenities = findViewById(R.id.rvAmenities);
         rvRules = findViewById(R.id.recyclerPolicies);
         rvLandmarks = findViewById(R.id.recyclerLandmarks);
-        rvSimilarHotels = findViewById(R.id.recyclerSimilarProperties);
-        webViewDescription = findViewById(R.id.mlv_goods_detail_description);
+        rvSimilarProperties = findViewById(R.id.recyclerSimilarProperties);
+        tvDescription = findViewById(R.id.mlv_goods_detail_description);
         tvHotelName = findViewById(R.id.prop_name);
         tvHotelType = findViewById(R.id.tv_hotel_type);
         tvAddress = findViewById(R.id.tv_address);
@@ -96,12 +111,28 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         view_all_amenities = findViewById(R.id.view_all_amenities);
         view_all_rules = findViewById(R.id.view_all_rules);
         view_all_landmarks = findViewById(R.id.view_all_landmarks);
+        select_room_btn = findViewById(R.id.lyt_cta);
+        scrollView=findViewById(R.id.customScrollViewID);
+        section_content=findViewById(R.id.section_content);
+        section_skleton=findViewById(R.id.section_skleton);
+        section_footer_price=findViewById(R.id.lytInStock);
+        section_skeleton_footer_price=findViewById(R.id.hd_footer_shimmer);
+        tv_property_price=findViewById(R.id.unStrikedPrice);
+        tv_price_currency=findViewById(R.id.txtPerNight);
+        section_error=findViewById(R.id.section_error);
+
+        hotel_rules_section=(LinearLayout) findViewById(R.id.hotel_rules_section);
+        hotel_amenities_section=(LinearLayout) findViewById(R.id.hotel_amenities_section);
+        section_sliders=(ConstraintLayout) findViewById(R.id.section_sliders);
+        tabLayout = findViewById(R.id.tabLayout);
+
 
         // Get default dates from hotel list activity
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("hotel_data")) {
+        if (intent != null) {
 
-            HotelModel hotel = intent.getParcelableExtra("hotel_data");
+            property_id  = intent.getStringExtra("property_id");
+            property_name = intent.getStringExtra("property_name");
             checkinDate = intent.getStringExtra("checkinDate");
             checkoutDate = intent.getStringExtra("checkoutDate");
             checkinDateFrench = intent.getStringExtra("checkinDateFrench");
@@ -110,80 +141,21 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
             nb_adultes = intent.getStringExtra("nb_adultes");
             nb_enfants = intent.getStringExtra("nb_enfants");
             property_type = intent.getStringExtra("property_type");
+            property_minimum_price = intent.getStringExtra("property_minimum_price");
+            price_currency = intent.getStringExtra("price_currency");
+            property_adress = intent.getStringExtra("property_adress");
+            property_first_image = intent.getStringExtra("property_first_image");
+
+            toolbarTitle.setText(property_name);
 
             displayBookingInfo(checkinDateFrench,checkoutDateFrench,nb_adultes,nb_enfants,tvBookingInfoDate,tvBookingInfoGuest);
         }
 
-        // Load Data
-        loadHotelData();
-
-        // Set up Image Slider
-        SliderPropertyDetailsAdapter sliderAdapter = new SliderPropertyDetailsAdapter(imageUrls);
-        sliderView.setSliderAdapter(sliderAdapter);
-        sliderView.startAutoCycle();
-
-        // Set up WebView
-        webViewDescription.loadDataWithBaseURL(null, "<html><body style='text-align: justify;'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting</body></html>", "text/html", "UTF-8", null);
-
-        // Set up RecyclerViews
-        List<Amenity> displayedAmenities = amenities.size() > 5 ? amenities.subList(0, 5) : amenities;
+        // Setup RecyclerViews
         rvAmenities.setLayoutManager(new LinearLayoutManager(this));
-        rvAmenities.setAdapter(new AmenitiesAdapter(displayedAmenities));
-        if (amenities.size()>5){
-            view_all_amenities.setVisibility(View.VISIBLE);
-        }
-        else{
-            view_all_amenities.setVisibility(View.GONE);
-        }
-        view_all_amenities.setOnClickListener(view -> {
-            showAllPropertyAmenities();
-        });
-
-        List<String> displayedRules = rules.size() > 5 ? rules.subList(0, 5) : rules;
         rvRules.setLayoutManager(new LinearLayoutManager(this));
-        rvRules.setAdapter(new RulesAdapter(displayedRules));
-        if (rules.size()>5){
-            view_all_rules.setVisibility(View.VISIBLE);
-        }
-        else{
-            view_all_rules.setVisibility(View.GONE);
-        }
-        view_all_rules.setOnClickListener(view -> {
-            showAllPropertyRules();
-        });
-
-        List<Landmark> displayedLandmark = landmarks.size() > 5 ? landmarks.subList(0, 5) : landmarks;
         rvLandmarks.setLayoutManager(new LinearLayoutManager(this));
-        rvLandmarks.setAdapter(new LandmarksAdapter(landmarks));
-        if (landmarks.size()>5){
-            view_all_landmarks.setVisibility(View.VISIBLE);
-        }
-        else{
-            view_all_landmarks.setVisibility(View.GONE);
-        }
-        view_all_landmarks.setOnClickListener(view -> {
-            showAllPropertyLandmarks();
-        });
-
-        rvSimilarHotels.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        rvSimilarHotels.setAdapter(new SimilarHotelsAdapter(getApplicationContext(),similarHotelsList));
-
-
-
-        //tab
-        hotel_rules_section=(LinearLayout) findViewById(R.id.hotel_rules_section);
-        hotel_amenities_section=(LinearLayout) findViewById(R.id.hotel_amenities_section);
-        section_sliders=(ConstraintLayout) findViewById(R.id.section_sliders);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-
-        fr_favorite=(FrameLayout)findViewById(R.id.fr_favorite);
-        fr_favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(PropertiesDetailsActivity.this, PropertyRoomListActivity.class));
-            }
-        });
+        rvSimilarProperties.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         // Handle Tab Clicks (Scroll to Sections)
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -216,7 +188,6 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
-        scrollView=(NestedScrollView) findViewById(R.id.customScrollViewID);
 
 //        scrollView=(NestedScrollView) findViewById(R.id.customScrollViewID);
 //        SliderView sliderView = findViewById(R.id.photos_rv);
@@ -273,6 +244,12 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
             editBookingInfoDialogFragment.setArguments(bundle);
             editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
         });
+
+        select_room_btn.setOnClickListener(view -> {
+            openPropertyRoomListActivity(property_id,property_name);
+        });
+
+        fetchProperty(Long.parseLong(property_id),tv_property_price,tv_price_currency,view_all_amenities,view_all_rules,view_all_landmarks);
     }
 
     public int getNavigationBarHeight(Activity activity) {
@@ -328,53 +305,100 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         }
     }
 
-    private void loadHotelData() {
-        tvHotelName.setText("Luxury Grand Hotel");
-        tvHotelType.setText("5-Star Hotel");
-        tvAddress.setText("123 Street, City, Country");
-        tvPrice.setText("$200 per night");
-        tvRating.setText("4.8/5");
+    private void fetchProperty(Long id,TextView tv_property_minimum_price,TextView tv_currency,TextView view_all_amenities,TextView view_all_rules,TextView view_all_landmarks) {
+
+        section_content.setVisibility(View.GONE);
+        section_skleton.setVisibility(View.VISIBLE);
+        section_skeleton_footer_price.setVisibility(View.VISIBLE);
+        section_footer_price.setVisibility(View.GONE);
+        section_error.setVisibility(View.GONE);
+
+        propertyApiService.getProperty(id).enqueue(new Callback<PropertyDetailsResponse>() {
+            @Override
+            public void onResponse(Call<PropertyDetailsResponse> call, Response<PropertyDetailsResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PropertyDetails property = response.body().getData();
+
+                    tvHotelName.setText(property.getName());
+                    tvHotelType.setText(property.getPropertyType());
+                    tvAddress.setText(property.getAddress());
+                    tvDescription.setText(property.getDescription());
 
 
+                    // Load PropertyImage Slider
+                    sliderView.setSliderAdapter(new SliderPropertyDetailsAdapter(PropertiesDetailsActivity.this, property.getImages()));
+                    sliderView.startAutoCycle();
 
-        // Images
-        imageUrls.add("https://pix8.agoda.net/hotelImages/21673708/459353622/f05137b9c8d362688d50bb648708b394.jpeg?ce=0&s=1024x");
-        imageUrls.add("https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/566847549.jpg?k=8e58cee79f87274c6f69fe019bc228395dad2d5ad82528bf88031d0730937c3c&o=&s=1024x");
-        imageUrls.add("https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/438984381.jpg?k=1b58c40713632c9883aa862caba5e6a0100bc83ef4aceed402712d3a640d44c2&o=&s=1024x");
+                    // amenities
+                    List<PropertyAmenity> displayedAmenities = property.getAmenities().size() > 5 ? property.getAmenities().subList(0, 5) : property.getAmenities();
+                    rvAmenities.setAdapter(new AmenitiesAdapter(displayedAmenities));
+                    if (property.getAmenities().size()>5){
+                        view_all_amenities.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        view_all_amenities.setVisibility(View.GONE);
+                    }
+                    view_all_amenities.setOnClickListener(view -> {
+                        showAllPropertyAmenities(property.getAmenities());
+                    });
 
-        // Amenities
-        amenities.add(new Amenity("Free WiFi",""));
-        amenities.add(new Amenity("Swimming Pool",""));
-        amenities.add(new Amenity("Parking",""));
-        amenities.add(new Amenity("Breakfast",""));
-        amenities.add(new Amenity("Complimentary Wi-Fi",""));
-        amenities.add(new Amenity("Air conditioning and heating",""));
-        amenities.add(new Amenity("Television with cable",""));
-        amenities.add(new Amenity("Hairdryer",""));
+                    //rules
+                    List<Rule> displayedRules = property.getRules().size() > 5 ? property.getRules().subList(0, 5) : property.getRules();
+                    rvRules.setAdapter(new RulesAdapter(displayedRules));
+                    if (property.getRules().size()>5){
+                        view_all_rules.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        view_all_rules.setVisibility(View.GONE);
+                    }
+                    view_all_rules.setOnClickListener(view -> {
+                        showAllPropertyRules(property.getRules());
+                    });
 
+                    //landmarks
+                    List<Landmark> displayedLandmark = property.getLandmarks().size() > 5 ? property.getLandmarks().subList(0, 5) : property.getLandmarks();
+                    rvLandmarks.setAdapter(new LandmarksAdapter(displayedLandmark));
+                    if (property.getLandmarks().size()>5){
+                        view_all_landmarks.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        view_all_landmarks.setVisibility(View.GONE);
+                    }
+                    view_all_landmarks.setOnClickListener(view -> {
+                        showAllPropertyLandmarks(property.getLandmarks());
+                    });
 
+                    //similar properties
+                    rvSimilarProperties.setAdapter(new SimilarPropertiesAdapter(getApplicationContext(),property.getSimilarProperties()));
 
-        // Rules
-        rules.add("Check-in: 2 PM");
-        rules.add("Check-out: 11 AM");
-        rules.add("No smoking allowed");
-        rules.add("Safety of stay and privacy");
-        rules.add("Cleaning of the room and performing necessary");
-        rules.add("In case of any defects");
-        rules.add("Storage of money and valuable belongings");
-        rules.add("Storage of luggage");
-        rules.add("Conduct of guests and persons");
+                    section_content.setVisibility(View.VISIBLE);
+                    section_skleton.setVisibility(View.GONE);
+                    section_error.setVisibility(View.GONE);
+                    section_skeleton_footer_price.setVisibility(View.GONE);
+                    section_footer_price.setVisibility(View.VISIBLE);
+                    tv_property_minimum_price.setText(property_minimum_price);
+                    tv_currency.setText(price_currency);
 
-        // Landmarks
-        landmarks.add(new Landmark("Palais des arts" , "2 km"));
-        landmarks.add(new Landmark("Kigali Convetion Center", "5 km"));
-        landmarks.add(new Landmark("Palais des arts" , "2 km"));
-        landmarks.add(new Landmark("Kigali Convetion Center", "5 km"));
+                } else {
+                    Log.e("ERROR", "Response failed");
+                    section_content.setVisibility(View.GONE);
+                    section_skleton.setVisibility(View.GONE);
+                    section_skeleton_footer_price.setVisibility(View.GONE);
+                    section_footer_price.setVisibility(View.GONE);
+                    section_error.setVisibility(View.VISIBLE);
+                }
+            }
 
-        //similar property
-        similarHotelsList.add(new Hotel("Grand Plaza", "Luxury", "New York, USA", "https://cf.bstatic.com/xdata/images/hotel/max1024x768/508071175.jpg?k=cfe923d6b90fbca85384bb067846afcd5363fd37b61d3614b5945f58a73d083b&o=&hp=1", 4.5, 120));
-        similarHotelsList.add(new Hotel("Ocean View", "Resort", "Miami, USA", "https://cf.bstatic.com/xdata/images/hotel/max1024x768/508079694.jpg?k=1a1f5a174fedbc35ac2406fc3464d4c0cc5db0ba00570a65d522f79a4c37bef0&o=&hp=1", 4.3, 150));
-        similarHotelsList.add(new Hotel("Skyline Inn", "Business", "Chicago, USA", "https://cf.bstatic.com/xdata/images/hotel/max1024x768/508071222.jpg?k=2b64145ff11293391cffe3cd3a40386e0abbe99e731d11e8127c0aeb691ea214&o=&hp=1", 4.7, 100));
+            @Override
+            public void onFailure(Call<PropertyDetailsResponse> call, Throwable t) {
+                Log.e("ERROR", "Failed to fetch property", t);
+                section_content.setVisibility(View.GONE);
+                section_skleton.setVisibility(View.GONE);
+                section_skeleton_footer_price.setVisibility(View.GONE);
+                section_footer_price.setVisibility(View.GONE);
+                section_error.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void displayBookingInfo(String checkinDate,String checkoutDate,String nb_adultes,String nb_enfants,TextView tvBookingInfoDate,TextView tvBookingInfoGuest){
@@ -398,16 +422,35 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         displayBookingInfo(checkinDateFrenchFormat_response,checkoutDateFrenchFormat_response,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response),tvBookingInfoDate,tvBookingInfoGuest);
     }
 
-    private void showAllPropertyAmenities() {
+    private void showAllPropertyAmenities(List<PropertyAmenity> amenities) {
         PropertyAmenitiesDialogFragment propertyAmenitiesDialogFragment = new PropertyAmenitiesDialogFragment (amenities);
         propertyAmenitiesDialogFragment.show(getSupportFragmentManager(), propertyAmenitiesDialogFragment.getTag());
     }
-    private void showAllPropertyRules() {
+    private void showAllPropertyRules(List<Rule> rules) {
         PropertyRulesDialogFragment propertyRulesDialogFragment = new PropertyRulesDialogFragment (rules);
         propertyRulesDialogFragment.show(getSupportFragmentManager(), propertyRulesDialogFragment.getTag());
     }
-    private void showAllPropertyLandmarks() {
+    private void showAllPropertyLandmarks(List<Landmark> landmarks) {
         PropertyLandmarksDialogFragment propertyLandmarksDialogFragment = new PropertyLandmarksDialogFragment (landmarks);
         propertyLandmarksDialogFragment.show(getSupportFragmentManager(), propertyLandmarksDialogFragment.getTag());
+    }
+
+    private void openPropertyRoomListActivity(String property_id,String property_name) {
+        Intent intent = new Intent(this, PropertyRoomListActivity.class);
+        intent.putExtra("property_type", property_type);
+        intent.putExtra("checkinDate", checkinDate);
+        intent.putExtra("checkoutDate", checkoutDate);
+        intent.putExtra("checkinDateFrench", checkinDateFrench);
+        intent.putExtra("checkoutDateFrench", checkoutDateFrench);
+        intent.putExtra("city_or_property", city_or_property);
+        intent.putExtra("nb_adultes", nb_adultes);
+        intent.putExtra("nb_enfants",nb_enfants);
+        intent.putExtra("property_id", property_id);
+        intent.putExtra("property_name", property_name);
+
+        intent.putExtra("property_adress", property_adress);
+        intent.putExtra("property_first_image", property_first_image);
+
+        startActivity(intent);
     }
 }

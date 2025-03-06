@@ -11,6 +11,8 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.ingoma.tourism.constant.Constant;
+import com.ingoma.tourism.model.Plan;
 import com.ingoma.tourism.model.Room;
 import com.ingoma.tourism.R;
 
@@ -21,9 +23,19 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
     private Context context;
     private List<Room> roomList;
 
-    public RoomAdapter(Context context, List<Room> roomList) {
+    private Room selectedRoom = null;
+    private Plan selectedPlan = null;
+    private OnPlanSelectedListener planSelectedListener;
+
+    // Interface to notify Activity
+    public interface OnPlanSelectedListener {
+        void onPlanSelected(Plan plan,Room room);
+    }
+
+    public RoomAdapter(Context context, List<Room> roomList,OnPlanSelectedListener listener) {
         this.context = context;
         this.roomList = roomList;
+        this.planSelectedListener = listener;
     }
 
     @NonNull
@@ -35,22 +47,64 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
+
         Room room = roomList.get(position);
-        holder.tvRoomName.setText(room.getName());
-        holder.tvRoomCapacity.setText("Capacity: " + room.getCapacity() + " people");
-        holder.tvRoomBedType.setText("Bed: " + room.getBedType());
-        holder.tvRoomSurface.setText("Surface: " + room.getSurface() + "m²");
 
-        Glide.with(context).load(room.getImageUrl()).into(holder.ivRoomImage);
+        //guest
+        String guest="";
+        if (Integer.valueOf(room.getMaxGuests())>1){
+            guest=room.getMaxGuests()+" visiteurs";
+        }
+        else{
+            guest=room.getMaxGuests()+" visiteur";
+        }
+        holder.tvRoomName.setText(room.getTypeName());
+        holder.tvRoomCapacity.setText(guest);
+        holder.tvRoomBedType.setText(room.getBedType());
+        holder.tvRoomSurface.setText(room.getRoomSize() + " m²");
 
-        // Set up nested RecyclerView for plans
+        // Count the number of images
+        int imageCount = room.getImages() != null ? room.getImages().size() : 0;
+        holder.tvNumberPictures.setText(String.valueOf(imageCount));
+
+        String baseUrl = Constant.BASE_URL + "api/v1/room-image/";
+        String fullImageUrl = baseUrl+ room.getImages().get(position).getImageUrl();
+
+        Glide.with(context)
+                .load(fullImageUrl) // Load first image
+                .placeholder(R.drawable.hotel_place_holder) // Add a placeholder image
+                .into(holder.ivRoomImage);
+
+        // Setup PlanAdapter for room plans
         holder.rvPlans.setLayoutManager(new LinearLayoutManager(context));
-        holder.rvPlans.setAdapter(new PlanAdapter(room.getPlans()));
+        holder.rvPlans.setAdapter(new PlanAdapter(room.getPlans(),room,this));
+
+
+
+
     }
 
     @Override
     public int getItemCount() {
         return roomList.size();
+    }
+
+    // Method to set selected plan globally
+    public void setSelectedPlan(Room room, Plan plan) {
+        if (selectedRoom != null && selectedPlan != null) {
+            selectedRoom.setSelectedPlan(null);
+        }
+
+        selectedRoom = room;
+        selectedPlan = plan;
+        room.setSelectedPlan(plan);
+
+        // Notify the activity about the selected plan
+        if (planSelectedListener != null) {
+            planSelectedListener.onPlanSelected(plan,room);
+        }
+
+        notifyDataSetChanged();
     }
 
     public static class RoomViewHolder extends RecyclerView.ViewHolder {

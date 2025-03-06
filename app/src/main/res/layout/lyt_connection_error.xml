@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:background="@color/profile_divider"
+    android:scrollbars="none"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@color/profile_divider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:id="@+id/ll_CenterImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:gravity="center"
+                android:id="@+id/negativeScenarioImg"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/confusing_error"/>
+            <TextView
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:id="@+id/negativeScenarioTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="Something went wrong. Please try again"
+                style="@style/TextStyles.Label.Medium.w2"
+                />
+            <TextView
+                android:textColor="@color/flight_review_black"
+                android:gravity="center"
+                android:id="@+id/negativeScenarioSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:text="Please try again"/>
+        </LinearLayout>
+        <TextView
+            android:textColor="@color/goibibo_default_blue"
+            android:gravity="center"
+            android:id="@+id/try_again_btn"
+            android:background="@drawable/rounded_white_corner"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Try again"
+            android:layout_below="@+id/ll_CenterImage"
+            android:layout_centerHorizontal="true"
+            style="@style/TextStyles.Label.Medium.w2"
+            />
+
+
+    </RelativeLayout>
+</RelativeLayout>

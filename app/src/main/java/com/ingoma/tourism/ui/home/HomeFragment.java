@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
                         property_type="hotel";
                     } else if (checkedId == R.id.cRoundWay) {
                         Llc_guest.setVisibility(View.GONE);
-                        property_type="maison_passage";
+                        property_type="guesthouse";
                     }
                 }
             }
@@ -213,6 +213,7 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
 
     public void openLocationSearchActivity() {
         Intent intent = new Intent(getContext(), LocationSearchActivity.class);
+        intent.putExtra("property_type",property_type);
         selectLocationActivityResultLauncher.launch(intent);
     }
 

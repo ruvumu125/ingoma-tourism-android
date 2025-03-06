@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowInsets;
@@ -13,37 +15,58 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ingoma.tourism.adapter.PropertyListAdapter;
+import com.ingoma.tourism.api.PropertyApiService;
+import com.ingoma.tourism.api.Retrofit2Client;
 import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
 import com.ingoma.tourism.dialog.PropertyFilterDialogFragment;
 import com.ingoma.tourism.dialog.PropertyPriceFilterDialogFragment;
 import com.ingoma.tourism.dialog.PropertySortDialogFragment;
-import com.ingoma.tourism.model.HotelModel;
+import com.ingoma.tourism.model.PropertyList;
+import com.ingoma.tourism.model.PropertyListResponse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PropertiesListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener {
 
     private LinearLayout Ll_sort,Ll_filter,Ll_price;
 
     private RecyclerView hotelRecyclerView;
-    private PropertyListAdapter hotelAdapter;
-    private List<HotelModel> hotelList;
-
     private TextView toolbar_custom_title,tv_date_guest;
     private LinearLayout Ll_date_guest_infos;
 
-    String property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+
+    private boolean isLoading = false;
+    private int currentPage = 1;
+    private int totalPage = 1;
+    private int pageSize = 10;
+    private List<PropertyList> hotelList = new ArrayList<>();
+    private PropertyListAdapter hotelAdapter;
+
+
+    private Retrofit2Client retrofit2Client;
+    private PropertyApiService propertyApiService;
+
+    private NestedScrollView skletonPrincipale;
+    private LinearLayout skletonFiltres,section_trier_filtres_prix,error_section;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_properties_list);
+
+        retrofit2Client=new Retrofit2Client(getApplicationContext());
+        propertyApiService = retrofit2Client.createService(PropertyApiService.class);
 
         //padding status bar and bottom navigation bar
         View RootLayout = findViewById(R.id.detail_activity_lyt);
@@ -55,9 +78,14 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         toolbar_custom_title=findViewById(R.id.toolbar_custom_title);
         tv_date_guest=findViewById(R.id.tv_date_guest);
         Ll_date_guest_infos=findViewById(R.id.Ll_date_guest_infos);
-        Ll_sort=findViewById(R.id.Ll_sort);
-        Ll_filter=findViewById(R.id.Ll_filter);
-        Ll_price=findViewById(R.id.Ll_price);
+        skletonFiltres=findViewById(R.id.skletonFiltres);
+        skletonPrincipale=findViewById(R.id.skletonPrincipale);
+        section_trier_filtres_prix=findViewById(R.id.section_trier_filtres_prix);
+        error_section=findViewById(R.id.error_section);
+
+        Ll_sort=findViewById(R.id.layout_trier);
+        Ll_filter=findViewById(R.id.layout_filtrer);
+        Ll_price=findViewById(R.id.layout_prix);
 
         // Get default dates from hotel search activity
         Intent intent = getIntent();
@@ -76,8 +104,53 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         tv_date_guest.setText(checkinDateFrench+" - "+checkoutDateFrench+guest_info);
 
 
-        Ll_sort.setOnClickListener(view -> {
+        // Initialize RecyclerView
+        hotelRecyclerView = findViewById(R.id.rvSrpList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        hotelRecyclerView.setLayoutManager(layoutManager);
 
+        hotelAdapter = new PropertyListAdapter(this, hotelList,property -> {
+            openPropertyDetailsActivity(property);
+        });
+        hotelRecyclerView.setAdapter(hotelAdapter);
+
+        fetchProperties(property_type,city_or_property,pageSize,currentPage);
+        hotelRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {  // Scrolling down
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if (!isLoading && currentPage < totalPage) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
+                            loadMoreHotels();
+                        }
+                    }
+                }
+            }
+        });
+
+
+        Ll_date_guest_infos.setOnClickListener(view -> {
+
+            EditBookingInfoDialogFragment editBookingInfoDialogFragment = new EditBookingInfoDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("city_or_property", city_or_property);
+            bundle.putString("checkinDate", checkinDate);
+            bundle.putString("checkoutDate", checkoutDate);
+            bundle.putString("nb_adultes", nb_adultes);
+            bundle.putString("nb_enfants", nb_enfants);
+            bundle.putString("property_type", property_type);
+            editBookingInfoDialogFragment.setArguments(bundle);
+            editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
+        });
+
+
+        Ll_sort.setOnClickListener(view -> {
             PropertySortDialogFragment propertySortDialogFragment = new PropertySortDialogFragment();
             propertySortDialogFragment.show(getSupportFragmentManager(), "PropertySortBottomSheetDialog");
         });
@@ -93,36 +166,6 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
             PropertyPriceFilterDialogFragment propertyPriceFilterDialogFragment = new PropertyPriceFilterDialogFragment();
             propertyPriceFilterDialogFragment.show(getSupportFragmentManager(), "PropertyPriceFilterBottomSheetDialog");
 
-        });
-
-        // Initialize RecyclerView
-        hotelRecyclerView = findViewById(R.id.rvSrpList);
-        hotelRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Load hotels
-        hotelList = getHotels();
-
-        // Set adapter
-        hotelAdapter = new PropertyListAdapter(this, hotelList,property -> {
-
-            openPropertyDetailsActivity(property);
-            // Handle click event here
-            //Toast.makeText(PropertiesListActivity.this, "Clicked: " + property.getName(), Toast.LENGTH_SHORT).show();
-        });
-        hotelRecyclerView.setAdapter(hotelAdapter);
-
-        Ll_date_guest_infos.setOnClickListener(view -> {
-
-            EditBookingInfoDialogFragment editBookingInfoDialogFragment = new EditBookingInfoDialogFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("city_or_property", city_or_property);
-            bundle.putString("checkinDate", checkinDate);
-            bundle.putString("checkoutDate", checkoutDate);
-            bundle.putString("nb_adultes", nb_adultes);
-            bundle.putString("nb_enfants", nb_enfants);
-            bundle.putString("property_type", property_type);
-            editBookingInfoDialogFragment.setArguments(bundle);
-            editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
         });
     }
 
@@ -221,41 +264,87 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         }
     }
 
-    // Dummy hotel data
-    private List<HotelModel> getHotels() {
-        List<HotelModel> hotels = new ArrayList<>();
+    // Get properties data
+    private void fetchProperties(String propertyType, String search,int perPage,int page) {
+        isLoading = true;
+        skletonFiltres.setVisibility(View.VISIBLE);
+        skletonPrincipale.setVisibility(View.VISIBLE);
+        section_trier_filtres_prix.setVisibility(View.GONE);
+        error_section.setVisibility(View.GONE);
 
-        hotels.add(new HotelModel(
-                "Luxury Palace", "5-Star Hotel", "123 Main St, NY", 299.99, 4.8,
-                Arrays.asList(
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/612233979.jpg?k=16fc7dcbbd3f37e7f91d17cc04885f949b57c4d0bd1161f665591013c6e6429d&o=&hp=1",
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/612232552.jpg?k=a039edf0528c2cea465c822003bc9e051933ffcf70a61d1b8072c7501c72e992&o=&hp=1",
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/611043161.jpg?k=c65d51b5a686e9d39a2915801abb12d921cddeefa26a236d22d68dbda4c20c6c&o=&hp=1"
-                ),
-                Arrays.asList("Free WiFi", "Pool", "Gym", "Restaurant")
-        ));
+        propertyApiService.getProperties(propertyType,search,perPage,page).enqueue(new Callback<PropertyListResponse>() {
+            @Override
+            public void onResponse(Call<PropertyListResponse> call, Response<PropertyListResponse> response) {
+                isLoading = false;
+                if (response.isSuccessful() && response.body() != null) {
 
-        hotels.add(new HotelModel(
-                "Beachside Resort", "4-Star Hotel", "456 Ocean Ave, CA", 199.99, 4.5,
-                Arrays.asList(
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/562876208.jpg?k=a40bddfa46105764b740352aa1e7be5b9a2d7a058c1c173ca0bc2111785c59d9&o=&hp=1",
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/562876934.jpg?k=1975075eb6b1fbdbd5b64a2db201f9f01a0353b7f7836f17d9bfc229802fb1ed&o=&hp=1",
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/562878044.jpg?k=9b01963b477d5fab867e505a6b5b1de55d81b2fa064e2ba96a87bcd024f3c06d&o=&hp=1"
-                ),
-                Arrays.asList("Beach Access", "Spa", "Bar", "Free Breakfast")
-        ));
+                    skletonFiltres.setVisibility(View.GONE);
+                    skletonPrincipale.setVisibility(View.GONE);
+                    section_trier_filtres_prix.setVisibility(View.VISIBLE);
+                    hotelRecyclerView.setVisibility(View.VISIBLE);
+                    error_section.setVisibility(View.GONE);
 
-        hotels.add(new HotelModel(
-                "Mountain Retreat", "Boutique Hotel", "789 Hilltop Rd, CO", 149.99, 4.2,
-                Arrays.asList(
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/28306283.jpg?k=5d154f1cfa47ee4da7c9f605093590248b4baa0464668ec197cbc3e453b89455&o=&hp=1",
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/28306423.jpg?k=2e99cceba1ab79e656898467fd792f7b39ac19939731ed077099a478e61b5d63&o=&hp=1",
-                        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/28306353.jpg?k=0dab1d1a8acaa1b746135f5e44e21f72bd9089d53012980bc0d735ffc41066d2&o=&hp=1"
-                ),
-                Arrays.asList("Hiking Trails", "Hot Tub", "Pet Friendly", "Fireplace")
-        ));
+                    totalPage = response.body().getPagination().getTotal_pages();
+                    hotelList.addAll(response.body().getData());
+                    hotelAdapter.notifyDataSetChanged();
 
-        return hotels;
+
+                } else {
+
+                    skletonFiltres.setVisibility(View.GONE);
+                    skletonPrincipale.setVisibility(View.GONE);
+                    section_trier_filtres_prix.setVisibility(View.GONE);
+                    hotelRecyclerView.setVisibility(View.GONE);
+                    error_section.setVisibility(View.VISIBLE);
+                    //Toast.makeText(PropertiesListActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PropertyListResponse> call, Throwable t) {
+                isLoading = false;
+
+                skletonFiltres.setVisibility(View.GONE);
+                skletonPrincipale.setVisibility(View.GONE);
+                section_trier_filtres_prix.setVisibility(View.GONE);
+                hotelRecyclerView.setVisibility(View.GONE);
+                error_section.setVisibility(View.VISIBLE);
+
+                //Log.e("API_ERROR", "Error fetching data: " + t.getMessage());
+                //Toast.makeText(PropertiesListActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadMoreHotels() {
+        isLoading = true;
+        hotelAdapter.showLoading();
+        new Handler().postDelayed(() -> {
+            currentPage++;
+            propertyApiService.getProperties(property_type,city_or_property,2,currentPage).enqueue(new Callback<PropertyListResponse>() {
+                @Override
+                public void onResponse(Call<PropertyListResponse> call, Response<PropertyListResponse> response) {
+                    hotelAdapter.hideLoading();
+                    isLoading = false;
+                    if (response.isSuccessful() && response.body() != null) {
+                        hotelAdapter.addHotels(response.body().getData());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PropertyListResponse> call, Throwable t) {
+                    hotelAdapter.hideLoading();
+                    isLoading = false;
+                    Log.e("API_ERROR", "Error fetching data: " + t.getMessage());
+
+                    skletonFiltres.setVisibility(View.GONE);
+                    skletonPrincipale.setVisibility(View.GONE);
+                    section_trier_filtres_prix.setVisibility(View.GONE);
+                    hotelRecyclerView.setVisibility(View.GONE);
+                    error_section.setVisibility(View.VISIBLE);
+                }
+            });
+        }, 2000);
     }
 
 
@@ -276,7 +365,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         tv_date_guest.setText(checkinDateFrench+" - "+checkoutDateFrench+", "+guest_info);
     }
 
-    private void openPropertyDetailsActivity(HotelModel hotelModel) {
+    private void openPropertyDetailsActivity(PropertyList hotelModel) {
         Intent intent = new Intent(this, PropertiesDetailsActivity.class);
         intent.putExtra("property_type", property_type);
         intent.putExtra("checkinDate", checkinDate);
@@ -286,7 +375,13 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         intent.putExtra("city_or_property", city_or_property);
         intent.putExtra("nb_adultes", nb_adultes);
         intent.putExtra("nb_enfants",nb_enfants);
-        intent.putExtra("hotel_data", hotelModel);
+        intent.putExtra("property_id", String.valueOf(hotelModel.getId()));
+        intent.putExtra("property_name", hotelModel.getName());
+        intent.putExtra("property_minimum_price", String.valueOf(hotelModel.getMinPrice()));
+        intent.putExtra("price_currency", hotelModel.getCurrency());
+
+        intent.putExtra("property_adress", hotelModel.getAddress());
+        intent.putExtra("property_first_image", hotelModel.getImages().get(0));
 
         startActivity(intent);
     }

@@ -9,97 +9,8 @@
     android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/lytRsPaxStripMultiroom"
-        android:background="@color/light_green_footer"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="6dp">
-        <TextView
-            android:textColor="@color/green_highlighted"
-            android:layout_gravity="start"
-            android:id="@+id/tvCtaRoomTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextStyles.Label.Small.w1"/>
-        <TextView
-            android:textColor="@color/green_highlighted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
-            android:text=" - Fits"
-            style="@style/TextStyles.Label.Small.w1"/>
-        <TextView
-            android:textColor="@color/green_highlighted"
-            android:layout_gravity="start"
-            android:id="@+id/tvCtaPaxTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            style="@style/TextStyles.Label.Small.w1"/>
-    </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lytCartSelectionStrip"
-        android:background="@color/light_green_footer"
-        android:padding="6dp"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:id="@+id/lytCart"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/ivCart"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvRoomCnt"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvRoomCnt"
-                app:srcCompat="@drawable/ic_htl_cart"
-                app:tint="@color/go_blue"/>
-            <TextView
-                android:textColor="@color/link_blue"
-                android:id="@+id/tvRoomCnt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                app:layout_constraintLeft_toRightOf="@+id/ivCart"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextStyles.Label.Small.w1"/>
-        </LinearLayout>
-        <TextView
-            android:textColor="@color/black"
-            android:id="@+id/vDivider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:text="|"
-            android:alpha="0.2"
-            app:layout_constraintLeft_toRightOf="@+id/lytCart"
-            app:layout_constraintTop_toTopOf="@+id/lytCart"
-            style="@style/TextStyles.Label.Small.w1"/>
-        <TextView
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:id="@+id/tvGuestFitInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            app:layout_constraintLeft_toRightOf="@+id/vDivider"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/TextStyles.Label.Small.w1"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <!--debuttttttttttttttttttttttt-->
+    <!--debut section button continue -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lytInStock"
         android:background="@drawable/white_rect_shadow"
@@ -111,39 +22,6 @@
         android:paddingVertical="7dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lytRsNoRoomSelected"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:textColor="@color/go_blue"
-                android:id="@+id/tvNoRooms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No Rooms Selected"
-                app:layout_constraintBottom_toTopOf="@+id/txtAddRToCon"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                style="@style/TextStyles.Label.Base.w1"/>
-            <TextView
-                android:textColor="@color/dark"
-                android:id="@+id/txtAddRToCon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="Add rooms to continue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="@+id/tvNoRooms"
-                app:layout_constraintTop_toBottomOf="@+id/tvNoRooms"
-                app:layout_constraintVertical_chainStyle="packed"
-                style="@style/TextStyles.Label.Small.w1"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_price_offer_lyt"
             android:visibility="visible"
             android:layout_width="0dp"
@@ -152,47 +30,8 @@
             android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/detail_select_room_btn"
             app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:visibility="gone"
-                android:textColor="#717171"
-                android:text="@string/amenities"
-                android:id="@+id/detail_footer_striked_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextStyles.Label.Base.w1"/>
-            <LinearLayout
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:id="@+id/lytOffersApplied"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/detail_footer_striked_price"
-                app:layout_constraintStart_toEndOf="@+id/detail_footer_striked_price"
-                app:layout_constraintTop_toTopOf="@+id/detail_footer_striked_price">
-                <TextView
-                    android:textColor="@color/default_blue"
-                    android:ellipsize="end"
-                    android:text="@string/check_now"
-                    android:id="@+id/more_offer_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:includeFontPadding="false"
-                    style="@style/TextStyles.Label.Small.w1"/>
-                <ImageView
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/footer_offers_expand_icon"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_marginLeft="6dp"
-                    app:srcCompat="@drawable/ic_collapse_arrow"
-                    app:tint="@color/goibibo_default_blue"/>
-            </LinearLayout>
+
             <TextView
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -202,8 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_footer_striked_price"
-                style="@style/TextStyles.Label.Base.w3"/>
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/TextStyles.Label.Large.w1"/>
+
             <TextView
                 android:textColor="#717171"
                 android:id="@+id/txtPerNight"
@@ -215,33 +55,22 @@
                 app:layout_constraintBottom_toBottomOf="@+id/unStrikedPrice"
                 app:layout_constraintLeft_toRightOf="@+id/unStrikedPrice"
                 app:layout_constraintTop_toTopOf="@+id/unStrikedPrice"
-                style="@style/TextStyles.Label.Base.w1"/>
+                style="@style/TextStyles.Label.Medium.w3"/>
+
             <TextView
                 android:textColor="#717171"
                 android:id="@+id/tvTnc"
                 android:visibility="visible"
-                android:text="bhyuuu"
+                android:text="pour une nuit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="@+id/unStrikedPrice"
                 app:layout_constraintTop_toBottomOf="@+id/unStrikedPrice"
-                style="@style/TextStyles.Label.Small.w1"/>
-            <ImageView
-                android:id="@+id/goCashLogo"
-                android:visibility="gone"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginRight="7dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/tvTnc"
-                app:layout_constraintTop_toBottomOf="@+id/tvTnc"
-                app:srcCompat="@drawable/ic_hotel_go_cash"/>
+                style="@style/TextStyles.Label.Base.w1"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_select_room_btn"
@@ -273,78 +102,16 @@
                     style="@style/TextStyles.Label.Medium.w3"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--finnnnnnnnnnnnnnnnnnnnnnnnn-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/detail_soldout_lyt"
-        android:background="@drawable/white_rect_shadow"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="6dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:textColor="@color/rating_bg_1"
-                android:id="@+id/soldout_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SOLD OUT"
-                android:lineSpacingExtra="2sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextStyles.Label.Small.w3"/>
-            <TextView
-                android:textColor="@color/htl_dtls_grey_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sold out on goibibo"
-                android:lineSpacingExtra="4sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/soldout_txt"
-                style="@style/TextStyles.Label.Small.w1"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/detail_soldout_btn"
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <LinearLayout
-                android:background="@drawable/light_blue_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="9dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <TextView
-                    android:textColor="@color/dark_blue_similar_hotel"
-                    android:id="@+id/sold_out_select_similar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View Similar Hotels"
-                    style="@style/TextStyles.Label.Base.w3"/>
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--fin section button continue -->
+
+    <!--debut section skleton -->
     <include
         android:id="@+id/hd_footer_shimmer"
         android:padding="2dp"
         android:visibility="visible"
         layout="@layout/lyt_detail_footer_shimmer"/>
+    <!--fin section skleton -->
+
 </LinearLayout>

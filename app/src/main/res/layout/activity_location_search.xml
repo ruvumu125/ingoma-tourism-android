@@ -32,7 +32,7 @@
             android:nextFocusDown="@+id/et_drop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter location here"
+            android:hint="Saisir une destination/logement"
             android:singleLine="true"
             android:selectAllOnFocus="true"
             android:includeFontPadding="false"
@@ -59,7 +59,7 @@
             style="@style/TextStyles.Label.Base.w2"/>
         <ProgressBar
             android:id="@+id/loader"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="8dp"
@@ -68,53 +68,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_circle_cross_blue_grey"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/tv_current_location"
-        android:background="@color/white"
-        android:paddingTop="9dp"
-        android:paddingBottom="9dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:elevation="0dp"
-        android:layout_marginHorizontal="8dp"
-        android:paddingHorizontal="8dp"
-        app:cardCornerRadius="2dp"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-        <TextView
-            android:textColor="@color/go_blue"
-            android:id="@+id/location_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Use GPS"
-            android:maxLines="1"
-            android:includeFontPadding="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/TextStyles.Label.Medium.w2"/>
-        <TextView
-            android:textColor="@color/app_color_content_medium_emphasis"
-            android:id="@+id/location_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Pick my current Location"
-            android:includeFontPadding="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location_title"
-            style="@style/TextStyles.Label.Small.w1"/>
-        <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_blue_gps"
-            android:layout_marginEnd="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:textColor="@color/app_color_content_medium_emphasis"
@@ -126,11 +79,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginVertical="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_current_location"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         style="@style/TextStyles.Label.Medium.w1"/>
     <androidx.recyclerview.widget.RecyclerView
         android:orientation="vertical"
         android:id="@+id/rv_location"
+        android:visibility="visible"
         android:padding="8dp"
         android:clipToPadding="false"
         android:layout_width="match_parent"
@@ -140,4 +94,92 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header"/>
+
+    <LinearLayout
+        android:id="@+id/shimmer_section"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:tag="binding_5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <include
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+        <include
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+        <include
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+        <include
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+        <include
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+        <include
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+        <include
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+        <include
+            android:layout_marginTop="5dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/lyt_location_search_shimmer_item"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/error_section"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:tag="binding_5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <include
+            layout="@layout/lyt_connection_error"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

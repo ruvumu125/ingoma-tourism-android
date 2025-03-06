@@ -1,51 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.facebook.shimmer.ShimmerFrameLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:tools="http://schemas.androidly.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:aapt="http://schemas.android.com/aapt"
-    android:id="@+id/mainLyt"
-    android:tag="layout/lyt_shimmer_top_filters_getaways_0"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingHorizontal="9dp"
-    android:paddingVertical="7dp"
-    app:shimmer_duration="1500">
-    <LinearLayout
-        android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="9dp"
-        android:layout_marginBottom="4dp">
-        <LinearLayout
-            android:background="@drawable/shimmer_round_rect_2dp"
-            android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000"
+        app:shimmer_intensity="0.5"
+        app:shimmer_direction="left_to_right">
+
+        <GridLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"/>
-        <LinearLayout
-            android:background="@drawable/shimmer_round_rect_2dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"/>
-        <LinearLayout
-            android:background="@drawable/shimmer_round_rect_2dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"/>
-        <LinearLayout
-            android:background="@drawable/shimmer_round_rect_2dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"/>
-        <LinearLayout
-            android:background="@drawable/shimmer_round_rect_2dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"/>
-    </LinearLayout>
-</com.facebook.shimmer.ShimmerFrameLayout>
+            android:columnCount="3"
+            android:rowCount="1"
+            android:useDefaultMargins="true"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
+
+            <LinearLayout
+                android:id="@+id/Ll_sort"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/shimmer_round_rect_2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_marginEnd="5dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Ll_filter"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/shimmer_round_rect_2dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Ll_price"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/shimmer_round_rect_2dp">
+
+            </LinearLayout>
+        </GridLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</LinearLayout>
+

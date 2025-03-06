@@ -196,7 +196,7 @@
                         android:ellipsize="end"
                         android:id="@+id/taxes"
                         android:visibility="visible"
-                        android:text="nhgfdttt"
+                        android:text="bif"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"

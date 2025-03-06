@@ -5,26 +5,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.ingoma.tourism.R;
-import com.ingoma.tourism.model.Hotel;
+import com.ingoma.tourism.constant.Constant;
+import com.ingoma.tourism.model.SimilarProperty;
 
 import java.util.List;
 
-public class SimilarHotelsAdapter extends RecyclerView.Adapter<SimilarHotelsAdapter.SimilarHotelViewHolder> {
+public class SimilarPropertiesAdapter extends RecyclerView.Adapter<SimilarPropertiesAdapter.SimilarHotelViewHolder> {
 
     private Context context;
-    private List<Hotel> similarHotels;
+    private List<SimilarProperty> similarHotels;
 
-    public SimilarHotelsAdapter(Context context,List<Hotel> similarHotels) {
+    public SimilarPropertiesAdapter(Context context, List<SimilarProperty> similarHotels) {
         this.context = context;
         this.similarHotels = similarHotels;
     }
@@ -32,8 +31,6 @@ public class SimilarHotelsAdapter extends RecyclerView.Adapter<SimilarHotelsAdap
     @NonNull
     @Override
     public SimilarHotelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(context).inflate(R.layout.item_property_similar_property, parent, false);
-        //return new SimilarHotelViewHolder(view);
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_property_similar_property, parent, false);
         return new SimilarHotelViewHolder(view);
@@ -41,17 +38,21 @@ public class SimilarHotelsAdapter extends RecyclerView.Adapter<SimilarHotelsAdap
 
     @Override
     public void onBindViewHolder(@NonNull SimilarHotelViewHolder holder, int position) {
-        Hotel hotel = similarHotels.get(position);
+        SimilarProperty hotel = similarHotels.get(position);
+
+        String baseUrl = Constant.BASE_URL + "api/v1/property-image/";
+        String fullImageUrl = baseUrl+ hotel.getFirstImage();
 
         Glide.with(context)
-                .load(hotel.getImageUrl()) // Load first image
+                .load(fullImageUrl) // Load first image
                 .placeholder(R.drawable.hotel_place_holder) // Add a placeholder image
                 .into(holder.ivHotelImage);
 
-        holder.tvHotelType.setText(hotel.getType());
-        holder.tvHotelAddress.setText(hotel.getAddress());
-        holder.tvHotelPrice.setText("$" + hotel.getPrice() + " / night");
-        holder.ratingBar.setText(String.valueOf(hotel.getRating()));
+        holder.tvHotelType.setText(hotel.getPropertyType());
+        holder.tvHotelAddress.setText(hotel.getCity().getName());
+        holder.tvHotelPrice.setText(hotel.getMinPrice());
+        holder.tvCurrency.setText(hotel.getCurrency());
+        //holder.ratingBar.setText(String.valueOf(hotel.getRating()));
     }
 
     @Override
@@ -62,7 +63,7 @@ public class SimilarHotelsAdapter extends RecyclerView.Adapter<SimilarHotelsAdap
     public static class SimilarHotelViewHolder extends RecyclerView.ViewHolder {
         ImageView ivHotelImage;
         AppCompatTextView tvHoteName,tvHotelType,tvHotelAddress, ratingBar;
-        TextView tvHotelPrice;
+        TextView tvHotelPrice,tvCurrency;
 
         public SimilarHotelViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +73,7 @@ public class SimilarHotelsAdapter extends RecyclerView.Adapter<SimilarHotelsAdap
             tvHotelType = itemView.findViewById(R.id.tv_hotel_type);
             tvHotelAddress = itemView.findViewById(R.id.tv_hotel_adress);
             tvHotelPrice = itemView.findViewById(R.id.prop_price);
+            tvCurrency = itemView.findViewById(R.id.taxes);
             ratingBar = itemView.findViewById(R.id.rating_bar);
         }
     }

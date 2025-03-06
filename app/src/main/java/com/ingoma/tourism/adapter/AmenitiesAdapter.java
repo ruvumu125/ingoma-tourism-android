@@ -8,13 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import com.ingoma.tourism.R;
-import com.ingoma.tourism.model.Amenity;
+import com.ingoma.tourism.model.PropertyAmenity;
 
 public class AmenitiesAdapter extends RecyclerView.Adapter<AmenitiesAdapter.AmenitiesViewHolder> {
 
-    private List<Amenity> amenities;
+    private List<PropertyAmenity> amenities;
 
-    public AmenitiesAdapter(List<Amenity> amenities) {
+    public AmenitiesAdapter(List<PropertyAmenity> amenities) {
         this.amenities = amenities;
     }
 
@@ -27,7 +27,7 @@ public class AmenitiesAdapter extends RecyclerView.Adapter<AmenitiesAdapter.Amen
 
     @Override
     public void onBindViewHolder(@NonNull AmenitiesViewHolder holder, int position) {
-        Amenity amenity = amenities.get(position);
+        PropertyAmenity amenity = amenities.get(position);
         holder.amenityText.setText(amenity.getName());
         holder.amenityDescription.setText(amenity.getDescription());
     }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
+import com.ingoma.tourism.constant.Constant;
 import com.ingoma.tourism.model.HotelModel;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import java.util.List;
@@ -37,8 +38,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
 
     @Override
     public void onBindViewHolder(SliderViewHolder holder, int position) {
+
         Glide.with(context)
                 .load(imageUrls.get(position))
+                .placeholder(R.drawable.hotel_place_holder)
                 .into(holder.imageView);
 
         holder.imageView.setOnClickListener(v -> onItemClickListener.onItemClick());

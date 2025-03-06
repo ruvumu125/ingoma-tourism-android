@@ -12,9 +12,13 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,24 +27,48 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ingoma.tourism.adapter.RoomAdapter;
+import com.ingoma.tourism.api.PropertyApiService;
+import com.ingoma.tourism.api.Retrofit2Client;
+import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
+import com.ingoma.tourism.model.HotelRoomsResponse;
 import com.ingoma.tourism.model.Plan;
 import com.ingoma.tourism.model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PropertyRoomListActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class PropertyRoomListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener{
 
     private RecyclerView rvRooms;
     private RoomAdapter roomAdapter;
-    private List<Room> roomList;
 
-    private ImageView imgShare;
+    private String property_adress,property_first_image,property_id,property_name,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private LinearLayout continue_btn;
+    private TextView toolbarTitle,tv_booking_info,unStrikedPrice,txtPerNight,continue_btn_tv;
+    private LinearLayout booking_info_edit_section;
+
+    private Retrofit2Client retrofit2Client;
+    private PropertyApiService propertyApiService;
+
+    private ConstraintLayout section_footer_price;
+    private View section_skeleton_footer_price;
+    private LinearLayout section_skleton,section_error;
+    // Variable to store the selected plan
+    private Plan selectedPlan = null;
+    private Room selectedRoom = null;
+    private ConstraintLayout section_price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_room_list);
+
+        retrofit2Client=new Retrofit2Client(getApplicationContext());
+        propertyApiService = retrofit2Client.createService(PropertyApiService.class);
 
         //padding status bar and bottom navigation bar
         View RootLayout = findViewById(R.id.cordinatorLyt);
@@ -50,22 +78,71 @@ public class PropertyRoomListActivity extends AppCompatActivity {
 
         // initialisation
         rvRooms = findViewById(R.id.rvSrpList);
+        toolbarTitle = findViewById(R.id.toolbar_custom_title);
+        tv_booking_info = findViewById(R.id.toolbar_custom_sub_title);
+        booking_info_edit_section = findViewById(R.id.lytSubtitleWrap);
+        unStrikedPrice=findViewById(R.id.unStrikedPrice);
+        txtPerNight=findViewById(R.id.txtPerNight);
+        continue_btn = findViewById(R.id.lyt_cta);
+        continue_btn_tv = findViewById(R.id.select_room_btn_tv);
+
+        section_skleton=findViewById(R.id.section_skleton);
+        section_price=findViewById(R.id.detail_price_offer_lyt);
+        section_error=findViewById(R.id.section_error);
+        section_footer_price=findViewById(R.id.lytInStock);
+        section_skeleton_footer_price=findViewById(R.id.hd_footer_shimmer);
+        continue_btn_tv.setText("Continuer");
         rvRooms.setLayoutManager(new LinearLayoutManager(this));
 
-        // Load rooms data
-        roomList = getRoomList();
-        roomAdapter = new RoomAdapter(this, roomList);
-        rvRooms.setAdapter(roomAdapter);
+        // Get default dates from hotel list activity
+        Intent intent = getIntent();
+        if (intent != null) {
+
+            property_id = intent.getStringExtra("property_id");
+            property_name = intent.getStringExtra("property_name");
+            property_adress = intent.getStringExtra("property_adress");
+            property_first_image = intent.getStringExtra("property_first_image");
+            checkinDate = intent.getStringExtra("checkinDate");
+            checkoutDate = intent.getStringExtra("checkoutDate");
+            checkinDateFrench = intent.getStringExtra("checkinDateFrench");
+            checkoutDateFrench = intent.getStringExtra("checkoutDateFrench");
+            city_or_property = intent.getStringExtra("city_or_property");
+            nb_adultes = intent.getStringExtra("nb_adultes");
+            nb_enfants = intent.getStringExtra("nb_enfants");
+            property_type = intent.getStringExtra("property_type");
+
+            toolbarTitle.setText(property_name);
+
+            String guest_info=displayGuestInfo(property_type,nb_adultes,nb_enfants);
+            tv_booking_info.setText(checkinDateFrench+" - "+checkoutDateFrench+guest_info);
+        }
 
         //jjjj
-        imgShare=(ImageView) findViewById(R.id.imgShare);
-        imgShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        booking_info_edit_section.setOnClickListener(view -> {
 
-                startActivity(new Intent(PropertyRoomListActivity.this, ConfirmHotelBookingActivity.class));
+            EditBookingInfoDialogFragment editBookingInfoDialogFragment = new EditBookingInfoDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("city_or_property", city_or_property);
+            bundle.putString("checkinDate", checkinDate);
+            bundle.putString("checkoutDate", checkoutDate);
+            bundle.putString("nb_adultes", nb_adultes);
+            bundle.putString("nb_enfants", nb_enfants);
+            bundle.putString("property_type", property_type);
+            editBookingInfoDialogFragment.setArguments(bundle);
+            editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
+
+        });
+
+        continue_btn.setOnClickListener(view -> {
+
+            if (isAnyPlanSelected()) {
+                openConfirmHotelBookingActivity();
+            } else {
+                Toast.makeText(this, "No Plan Selected!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        fetchRooms(Long.parseLong(property_id));
 
 
     }
@@ -122,41 +199,141 @@ public class PropertyRoomListActivity extends AppCompatActivity {
         }
     }
 
-    private List<Room> getRoomList() {
-        List<Room> rooms = new ArrayList<>();
+    private void fetchRooms(Long property_id) {
 
-        // Sample plans for each room
-        List<Plan> plans1 = new ArrayList<>();
-        plans1.add(new Plan("Room Only", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", 50.0));
-        plans1.add(new Plan("Room with Breakfast", "Includes breakfast", 65.0));
+        section_skleton.setVisibility(View.VISIBLE);
+        section_skeleton_footer_price.setVisibility(View.VISIBLE);
+        section_footer_price.setVisibility(View.GONE);
+        section_error.setVisibility(View.GONE);
+        section_price.setVisibility(View.GONE);
 
-        List<Plan> plans2 = new ArrayList<>();
-        plans2.add(new Plan("Room Only", "Basic stay with no meals", 80.0));
-        plans2.add(new Plan("Room with Breakfast", "Includes continental breakfast", 95.0));
+        propertyApiService.getPropertyRooms(property_id).enqueue(new Callback<HotelRoomsResponse>() {
+            @Override
+            public void onResponse(Call<HotelRoomsResponse> call, Response<HotelRoomsResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Room> rooms = response.body().getData();
+                    roomAdapter = new RoomAdapter(getApplicationContext(), rooms,(plan, room) -> {
 
-        // Sample rooms
-        rooms.add(new Room(
-                "Deluxe Room",
-                "https://cf.bstatic.com/xdata/images/hotel/max1024x768/228178704.jpg?k=d0efcd7d4bc8db6181e0cf44aa998dca0507bc74150c28e44805a2f655eb258c&o=&hp=1",
-                5,
-                2,
-                "King Bed",
-                30.5,
-                "WiFi, TV, Air Conditioner",
-                plans1
-        ));
+                        selectedPlan = plan;
+                        selectedRoom = room;
+                        unStrikedPrice.setText(plan.getPrice());
+                        txtPerNight.setText(plan.getCurrency());
+                        section_price.setVisibility(View.VISIBLE);
+                    });
+                    rvRooms.setAdapter(roomAdapter);
 
-        rooms.add(new Room(
-                "Suite Room",
-                "https://cf.bstatic.com/xdata/images/hotel/max1024x768/228175786.jpg?k=cce91514a27959bbe50c8576c6b3046bf1c4ee474f62a6ed07f86bbb479a25e0&o=&hp=1",
-                8,
-                4,
-                "2 Queen Beds",
-                50.0,
-                "WiFi, TV, Minibar, Jacuzzi",
-                plans2
-        ));
+                    section_skleton.setVisibility(View.GONE);
+                    section_error.setVisibility(View.GONE);
+                    section_skeleton_footer_price.setVisibility(View.GONE);
+                    section_footer_price.setVisibility(View.VISIBLE);
 
-        return rooms;
+
+                    //tv_property_minimum_price.setText(property_minimum_price);
+                    //tv_currency.setText(price_currency);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HotelRoomsResponse> call, Throwable t) {
+                //Toast.makeText(PropertyRoomListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+
+                section_skleton.setVisibility(View.GONE);
+                section_skeleton_footer_price.setVisibility(View.GONE);
+                section_footer_price.setVisibility(View.GONE);
+                section_error.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private String displayGuestInfo(String property_type,String nb_adultes,String nb_enfants){
+
+        String guest_info="";
+
+        if (property_type.equals("hotel")){
+
+            if (Integer.valueOf(nb_adultes)>1){
+
+                if (Integer.valueOf(nb_enfants)>0){
+
+                    if (Integer.valueOf(nb_enfants)==1){
+                        guest_info=" ,"+nb_adultes+" adultes"+" "+nb_enfants+" enfant";
+                    }
+                    else {
+                        guest_info=" ,"+nb_adultes+" adultes"+" "+nb_enfants+" enfants";
+                    }
+
+                } else{
+                    guest_info=" ,"+nb_adultes+" adultes";
+                }
+            }
+            else{
+
+                if (Integer.valueOf(nb_enfants)>0){
+
+                    if (Integer.valueOf(nb_enfants)==1){
+                        guest_info=" ,"+nb_adultes+" adulte"+" "+nb_enfants+" enfant";
+                    }
+                    else {
+                        guest_info=" ,"+nb_adultes+" adulte"+" "+nb_enfants+" enfants";
+                    }
+
+                } else{
+                    guest_info=" ,"+nb_adultes+" adulte";
+                }
+            }
+
+        }
+
+        return guest_info;
+    }
+
+    private void openConfirmHotelBookingActivity() {
+        Intent intent = new Intent(this, ConfirmHotelBookingActivity.class);
+
+        intent.putExtra("property_id", property_id);
+        intent.putExtra("property_type", property_type);
+        intent.putExtra("property_name", property_name);
+        intent.putExtra("property_adress", property_adress);
+        intent.putExtra("property_first_image", property_first_image);
+        intent.putExtra("property_type", property_type);
+        intent.putExtra("checkinDate", checkinDate);
+        intent.putExtra("checkoutDate", checkoutDate);
+        intent.putExtra("checkinDateFrench", checkinDateFrench);
+        intent.putExtra("checkoutDateFrench", checkoutDateFrench);
+        intent.putExtra("city_or_property", city_or_property);
+        intent.putExtra("nb_adultes", nb_adultes);
+        intent.putExtra("nb_enfants",nb_enfants);
+
+        intent.putExtra("room_name",selectedRoom.getTypeName());
+        intent.putExtra("room_size",selectedRoom.getRoomSize());
+        intent.putExtra("room_bed_type",selectedRoom.getBedType());
+        intent.putExtra("room_main_image",selectedRoom.getImages().get(0).getImageUrl());
+
+        intent.putExtra("plan_name",selectedPlan.getPlanType());
+        intent.putExtra("plan_description",selectedPlan.getPlanType());
+
+
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
+
+        checkinDate=checkinDate_response;
+        checkoutDate=checkoutDate_response;
+        checkinDateFrench=checkinDateFrenchFormat_response;
+        checkoutDateFrench=checkoutDateFrenchFormat_response;
+        city_or_property=city_or_property_response;
+        nb_adultes=String.valueOf(adultesNumber_response);
+        nb_enfants=String.valueOf(childrenNumber_response);
+
+        //set textview
+        String guest_info=displayGuestInfo(property_type,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response));
+        tv_booking_info.setText(checkinDateFrench+" - "+checkoutDateFrench+guest_info);
+    }
+    // Method to check if any plan is selected
+    private boolean isAnyPlanSelected() {
+        return selectedPlan != null;
     }
 }

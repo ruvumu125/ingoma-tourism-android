@@ -50,7 +50,7 @@
     <string name="profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="most_popular_locations">Most Popular Locations</string>
+    <string name="most_popular_locations">Endroits les plus populaires</string>
     <string name="htl_sort_by">Trier par</string>
     <string name="htl_confirm">Confirmer</string>
     <string name="htl_filters">Filters</string>
@@ -60,4 +60,16 @@
     <string name="flights">Flights</string>
     <string name="one_way">Hôtel</string>
     <string name="round_way">Maison de Passage </string>
+    <string name="medium">medium</string>
+    <string name="bold">bold</string>
+    <string name="thin">thin</string>
+    <string name="light">light</string>
+    <string name="light_underline">light_underline</string>
+    <string name="condensed_bold">condensed_bold</string>
+    <string name="condensed_light">condensed_light</string>
+    <string name="condensed_regular">condensed_regular</string>
+    <string name="font_medium_normal">font_medium_normal</string>
+    <string name="no_ride_found">No Car Found</string>
+    <string name="we_have_no_rides_available_on_this_route">We have no car available on this route</string>
+    <string name="find_bus">Find Bus</string>
 </resources>

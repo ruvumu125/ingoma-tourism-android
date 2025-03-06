@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:id="@+id/rootLyt"
+    android:tag="layout/view_h_detail_date_pax_0"
+    android:background="@drawable/white_round_rect_8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/lytRating"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000"
+        app:shimmer_intensity="0.5"
+        app:shimmer_direction="left_to_right"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:background="@drawable/shimmer_round_rect_2dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
