@@ -10,11 +10,11 @@ import java.util.List;
 import com.ingoma.tourism.R;
 import com.ingoma.tourism.model.PropertyAmenity;
 
-public class AmenitiesAdapter extends RecyclerView.Adapter<AmenitiesAdapter.AmenitiesViewHolder> {
+public class PropertyAmenitiesAdapter extends RecyclerView.Adapter<PropertyAmenitiesAdapter.AmenitiesViewHolder> {
 
     private List<PropertyAmenity> amenities;
 
-    public AmenitiesAdapter(List<PropertyAmenity> amenities) {
+    public PropertyAmenitiesAdapter(List<PropertyAmenity> amenities) {
         this.amenities = amenities;
     }
 

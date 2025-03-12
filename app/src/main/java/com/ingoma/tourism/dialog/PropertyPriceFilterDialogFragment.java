@@ -10,19 +10,32 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ingoma.tourism.R;
+import com.ingoma.tourism.api.AmenityApiService;
+import com.ingoma.tourism.api.PriceRangeApiService;
+import com.ingoma.tourism.api.Retrofit2Client;
+import com.ingoma.tourism.model.Amenity;
+import com.ingoma.tourism.model.PriceRangeResponse;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment {
@@ -30,6 +43,35 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
     private TextInputEditText minValueEditText;
     private TextInputEditText maxValueEditText;
     private RangeSlider rangeSlider;
+
+    private PriceRangeApiService priceRangeApiService;
+    private Retrofit2Client retrofit2Client;
+    private LinearLayout section_skleton,section_error,section_content;
+    private TextView btnAction;
+
+    private OnPriceRangeSelectedListener listener;
+
+    // Interface to send data to the Activity
+    public interface OnPriceRangeSelectedListener {
+        void onPriceRangeSelected(float minValue,float maxValue);
+    }
+
+    // Method to set the listener
+    public void setOnPriceRangeSelectedListener(OnPriceRangeSelectedListener listener) {
+        this.listener = listener;
+    }
+
+
+    public static PropertyPriceFilterDialogFragment newInstance(String type,String city_or_property,String property_type) {
+        PropertyPriceFilterDialogFragment fragment = new PropertyPriceFilterDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("type", type);
+        args.putString("city_or_property", city_or_property);
+        args.putString("property_type", property_type);
+
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -40,27 +82,30 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
         rangeSlider = root.findViewById(R.id.rangeSlider);
         minValueEditText = root.findViewById(R.id.minValueEditText);
         maxValueEditText = root.findViewById(R.id.maxValueEditText);
+        btnAction = root.findViewById(R.id.btnActionPrice);
 
-
-        // Set default values programmatically
-        float valueFrom = 0; // Minimum value
-        float valueTo = 1000; // Maximum value
-        float stepSize = 1; // Step size
-        float defaultMinValue = 200; // Default minimum value
-        float defaultMaxValue = 800; // Default maximum value
-
-        // Configure RangeSlider
-        rangeSlider.setValueFrom(valueFrom);
-        rangeSlider.setValueTo(valueTo);
-        rangeSlider.setStepSize(stepSize);
-        rangeSlider.setValues(defaultMinValue, defaultMaxValue); // Set default range
-
+        section_skleton= root.findViewById(R.id.sl_sect);
+        section_error=root.findViewById(R.id.err_sect);
+        section_content=root.findViewById(R.id.ct_sect);
+        retrofit2Client=new Retrofit2Client(getContext());
+        priceRangeApiService = retrofit2Client.createService(PriceRangeApiService.class);
         rangeSlider.setTrackActiveTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.primary)));
         rangeSlider.setTrackInactiveTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.app_color_icon_default)));
 
-        // Set initial values in EditTexts
-        minValueEditText.setText(String.valueOf(defaultMinValue));
-        maxValueEditText.setText(String.valueOf(defaultMaxValue));
+
+        if (getArguments() != null) {
+            String type = getArguments().getString("type");
+            String city_or_property = getArguments().getString("city_or_property", "");
+            String property_type = getArguments().getString("property_type", "");
+
+            if (type.equals("city")){
+                //adapter.clearData();
+                fetchPriceRangeByPropertyTypeAndCityName(property_type, city_or_property,rangeSlider);
+            }
+            else {
+                //adapter.clearData();
+                fetchPriceRangeByPropertyTypeAndPropertyName(property_type, city_or_property,rangeSlider);            }
+        }
 
         // Update EditTexts when RangeSlider values change
         rangeSlider.addOnChangeListener(new RangeSlider.OnChangeListener() {
@@ -138,6 +183,13 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
             }
         });
 
+        btnAction.setOnClickListener(view -> {
+            if (listener != null) {
+                listener.onPriceRangeSelected(Float.parseFloat(minValueEditText.getText().toString()),Float.parseFloat(maxValueEditText.getText().toString()));
+            }
+            dismiss(); // Close the bottom sheet
+        });
+
         return root;
     }
 
@@ -198,4 +250,92 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
             }
         }
     }
+
+    private void fetchPriceRangeByPropertyTypeAndCityName(String propertyType, String cityName,RangeSlider slider) {
+
+        section_skleton.setVisibility(View.VISIBLE);
+        section_error.setVisibility(View.GONE);
+        section_content.setVisibility(View.GONE);
+
+        priceRangeApiService.getPriceRangeByTypeAndCityName(propertyType, cityName)
+                .enqueue(new Callback<PriceRangeResponse>() {
+                    @Override
+                    public void onResponse(Call<PriceRangeResponse> call, Response<PriceRangeResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            PriceRangeResponse priceRange = response.body();
+                            double minPrice = priceRange.getMinPrice();
+                            double maxPrice = priceRange.getMaxPrice();
+
+                            // Set default values in the RangeSlider
+                            slider.setValueFrom((float) minPrice);
+                            slider.setValueTo((float) maxPrice);
+                            slider.setStepSize(1);
+                            slider.setValues((float) minPrice, (float) maxPrice);
+
+                            section_skleton.setVisibility(View.GONE);
+                            section_error.setVisibility(View.GONE);
+                            section_content.setVisibility(View.VISIBLE);
+
+                        } else {
+
+                            section_skleton.setVisibility(View.GONE);
+                            section_error.setVisibility(View.VISIBLE);
+                            section_content.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PriceRangeResponse> call, Throwable t) {
+                        Log.e("API Error", t.getMessage());
+                        section_skleton.setVisibility(View.GONE);
+                        section_error.setVisibility(View.VISIBLE);
+                        section_content.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void fetchPriceRangeByPropertyTypeAndPropertyName(String propertyType, String propertyName,RangeSlider slider) {
+
+        section_skleton.setVisibility(View.VISIBLE);
+        section_error.setVisibility(View.GONE);
+        section_content.setVisibility(View.GONE);
+
+        priceRangeApiService.getPriceRangeByTypeAndPropertyName(propertyType, propertyName)
+                .enqueue(new Callback<PriceRangeResponse>() {
+                    @Override
+                    public void onResponse(Call<PriceRangeResponse> call, Response<PriceRangeResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            PriceRangeResponse priceRange = response.body();
+                            double minPrice = priceRange.getMinPrice();
+                            double maxPrice = priceRange.getMaxPrice();
+
+                            // Set default values in the RangeSlider
+                            slider.setValueFrom((float) minPrice);
+                            slider.setValueTo((float) maxPrice);
+                            slider.setStepSize(1);
+                            slider.setValues((float) minPrice, (float) maxPrice);
+
+                            section_skleton.setVisibility(View.GONE);
+                            section_error.setVisibility(View.GONE);
+                            section_content.setVisibility(View.VISIBLE);
+
+                        } else {
+
+                            section_skleton.setVisibility(View.GONE);
+                            section_error.setVisibility(View.VISIBLE);
+                            section_content.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PriceRangeResponse> call, Throwable t) {
+
+                        section_skleton.setVisibility(View.VISIBLE);
+                        section_error.setVisibility(View.VISIBLE);
+                        section_content.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+
 }

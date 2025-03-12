@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowInsets;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ingoma.tourism.adapter.AmenityAdapter;
 import com.ingoma.tourism.adapter.PropertyListAdapter;
 import com.ingoma.tourism.api.PropertyApiService;
 import com.ingoma.tourism.api.Retrofit2Client;
@@ -26,6 +28,7 @@ import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
 import com.ingoma.tourism.dialog.PropertyFilterDialogFragment;
 import com.ingoma.tourism.dialog.PropertyPriceFilterDialogFragment;
 import com.ingoma.tourism.dialog.PropertySortDialogFragment;
+import com.ingoma.tourism.model.Amenity;
 import com.ingoma.tourism.model.PropertyList;
 import com.ingoma.tourism.model.PropertyListResponse;
 
@@ -43,9 +46,9 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
     private RecyclerView hotelRecyclerView;
     private TextView toolbar_custom_title,tv_date_guest;
     private LinearLayout Ll_date_guest_infos;
+    private ImageView imgEditArrow;
 
-    private String property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
-
+    private String type_search,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private boolean isLoading = false;
     private int currentPage = 1;
     private int totalPage = 1;
@@ -59,6 +62,8 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
     private NestedScrollView skletonPrincipale;
     private LinearLayout skletonFiltres,section_trier_filtres_prix,error_section;
+    private boolean isArrowDown = true;
+    private List<Amenity> theSelectedAmenities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         toolbar_custom_title=findViewById(R.id.toolbar_custom_title);
         tv_date_guest=findViewById(R.id.tv_date_guest);
         Ll_date_guest_infos=findViewById(R.id.Ll_date_guest_infos);
+        imgEditArrow=findViewById(R.id.imgEditArrow);
         skletonFiltres=findViewById(R.id.skletonFiltres);
         skletonPrincipale=findViewById(R.id.skletonPrincipale);
         section_trier_filtres_prix=findViewById(R.id.section_trier_filtres_prix);
@@ -94,6 +100,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         checkinDateFrench = intent.getStringExtra("checkinDateFrench");
         checkoutDateFrench = intent.getStringExtra("checkoutDateFrench");
         city_or_property = intent.getStringExtra("city_or_property");
+        type_search = intent.getStringExtra("type");
         nb_adultes = intent.getStringExtra("nb_adultes");
         nb_enfants = intent.getStringExtra("nb_enfants");
         property_type = intent.getStringExtra("property_type");
@@ -137,6 +144,10 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
         Ll_date_guest_infos.setOnClickListener(view -> {
 
+            if (isArrowDown) {
+                imgEditArrow.setImageResource(R.drawable.htl_ic_arrow_up_theme); // Change to another image
+            }
+
             EditBookingInfoDialogFragment editBookingInfoDialogFragment = new EditBookingInfoDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putString("city_or_property", city_or_property);
@@ -145,6 +156,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
             bundle.putString("nb_adultes", nb_adultes);
             bundle.putString("nb_enfants", nb_enfants);
             bundle.putString("property_type", property_type);
+            bundle.putString("provenance", "property_listing_activity");
             editBookingInfoDialogFragment.setArguments(bundle);
             editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
         });
@@ -157,13 +169,21 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
         Ll_filter.setOnClickListener(view -> {
 
-            PropertyFilterDialogFragment propertyFilterDialogFragment = new PropertyFilterDialogFragment();
+            PropertyFilterDialogFragment propertyFilterDialogFragment = PropertyFilterDialogFragment.newInstance(type_search,city_or_property,property_type);
+            propertyFilterDialogFragment.setOnAmenitiesSelectedListener(selectedAmenities -> {
+                this.theSelectedAmenities = selectedAmenities;
+                Toast.makeText(this, "Yaaaambiiiii"+String.valueOf(theSelectedAmenities.size()), Toast.LENGTH_SHORT).show();
+            });
             propertyFilterDialogFragment.show(getSupportFragmentManager(), "PropertyFilterBottomSheetDialog");
         });
 
         Ll_price.setOnClickListener(view -> {
 
-            PropertyPriceFilterDialogFragment propertyPriceFilterDialogFragment = new PropertyPriceFilterDialogFragment();
+            PropertyPriceFilterDialogFragment propertyPriceFilterDialogFragment = PropertyPriceFilterDialogFragment.newInstance(type_search,city_or_property,property_type);
+            propertyPriceFilterDialogFragment.setOnPriceRangeSelectedListener((minValue, maxValue) -> {
+                Toast.makeText(this, String.valueOf(minValue), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,String.valueOf(maxValue), Toast.LENGTH_SHORT).show();
+            });
             propertyPriceFilterDialogFragment.show(getSupportFragmentManager(), "PropertyPriceFilterBottomSheetDialog");
 
         });
@@ -363,6 +383,18 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         toolbar_custom_title.setText(city_or_property_response);
         String guest_info=displayGuestInfo(property_type,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response));
         tv_date_guest.setText(checkinDateFrench+" - "+checkoutDateFrench+", "+guest_info);
+
+        imgEditArrow.setImageResource(R.drawable.htl_ic_arrow_down_theme);
+
+        //update recyclerview
+        hotelAdapter.clearData();
+        currentPage=1;
+        fetchProperties(property_type,city_or_property,pageSize,currentPage);
+    }
+
+    @Override
+    public void onDialogFragmentDismiss() {
+        imgEditArrow.setImageResource(R.drawable.htl_ic_arrow_down_theme);
     }
 
     private void openPropertyDetailsActivity(PropertyList hotelModel) {

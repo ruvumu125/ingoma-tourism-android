@@ -8,30 +8,120 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.slider.RangeSlider;
-import com.google.android.material.textfield.TextInputEditText;
 import com.ingoma.tourism.R;
+import com.ingoma.tourism.adapter.AmenityAdapter;
+import com.ingoma.tourism.api.AmenityApiService;
+import com.ingoma.tourism.api.Retrofit2Client;
+import com.ingoma.tourism.model.Amenity;
+import com.ingoma.tourism.model.AmenityResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class PropertyFilterDialogFragment extends BottomSheetDialogFragment {
 
+public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
+
+    private AmenityApiService amenityApiService;
+    private RecyclerView recyclerView;
+    private AmenityAdapter adapter;
+    private List<Amenity> amenityList;
+    private Retrofit2Client retrofit2Client;
+    private LinearLayout section_skleton,section_error;
+    private FrameLayout section_listing;
+    private TextView btnAction;
+
+    private OnAmenitiesSelectedListener listener;
+
+    // Interface to send data to the Activity
+    public interface OnAmenitiesSelectedListener {
+        void onAmenitiesSelected(List<Amenity> selectedAmenities);
+    }
+
+    // Method to set the listener
+    public void setOnAmenitiesSelectedListener(OnAmenitiesSelectedListener listener) {
+        this.listener = listener;
+    }
+
+
+    public static PropertyFilterDialogFragment newInstance(String type,String city_or_property,String property_type) {
+        PropertyFilterDialogFragment fragment = new PropertyFilterDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("type", type);
+        args.putString("city_or_property", city_or_property);
+        args.putString("property_type", property_type);
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         View root=inflater.inflate(R.layout.fragment_property_filter_dialog, container, false);
+
+        recyclerView = root.findViewById(R.id.rvAmenities);
+        section_skleton= root.findViewById(R.id.skleton_sect);
+        section_error=root.findViewById(R.id.error_sect);
+        section_listing=root.findViewById(R.id.flayout);
+        btnAction=root.findViewById(R.id.btnAction);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        amenityList = new ArrayList<>();
+        adapter = new AmenityAdapter(getContext(), amenityList);
+        recyclerView.setAdapter(adapter);
+
+        retrofit2Client=new Retrofit2Client(getContext());
+        amenityApiService = retrofit2Client.createService(AmenityApiService.class);
+
+        if (getArguments() != null) {
+            String type = getArguments().getString("type","");
+            String city_or_property = getArguments().getString("city_or_property", "");
+            String property_type = getArguments().getString("property_type", "");
+
+            if (type.equals("city")){
+
+                fetchAmenitiesByCity(property_type, city_or_property);
+            }
+            else{
+                fetchAmenitiesByPropertyName(property_type, city_or_property);
+            }
+
+
+        }
+
+        // Show selected amenities when button is clicked
+        btnAction.setOnClickListener(v -> {
+
+
+            if (listener != null) {
+                listener.onAmenitiesSelected(adapter.getSelectedAmenities());
+            }
+            dismiss(); // Close the bottom sheet
+        });
+
         return root;
     }
 
@@ -91,5 +181,82 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment {
                 });
             }
         }
+    }
+
+    private void fetchAmenitiesByCity(String propertyType, String cityName) {
+
+        section_skleton.setVisibility(View.VISIBLE);
+        section_error.setVisibility(View.GONE);
+        section_listing.setVisibility(View.GONE);
+
+        amenityApiService.getAmenitiesByCity(propertyType, cityName).enqueue(new Callback<AmenityResponse>() {
+            @Override
+            public void onResponse(Call<AmenityResponse> call, Response<AmenityResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                    amenityList.clear();
+                    amenityList.addAll(response.body().getData());
+                    adapter.notifyDataSetChanged();
+
+                    section_skleton.setVisibility(View.GONE);
+                    section_error.setVisibility(View.GONE);
+                    section_listing.setVisibility(View.VISIBLE);
+
+
+                } else {
+                    section_skleton.setVisibility(View.GONE);
+                    section_error.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    btnAction.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AmenityResponse> call, Throwable t) {
+                Log.e("API Error", t.getMessage());
+
+                section_skleton.setVisibility(View.GONE);
+                section_error.setVisibility(View.VISIBLE);
+                section_listing.setVisibility(View.GONE);
+                btnAction.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void fetchAmenitiesByPropertyName(String propertyType, String propertyName) {
+
+        section_skleton.setVisibility(View.VISIBLE);
+        section_error.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+
+        amenityApiService.getAmenitiesByName(propertyType, propertyName).enqueue(new Callback<AmenityResponse>() {
+            @Override
+            public void onResponse(Call<AmenityResponse> call, Response<AmenityResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    amenityList.clear();
+                    amenityList.addAll(response.body().getData());
+                    adapter.notifyDataSetChanged();
+
+                    section_skleton.setVisibility(View.GONE);
+                    section_error.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+
+                } else {
+
+                    section_skleton.setVisibility(View.GONE);
+                    section_error.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AmenityResponse> call, Throwable t) {
+                Log.e("API Error", t.getMessage());
+
+                section_skleton.setVisibility(View.GONE);
+                section_error.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
     }
 }

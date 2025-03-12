@@ -61,6 +61,8 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
     private Plan selectedPlan = null;
     private Room selectedRoom = null;
     private ConstraintLayout section_price;
+    private String property_price="";
+    private String price_currency="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +130,7 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
             bundle.putString("nb_adultes", nb_adultes);
             bundle.putString("nb_enfants", nb_enfants);
             bundle.putString("property_type", property_type);
+            bundle.putString("provenance", "property_room_listing_activity");
             editBookingInfoDialogFragment.setArguments(bundle);
             editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
 
@@ -218,6 +221,10 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
                         selectedRoom = room;
                         unStrikedPrice.setText(plan.getPrice());
                         txtPerNight.setText(plan.getCurrency());
+
+                        property_price=plan.getPrice();
+                        price_currency=plan.getCurrency();
+
                         section_price.setVisibility(View.VISIBLE);
                     });
                     rvRooms.setAdapter(roomAdapter);
@@ -312,6 +319,9 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
         intent.putExtra("plan_name",selectedPlan.getPlanType());
         intent.putExtra("plan_description",selectedPlan.getPlanType());
 
+        intent.putExtra("property_price",property_price);
+        intent.putExtra("price_currency",price_currency);
+
 
 
         startActivity(intent);
@@ -332,6 +342,12 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
         String guest_info=displayGuestInfo(property_type,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response));
         tv_booking_info.setText(checkinDateFrench+" - "+checkoutDateFrench+guest_info);
     }
+
+    @Override
+    public void onDialogFragmentDismiss() {
+
+    }
+
     // Method to check if any plan is selected
     private boolean isAnyPlanSelected() {
         return selectedPlan != null;

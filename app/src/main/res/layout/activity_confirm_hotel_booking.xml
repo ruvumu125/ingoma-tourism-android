@@ -706,7 +706,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    style="@style/TextStyles.Label.Base.w3"
+                                    style="@style/TextStyles.Label.Large.w1"
                                     tools:ignore="MissingConstraints" />
                                 <TextView
                                     android:textColor="#717171"
@@ -719,7 +719,7 @@
                                     app:layout_constraintBottom_toBottomOf="@+id/unStrikedPrice"
                                     app:layout_constraintLeft_toRightOf="@+id/unStrikedPrice"
                                     app:layout_constraintTop_toTopOf="@+id/unStrikedPrice"
-                                    style="@style/TextStyles.Label.Base.w1"/>
+                                    style="@style/TextStyles.Label.Medium.w3"/>
                                 <TextView
                                     android:textColor="#717171"
                                     android:id="@+id/tvTnc"
@@ -732,7 +732,7 @@
                                     app:layout_constraintHorizontal_bias="0"
                                     app:layout_constraintStart_toStartOf="@+id/unStrikedPrice"
                                     app:layout_constraintTop_toBottomOf="@+id/unStrikedPrice"
-                                    style="@style/TextStyles.Label.Small.w1"/>
+                                    style="@style/TextStyles.Label.Base.w1"/>
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <androidx.constraintlayout.widget.ConstraintLayout

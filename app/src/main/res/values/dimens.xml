@@ -69,4 +69,18 @@
     <dimen name="drawable_padding">8dp</dimen>
     <dimen name="new_recent_searches_layout_height">22dp</dimen>
     <dimen name="tool_bar_height">71dp</dimen>
+    <dimen name="edit_text_label_start_margin">16dp</dimen>
+    <dimen name="text_view_edit_text_group_middle_gape">16dp</dimen>
+    <dimen name="edit_text_border_radius">5dp</dimen>
+    <dimen name="edit_text_label_bottom_margin">8dp</dimen>
+    <dimen name="edit_text_start_end_margin">16dp</dimen>
+    <dimen name="primary_button_start_end_margin">16dp</dimen>
+    <dimen name="outline_edit_text_border_radius">5dp</dimen>
+    <dimen name="dp_36">36dp</dimen>
+    <dimen name="sp_16">16dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="dp_20">20dp</dimen>
 </resources>

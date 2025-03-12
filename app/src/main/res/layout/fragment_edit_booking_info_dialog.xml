@@ -89,6 +89,7 @@
                     android:padding="@dimen/padding_16"
                     android:focusable="true"
                     android:clickable="true"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <androidx.appcompat.widget.AppCompatTextView

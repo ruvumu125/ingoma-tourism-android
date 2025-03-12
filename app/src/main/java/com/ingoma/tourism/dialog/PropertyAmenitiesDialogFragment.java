@@ -16,7 +16,7 @@ import android.view.Window;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.ingoma.tourism.R;
-import com.ingoma.tourism.adapter.AmenitiesAdapter;
+import com.ingoma.tourism.adapter.PropertyAmenitiesAdapter;
 import com.ingoma.tourism.model.PropertyAmenity;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class PropertyAmenitiesDialogFragment extends BottomSheetDialogFragment {
         View root=inflater.inflate(R.layout.fragment_property_amenities_dialog, container, false);
 
         RecyclerView recyclerView = root.findViewById(R.id.popular_amenity_rv);
-        AmenitiesAdapter adapter = new AmenitiesAdapter(amenitiesList);
+        PropertyAmenitiesAdapter adapter = new PropertyAmenitiesAdapter(amenitiesList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 

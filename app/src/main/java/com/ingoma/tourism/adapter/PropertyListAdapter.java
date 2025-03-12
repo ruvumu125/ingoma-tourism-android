@@ -64,11 +64,25 @@ public class PropertyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             HotelViewHolder hotelViewHolder = (HotelViewHolder) holder;
 
             hotelViewHolder.hotelName.setText(hotel.getName());
-            hotelViewHolder.hotelType.setText(hotel.getHotelType());
+            if (hotel.getPropertyType().equals("hotel")){
+                hotelViewHolder.hotelType.setText(hotel.getHotelType());
+            }
+            else{
+                hotelViewHolder.hotelType.setText("Maison de passage");
+            }
             hotelViewHolder.hotelAddress.setText(hotel.getAddress());
             hotelViewHolder.hotelPrice.setText(String.valueOf(hotel.getMinPrice()));
-            hotelViewHolder.hotelCurrency.setText(hotel.getCurrency());
+            if (hotel.getCurrency().equals("bif")){
+                hotelViewHolder.hotelCurrency.setText("BIF");
+            }
+            else {
+                hotelViewHolder.hotelCurrency.setText("$");
+            }
+
             hotelViewHolder.hotelRating.setText(hotel.getCurrency());
+            hotelViewHolder.main_card.setOnClickListener(view -> {
+                onItemClickListener.onItemClick(hotel);
+            });
 
             if (!hotel.getImages().isEmpty()) {
 
@@ -136,6 +150,12 @@ public class PropertyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             progressBar = itemView.findViewById(R.id.progressBar);
         }
+    }
+
+    // Function to clear data
+    public void clearData() {
+        hotelList.clear();
+        notifyDataSetChanged();
     }
 }
 

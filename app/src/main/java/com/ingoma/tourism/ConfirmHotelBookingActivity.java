@@ -1,5 +1,6 @@
 package com.ingoma.tourism;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -29,12 +30,15 @@ import java.util.concurrent.TimeUnit;
 
 public class ConfirmHotelBookingActivity extends AppCompatActivity {
 
-    private String plan_name,plan_description,room_name,room_size,room_bed_type,room_main_image,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String property_price,price_currency,plan_name,plan_description,room_name,room_size,room_bed_type,room_main_image,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private LinearLayout continue_btn;
     private TextView tv_booking_info,txtStartDate,txtEndDate,txtNight;
     private TextView tv_property_type,tvPropertyName,tvPropertyAddress,tvRooName,tvPlanName,tvPlanDescription;
     private AppCompatImageView propertyImageView,roomImageView;
+    private TextView unStrikedPrice,txtPerNight;
 
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,17 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
         txtEndDate = findViewById(R.id.txtEndDate);
         txtNight = findViewById(R.id.txtNight);
         continue_btn = findViewById(R.id.lyt_cta);
+
+        tv_property_type = findViewById(R.id.tv_property_type);
+        tvPropertyName = findViewById(R.id.tvPropertyName);
+        tvPropertyAddress = findViewById(R.id.tvPropertyAddress);
+        tvRooName = findViewById(R.id.tvRooName);
+        tvPlanName= findViewById(R.id.tvPlanName);
+        tvPlanDescription= findViewById(R.id.tvPlanDescription);
+        propertyImageView = findViewById(R.id.propertyImageView);
+        roomImageView = findViewById(R.id.roomImageView);
+        unStrikedPrice = findViewById(R.id.unStrikedPrice);
+        txtPerNight = findViewById(R.id.txtPerNight);
 
 
         // Get default dates from hotel list activity
@@ -80,6 +95,9 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             plan_name= intent.getStringExtra("plan_name");
             plan_description= intent.getStringExtra("plan_description");
 
+            property_price= intent.getStringExtra("property_price");
+            price_currency= intent.getStringExtra("price_currency");
+
 
             String guest_info=displayGuestInfo(property_type,nb_adultes,nb_enfants);
             tv_booking_info.setText(checkinDateFrench+" - "+checkoutDateFrench+guest_info);
@@ -103,12 +121,19 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             tvPlanName.setText(plan_name);
             tvPlanDescription.setText(plan_description);
 
+            //calculate total amount
+            long nbOfNight=getDaysBetween(checkinDate,checkoutDate);
+            Double price=Double.parseDouble(property_price);
+            Double total=price*nbOfNight;
+            unStrikedPrice.setText(String.valueOf(total));
+            txtPerNight.setText(price_currency);
+
             //images
             String baseUrlProperty = Constant.BASE_URL + "api/v1/property-image/";
             String fullImageUrlProperty = baseUrlProperty+ property_first_image;
 
             String baseUrlRoom = Constant.BASE_URL + "api/v1/room-image/";
-            String fullImageUrlRoom = baseUrlRoom+ room_name;
+            String fullImageUrlRoom = baseUrlRoom+ room_main_image;
 
             Glide.with(this)
                     .load(fullImageUrlProperty)

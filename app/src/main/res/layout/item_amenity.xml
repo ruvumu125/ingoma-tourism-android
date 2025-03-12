@@ -1,0 +1,26 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/bg_rounded_white"
+    android:gravity="center_vertical">
+
+    <CheckBox
+        android:id="@+id/checkBoxAmenity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/primary" />
+
+    <TextView
+        android:id="@+id/tvAmenityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amenity Name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingStart="8dp"
+        android:textColor="@android:color/black"/>
+</LinearLayout>

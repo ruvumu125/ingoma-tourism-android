@@ -19,7 +19,7 @@ public class LocationSearchAdapter extends RecyclerView.Adapter<LocationSearchAd
     private OnCityClickListener listener;
 
     public interface OnCityClickListener {
-        void onCityClick(LocationSearch city);
+        void onCityClick(LocationSearch locationSearch);
     }
 
     public void setSearchResults(List<LocationSearch> results, OnCityClickListener listener) {

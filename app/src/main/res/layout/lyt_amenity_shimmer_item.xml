@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/bg_rounded_white"
+    android:gravity="center_vertical">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1000"
+        app:shimmer_intensity="0.5"
+        app:shimmer_direction="left_to_right">
+
+        <TextView
+            android:id="@+id/tvAmenityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingStart="8dp"
+            android:background="@drawable/shimmer_round_rect_2dp"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</LinearLayout>

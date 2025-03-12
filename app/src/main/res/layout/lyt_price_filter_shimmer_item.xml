@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:padding="10dp"
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1000"
+            app:shimmer_intensity="0.5"
+            app:shimmer_direction="left_to_right">
+
+            <TextView
+                android:id="@+id/rangeSlider"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                app:labelBehavior="withinBounds"
+                android:background="@drawable/shimmer_round_rect_2dp"
+                app:tickVisible="false" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+        <!-- Min Value EditText, Horizontal Line, Max Value EditText -->
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                android:layout_weight="1"
+                app:shimmer_direction="left_to_right">
+
+                <!-- Min Value EditText -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/shimmer_round_rect_2dp">
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="24dp"
+                android:layout_height="7dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:shimmer_direction="left_to_right">
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="7dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shimmer_round_rect_2dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+            <!-- Max Value EditText -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:shimmer_auto_start="true"
+                app:shimmer_duration="1000"
+                app:shimmer_intensity="0.5"
+                android:layout_weight="1"
+                app:shimmer_direction="left_to_right">
+
+                <!-- Min Value EditText -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/shimmer_round_rect_2dp">
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

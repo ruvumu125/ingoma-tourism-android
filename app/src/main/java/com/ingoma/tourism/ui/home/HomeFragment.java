@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
     private AppCompatTextView tv_from_city,checkinDate,checkoutDate,tv_no_of_guest;
     private MaterialTextView checkinDay,checkoutDay;
     private String from_city="";
+    private String type="";
     private String property_type="hotel";
 
     private String checkinStr,checkoutStr;
@@ -184,8 +185,10 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
             if (data != null) {
 
                 String cityName = data.getStringExtra("selected_city");
+                String  type_search = data.getStringExtra("type");
                 tv_from_city.setText(cityName);
                 from_city=cityName;
+                type=type_search;
 
             }
         }
@@ -204,6 +207,7 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
         intent.putExtra("checkinDateFrench", checkinDate.getText().toString());
         intent.putExtra("checkoutDateFrench", checkoutDate.getText().toString());
         intent.putExtra("city_or_property", from_city);
+        intent.putExtra("type", type);
         intent.putExtra("nb_adultes", String.valueOf(nbAdultes));
         intent.putExtra("nb_enfants",String.valueOf(nbChildren));
         intent.putExtra("property_type",property_type);

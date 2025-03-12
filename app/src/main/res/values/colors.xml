@@ -111,4 +111,24 @@
     <color name="profile_divider">#e5e5e5</color>
     <color name="flight_review_black">#de000000</color>
     <color name="baggage_blue">#2e69b3</color>
+    <color name="colorDarkBg">#0a2c5f</color>
+    <color name="myBookingsFilterBG">#042353</color>
+    <color name="colorLightGray">#c8c7c7</color>
+    <color name="colorSubTitleText">#05293c</color>
+    <color name="bookingDetailTextBlueGradient">#3f4a5a</color>
+    <color name="colorStroke">#bcc9dc</color>
+    <color name="white_alpha_50">#77ffffff</color>
+    <color name="bookingBgImgShadow">#59011627</color>
+    <color name="bookingDetailTopDividerColor">#f2f2f2</color>
+    <color name="colorTextGreen">#29a992</color>
+    <color name="midGreen">#62d087</color>
+    <color name="colorTextPrimaryHint">#33011627</color>
+    <color name="colorDividerLogin">#e7e9f3</color>
+    <color name="colorLoginOr">#9fa4bc</color>
+    <color name="colorDropDownStroke">#e1e8ee</color>
+    <color name="toolbar_shadow_color">#000000</color>
+    <color name="colorTextNotificationTime">#7a869a</color>
+    <color name="colorDividerLight">#f2f2f2</color>
+    <color name="colorRed2">#dc3545</color>
 </resources>
+

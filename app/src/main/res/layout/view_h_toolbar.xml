@@ -76,6 +76,14 @@
                 android:text="Edit"
                 android:paddingHorizontal="4dp"
                 style="@style/TextStyles.Label.Small.w1"/>
+            <ImageView
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/imgEditArrow"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="3dp"
+                app:srcCompat="@drawable/htl_ic_arrow_down_theme"/>
         </LinearLayout>
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/right_barrier"

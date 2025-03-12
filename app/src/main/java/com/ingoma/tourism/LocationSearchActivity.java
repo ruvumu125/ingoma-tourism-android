@@ -133,9 +133,10 @@ public class LocationSearchActivity extends AppCompatActivity {
             public void onResponse(Call<List<LocationSearch>> call, Response<List<LocationSearch>> response) {
                 if (response.isSuccessful() && response.body() != null) {
 
-                    locationSearchAdapter.setSearchResults(response.body(),city -> {
+                    locationSearchAdapter.setSearchResults(response.body(),locationSearch -> {
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra("selected_city", city.getName());
+                        resultIntent.putExtra("selected_city", locationSearch.getName());
+                        resultIntent.putExtra("type", locationSearch.getType());
                         setResult(RESULT_OK, resultIntent);
                         finish(); // Close CityListActivity and return result
                     });

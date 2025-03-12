@@ -13,19 +13,15 @@
         android:id="@+id/navigation_dashboard"
         android:title="@string/bookings"
         app:showAsAction="ifRoom"/>
-    <item
-        android:icon="@drawable/dynamic_offer_icon"
-        android:id="@+id/navigation_notifications"
-        android:title="@string/offers"
-        app:showAsAction="ifRoom"/>
+
     <item
         android:icon="@drawable/dynamic_inbox_icon"
-        android:id="@+id/inboxFragment"
+        android:id="@+id/navigation_notifications"
         android:title="@string/inbox"
         app:showAsAction="ifRoom"/>
     <item
         android:icon="@drawable/dynamic_profile_icon"
-        android:id="@+id/profileFragment"
+        android:id="@+id/navigation_account"
         android:title="@string/profile"
         app:showAsAction="ifRoom"/>
 </menu>

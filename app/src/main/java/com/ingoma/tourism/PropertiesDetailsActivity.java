@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
-import com.ingoma.tourism.adapter.AmenitiesAdapter;
+import com.ingoma.tourism.adapter.PropertyAmenitiesAdapter;
 import com.ingoma.tourism.adapter.LandmarksAdapter;
 import com.ingoma.tourism.adapter.RulesAdapter;
 import com.ingoma.tourism.adapter.SimilarPropertiesAdapter;
@@ -241,6 +241,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
             bundle.putString("nb_adultes", nb_adultes);
             bundle.putString("nb_enfants", nb_enfants);
             bundle.putString("property_type", property_type);
+            bundle.putString("provenance", "property_details_activity");
             editBookingInfoDialogFragment.setArguments(bundle);
             editBookingInfoDialogFragment.show(getSupportFragmentManager(), "EditBookingInfoBottomSheetDialog");
         });
@@ -320,7 +321,13 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
                     PropertyDetails property = response.body().getData();
 
                     tvHotelName.setText(property.getName());
-                    tvHotelType.setText(property.getPropertyType());
+                    if (property.getPropertyType().equals("hotel")){
+                        tvHotelType.setText(property.getPropertyType());
+                    }
+                    else{
+                        tvHotelType.setText("Maison de passage");
+                    }
+
                     tvAddress.setText(property.getAddress());
                     tvDescription.setText(property.getDescription());
 
@@ -331,7 +338,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
                     // amenities
                     List<PropertyAmenity> displayedAmenities = property.getAmenities().size() > 5 ? property.getAmenities().subList(0, 5) : property.getAmenities();
-                    rvAmenities.setAdapter(new AmenitiesAdapter(displayedAmenities));
+                    rvAmenities.setAdapter(new PropertyAmenitiesAdapter(displayedAmenities));
                     if (property.getAmenities().size()>5){
                         view_all_amenities.setVisibility(View.VISIBLE);
                     }
@@ -420,6 +427,11 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
     public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
 
         displayBookingInfo(checkinDateFrenchFormat_response,checkoutDateFrenchFormat_response,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response),tvBookingInfoDate,tvBookingInfoGuest);
+    }
+
+    @Override
+    public void onDialogFragmentDismiss() {
+
     }
 
     private void showAllPropertyAmenities(List<PropertyAmenity> amenities) {

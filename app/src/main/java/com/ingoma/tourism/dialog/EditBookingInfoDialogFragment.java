@@ -3,6 +3,7 @@ package com.ingoma.tourism.dialog;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
@@ -42,7 +44,7 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
     private LinearLayoutCompat layout_check_in_date,layout_check_out_date,layout_guest,layout_destination;
     private AppCompatTextView tv_from_city,checkinDate,checkoutDate,tv_no_of_guest;
     private MaterialTextView checkinDay,checkoutDay;
-    private String property_type,city_or_property_edit,checkinDateEdit,checkoutDateEdit,nb_adultes_edit,nb_enfants_edit;
+    private String provenance,property_type,city_or_property_edit,checkinDateEdit,checkoutDateEdit,nb_adultes_edit,nb_enfants_edit;
     private MaterialButton btnDone;
     private LinearLayoutCompat Llc_guest;
 
@@ -50,6 +52,7 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
 
     public interface CallBackListener {
         void onModifyButtonClicked(String city_or_property_response,String checkinDate_response,String checkoutDate_response,String checkinDateFrenchFormat_response,String checkoutDateFrenchFormat_response,int adultesNumber_response, int childrenNumber_response);
+        void onDialogFragmentDismiss();
     }
 
     @Override
@@ -94,12 +97,20 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
             nb_adultes_edit= arguments.getString("nb_adultes");
             nb_enfants_edit= arguments.getString("nb_enfants");
             property_type = arguments.getString("property_type");
+            provenance = arguments.getString("provenance");
 
             if (property_type.equals("hotel")){
                 Llc_guest.setVisibility(View.VISIBLE);
             }
             else {
                 Llc_guest.setVisibility(View.GONE);
+            }
+
+            if (provenance.equals("property_listing_activity")){
+                layout_destination.setVisibility(View.VISIBLE);
+            }
+            else{
+                layout_destination.setVisibility(View.GONE);
             }
 
             displayDefaultDates(checkinDateEdit,checkoutDateEdit);
@@ -201,6 +212,17 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
         }
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        //Toast.makeText(getContext(), "Bottom sheet dismissed", Toast.LENGTH_SHORT).show();
+        //Log.d("BottomSheet", "Bottom sheet dismissed");
+        if (callBackListener != null) {
+            callBackListener.onDialogFragmentDismiss();
+        }
+    }
+
+
     private void displayDefaultDates(String startDate,String endDate){
 
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.FRENCH);
@@ -270,6 +292,7 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
 
     public void openLocationSearchActivity() {
         Intent intent = new Intent(getContext(), LocationSearchActivity.class);
+        intent.putExtra("property_type", property_type);
         selectLocationActivityResultLauncher.launch(intent);
     }
 

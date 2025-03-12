@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:tag="layout/view_h_detail_house_rules_list_0"
+    android:background="@drawable/white_round_rect_8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textColor="#222222"
+            android:id="@+id/tvBookingDetailsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:maxLines="3"
+            android:text="@string/payment_info"
+            style="@style/MainEditTextStyle"/>
+
+        <View
+            android:layout_below="@+id/tvBookingDetailsTitle"
+            android:id="@+id/separatorBookingDetais"
+            android:background="#eff3f8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:padding="13dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/separatorBookingDetais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="1">
+
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/total_amount"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/H3AvenirMedium"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/convenience_fee"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:layout_marginStart="5dp"
+                                android:text="90000"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/H3AvenirMedium"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/addons_txt"
+                                style="@style/H3Avenir"
+                                />
+
+                            <TextView
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/H3AvenirMedium"
+                                />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/you_paid"
+                                style="@style/h5AvenirBold"/>
+
+                            <TextView
+                                android:layout_marginStart="5dp"
+                                android:text="900000"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/h5AvenirBold"/>
+                        </TableRow>
+                    </TableLayout>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

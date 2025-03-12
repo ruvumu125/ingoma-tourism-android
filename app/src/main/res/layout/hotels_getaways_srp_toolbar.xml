@@ -92,7 +92,7 @@
                         android:layout_width="20dp"
                         android:layout_height="15dp"
                         android:layout_marginLeft="3dp"
-                        app:srcCompat="@drawable/htl_ic_arrow_up_theme"/>
+                        app:srcCompat="@drawable/htl_ic_arrow_down_theme"/>
 
                 </LinearLayout>
 
@@ -102,7 +102,7 @@
         <!-- Search icon (hidden) -->
         <ImageView
             android:id="@+id/imgSearch"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"

@@ -298,12 +298,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:maxLines="1"
-
                                 android:letterSpacing="-0.027"
                                 style="@style/H2BoldTextAppearance" />
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:textSize="10sp"
                                 android:textColor="@color/colorPrimary"
                                 android:ellipsize="end"
                                 android:gravity="end"
@@ -314,8 +312,7 @@
                                 android:maxLines="1"
                                 android:fontFamily="@font/gilroy_bold"
                                 android:layout_marginStart="4dp"
-                                app:fontFamily="@font/avenir_semi_bold"
-                                style="@style/H5TextAppearance" />
+                                style="@style/TextStyles.Label.Small.w1" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
                         <androidx.appcompat.widget.AppCompatTextView
