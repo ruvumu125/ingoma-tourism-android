@@ -90,6 +90,7 @@
             android:layout_height="300dp">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:paddingBottom="10dp"
                 android:id="@+id/rvAmenities"
                 android:background="@color/white"
                 android:layout_width="match_parent"

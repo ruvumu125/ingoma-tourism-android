@@ -113,7 +113,7 @@
                             android:id="@+id/lytShimmerGetawaysSrp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            layout="@layout/lyt_room_shimmer_item"/>
+                            layout="@layout/lyt_room_hotel_shimmer_item"/>
 
                     </LinearLayout>
 
@@ -127,8 +127,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <include layout="@layout/lyt_room_shimmer_item" />
-                    <include layout="@layout/lyt_room_shimmer_item" />
+                    <include layout="@layout/lyt_room_hotel_shimmer_item" />
+                    <include layout="@layout/lyt_room_hotel_shimmer_item" />
                 </LinearLayout>
 
                 <LinearLayout

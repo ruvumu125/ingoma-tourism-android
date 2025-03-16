@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Room Name -->
+        <!-- RoomHotel Name -->
         <com.facebook.shimmer.ShimmerFrameLayout
             app:shimmer_auto_start="true"
             app:shimmer_duration="1000"
@@ -38,14 +38,14 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-        <!-- Room PropertyImage and Details Layout -->
+        <!-- RoomHotel PropertyImage and Details Layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- Room PropertyImage -->
+            <!-- RoomHotel PropertyImage -->
             <androidx.cardview.widget.CardView
                 android:layout_width="@dimen/htl_property_card_image_width1"
                 android:layout_height="@dimen/htl_property_card_image_width1"
@@ -82,7 +82,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Room Details (Guest Count, Bed Type, Room Surface) -->
+            <!-- RoomHotel Details (Guest Count, Bed Type, RoomHotel Surface) -->
             <LinearLayout
                 android:translationY="-1dp"
                 android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
-                <!-- Room Surface -->
+                <!-- RoomHotel Surface -->
                 <com.facebook.shimmer.ShimmerFrameLayout
                     app:shimmer_auto_start="true"
                     app:shimmer_duration="1000"
@@ -153,7 +153,7 @@
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
-                <!-- Room Details -->
+                <!-- RoomHotel Details -->
                 <com.facebook.shimmer.ShimmerFrameLayout
                     app:shimmer_auto_start="true"
                     app:shimmer_duration="1000"

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools2="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:background="@drawable/white_round_rect_8dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- RoomHotel Name -->
+        <TextView
+            android:textColor="#222222"
+            android:id="@+id/tv_room_name_guesthouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deluxe Suite"
+            android:paddingBottom="8dp"
+            style="@style/TextStyles.Label.Medium.w3"/>
+
+        <!-- RoomHotel PropertyImage and Details Layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- RoomHotel PropertyImage -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/htl_property_card_image_width1"
+                android:layout_height="@dimen/htl_property_card_image_width1"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="@dimen/radius_small"
+                app:cardBackgroundColor="@android:color/white">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageView_guesthouse"
+                        android:layout_width="@dimen/htl_property_card_image_height"
+                        android:layout_height="@dimen/htl_property_card_image_height"
+                        android:layout_marginBottom="20dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bbbb"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:id="@+id/containerImageCount"
+                        android:paddingTop="@dimen/margin_tiny"
+                        android:paddingBottom="@dimen/margin_tiny"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_border"
+                        android:layout_marginBottom="@dimen/margin_large"
+                        android:paddingStart="@dimen/margin_extra_small"
+                        android:paddingEnd="@dimen/margin_extra_small"
+                        android:layout_marginEnd="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView_guesthouse"
+                        app:layout_constraintEnd_toEndOf="@+id/imageView_guesthouse">
+                        <TextView
+                            android:id="@+id/picture_numbers_guesthouse"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9"
+                            android:drawablePadding="@dimen/margin_tiny"
+                            android:drawableStart="@drawable/ic_gallery_icon"
+                            style="@style/TextStyles.Label.Small.w3"/>
+                        <TextView
+                            android:visibility="gone"
+                            android:textColor="@color/white"
+                            android:id="@+id/tvImageCount_guesthouse"
+                            android:text="7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_extra_xtiny"
+                            style="@style/TextStyles.Label.Small.w1"/>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- RoomHotel Details (Guest Count, Bed Type, RoomHotel Surface) -->
+            <LinearLayout
+                android:translationY="-1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- Number of Guests -->
+                <LinearLayout
+                    android:id="@+id/ll_guest_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/account_circle_24px"/>
+
+                    <TextView
+                        android:id="@+id/tv_guest_count_guesthouse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="2 Guests"
+                        android:textColor="@color/colorTextLight"
+                        android:paddingStart="8dp"
+                        android:gravity="center"
+                        style="@style/TextStyles.Label.Small.w2"
+                        />
+                </LinearLayout>
+
+                <!-- Bed Type -->
+                <LinearLayout
+                    android:id="@+id/ll_bed_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_hotel_bed"/>
+
+                    <TextView
+                        android:textColor="@color/colorTextLight"
+                        android:id="@+id/tv_bed_type_guesthouse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="King Bed"
+                        style="@style/TextStyles.Label.Small.w2"
+                        android:paddingStart="8dp"/>
+                </LinearLayout>
+
+                <!-- RoomHotel Surface -->
+                <LinearLayout
+                    android:id="@+id/ll_room_surface"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/square_foot_24px"/>
+
+                    <TextView
+                        android:id="@+id/tv_room_surface_guesthouse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30m²"
+                        android:textColor="@color/colorTextLight"
+                        android:layout_marginTop="5dp"
+                        style="@style/TextStyles.Label.Small.w2"
+                        android:paddingStart="8dp"/>
+                </LinearLayout>
+
+                <!-- RoomHotel Details -->
+                <LinearLayout
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:textColor="@color/primary"
+                        android:id="@+id/tv_room_details_guesthouse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Room details"
+                        style="@style/TextStyles.Label.Small.w2"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

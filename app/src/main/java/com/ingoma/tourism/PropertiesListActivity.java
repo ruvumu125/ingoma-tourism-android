@@ -1,7 +1,9 @@
 package com.ingoma.tourism;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import com.ingoma.tourism.dialog.PropertySortDialogFragment;
 import com.ingoma.tourism.model.Amenity;
 import com.ingoma.tourism.model.PropertyList;
 import com.ingoma.tourism.model.PropertyListResponse;
+import com.ingoma.tourism.model.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PropertiesListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener {
+public class PropertiesListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener,PropertyFilterDialogFragment.OnAmenitiesSelectedListener,PropertySortDialogFragment.OnSortSelectedListener {
 
     private LinearLayout Ll_sort,Ll_filter,Ll_price;
 
@@ -63,7 +66,18 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
     private NestedScrollView skletonPrincipale;
     private LinearLayout skletonFiltres,section_trier_filtres_prix,error_section;
     private boolean isArrowDown = true;
-    private List<Amenity> theSelectedAmenities = new ArrayList<>();
+    //private List<Amenity> theSelectedAmenities = new ArrayList<>();
+    private List<Amenity> selectedAmenities = new ArrayList<>();
+    private Sort selectedSort; // Store last selected sort
+
+
+    private Float selectedMinimumPriceFilter=null;
+    private Float selectedMaximumPriceFilter=null;
+    private List<Integer> selectedAmenitiesFilter=new ArrayList<>();
+    private String selectedSortFilter="";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +135,8 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         });
         hotelRecyclerView.setAdapter(hotelAdapter);
 
-        fetchProperties(property_type,city_or_property,pageSize,currentPage);
+        fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
+
         hotelRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -163,30 +178,57 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
 
         Ll_sort.setOnClickListener(view -> {
-            PropertySortDialogFragment propertySortDialogFragment = new PropertySortDialogFragment();
+            PropertySortDialogFragment propertySortDialogFragment = PropertySortDialogFragment.newInstance(selectedSort);
             propertySortDialogFragment.show(getSupportFragmentManager(), "PropertySortBottomSheetDialog");
         });
 
         Ll_filter.setOnClickListener(view -> {
 
-            PropertyFilterDialogFragment propertyFilterDialogFragment = PropertyFilterDialogFragment.newInstance(type_search,city_or_property,property_type);
-            propertyFilterDialogFragment.setOnAmenitiesSelectedListener(selectedAmenities -> {
-                this.theSelectedAmenities = selectedAmenities;
-                Toast.makeText(this, "Yaaaambiiiii"+String.valueOf(theSelectedAmenities.size()), Toast.LENGTH_SHORT).show();
-            });
+            PropertyFilterDialogFragment propertyFilterDialogFragment = PropertyFilterDialogFragment.newInstance(type_search,city_or_property,property_type,new ArrayList<>(selectedAmenities));
             propertyFilterDialogFragment.show(getSupportFragmentManager(), "PropertyFilterBottomSheetDialog");
         });
 
         Ll_price.setOnClickListener(view -> {
 
-            PropertyPriceFilterDialogFragment propertyPriceFilterDialogFragment = PropertyPriceFilterDialogFragment.newInstance(type_search,city_or_property,property_type);
+            Float minimumPrice;
+            Float maxmumPrice;
+
+            if (selectedMinimumPriceFilter == null){
+                minimumPrice=0.0f;
+            }
+            else {
+                minimumPrice=selectedMinimumPriceFilter;
+            }
+
+            if (selectedMaximumPriceFilter == null){
+                maxmumPrice=0.0f;
+            }
+            else {
+                maxmumPrice=selectedMaximumPriceFilter;
+            }
+
+            PropertyPriceFilterDialogFragment propertyPriceFilterDialogFragment = PropertyPriceFilterDialogFragment.newInstance(type_search,city_or_property,property_type,minimumPrice,maxmumPrice);
             propertyPriceFilterDialogFragment.setOnPriceRangeSelectedListener((minValue, maxValue) -> {
                 Toast.makeText(this, String.valueOf(minValue), Toast.LENGTH_SHORT).show();
                 Toast.makeText(this,String.valueOf(maxValue), Toast.LENGTH_SHORT).show();
+
+                selectedMinimumPriceFilter=minValue;
+                selectedMaximumPriceFilter=maxValue;
+
+                hotelAdapter.clearData();
+                fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
             });
             propertyPriceFilterDialogFragment.show(getSupportFragmentManager(), "PropertyPriceFilterBottomSheetDialog");
 
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "destroy", Toast.LENGTH_SHORT).show();
+        //SharedPreferences sharedPreferences = getSharedPreferences("AmenityPrefs", Context.MODE_PRIVATE);
+        //sharedPreferences.edit().clear().apply();
     }
 
     private String displayGuestInfo(String property_type,String nb_adultes,String nb_enfants){
@@ -285,14 +327,14 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
     }
 
     // Get properties data
-    private void fetchProperties(String propertyType, String search,int perPage,int page) {
+    private void fetchProperties(String propertyType, String search,String sortBy,Float minPrice, Float maxPrice, List<Integer> amenities,int perPage,int page) {
         isLoading = true;
         skletonFiltres.setVisibility(View.VISIBLE);
         skletonPrincipale.setVisibility(View.VISIBLE);
         section_trier_filtres_prix.setVisibility(View.GONE);
         error_section.setVisibility(View.GONE);
 
-        propertyApiService.getProperties(propertyType,search,perPage,page).enqueue(new Callback<PropertyListResponse>() {
+        propertyApiService.listing(propertyType,search,sortBy,minPrice,maxPrice,amenities,perPage,page).enqueue(new Callback<PropertyListResponse>() {
             @Override
             public void onResponse(Call<PropertyListResponse> call, Response<PropertyListResponse> response) {
                 isLoading = false;
@@ -341,7 +383,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         hotelAdapter.showLoading();
         new Handler().postDelayed(() -> {
             currentPage++;
-            propertyApiService.getProperties(property_type,city_or_property,2,currentPage).enqueue(new Callback<PropertyListResponse>() {
+            propertyApiService.listing(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage).enqueue(new Callback<PropertyListResponse>() {
                 @Override
                 public void onResponse(Call<PropertyListResponse> call, Response<PropertyListResponse> response) {
                     hotelAdapter.hideLoading();
@@ -389,7 +431,9 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         //update recyclerview
         hotelAdapter.clearData();
         currentPage=1;
-        fetchProperties(property_type,city_or_property,pageSize,currentPage);
+        fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
+
+
     }
 
     @Override
@@ -416,5 +460,32 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         intent.putExtra("property_first_image", hotelModel.getImages().get(0));
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onAmenitiesSelected(List<Amenity> selectedAmenities) {
+
+        this.selectedAmenities = selectedAmenities;
+        for (Amenity amenity : selectedAmenities) {
+            selectedAmenitiesFilter.add(Integer.valueOf(amenity.getId()));
+        }
+        hotelAdapter.clearData();
+        fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
+        Toast.makeText(this, "Yaaaambiiiii"+String.valueOf(selectedAmenities.size()), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSortSelected(Sort sort) {
+        selectedSort = sort;
+        if (sort.getName().equals("Prix le plus bas")){
+            selectedSortFilter="price_low_to_high";
+        }
+        else {
+            selectedSortFilter="price_high_to_low";
+        }
+        hotelAdapter.clearData();
+        fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
+
+
     }
 }

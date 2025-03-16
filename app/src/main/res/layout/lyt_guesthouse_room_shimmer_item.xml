@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#f4f4f4"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/section_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:ignore="MissingConstraints">
+
+        <!--debut tarification-->
+        <LinearLayout
+            android:padding="15dp"
+            android:id="@+id/lytTarification"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/htab_appbar_room"
+            app:layout_constraintBottom_toTopOf="@id/lytShimmerScrollV">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/white_round_rect_8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/tvBookingDetailsTitle"
+                        app:shimmer_auto_start="true"
+                        app:shimmer_duration="1000"
+                        app:shimmer_intensity="0.5"
+                        app:shimmer_direction="left_to_right"
+                        android:padding="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="3"
+                            android:background="@drawable/shimmer_round_rect_2dp"
+                            android:text=""
+                            style="@style/MainEditTextStyle"/>
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+                    <View
+                        android:layout_below="@+id/tvBookingDetailsTitle"
+                        android:id="@+id/separatorBookingDetais"
+                        android:background="#eff3f8"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <LinearLayout
+                        android:padding="13dp"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/separatorBookingDetais"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <include layout="@layout/lyt_room_guesthouse_shimmer_item"/>
+                                <include layout="@layout/lyt_room_guesthouse_shimmer_item"/>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+        <!--fin tarification-->
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/lytShimmerScrollV"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/lytTarification"
+            app:layout_constraintBottom_toTopOf="@id/filter_lyt">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/lyt_room_guesthouse_list_shimmer_item"/>
+                <include layout="@layout/lyt_room_guesthouse_list_shimmer_item"/>
+
+            </LinearLayout>
+
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

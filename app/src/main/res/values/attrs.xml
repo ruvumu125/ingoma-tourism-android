@@ -36,6 +36,14 @@
     <attr name="tabtextColor" format="color"></attr>
     <attr name="tabtextSelectedColor" format="color"></attr>
     <attr name="toolBarShadow" format="color"></attr>
+    <attr name="civ_border_color" format="color">
+    </attr>
+    <attr name="civ_border_overlay" format="boolean">
+    </attr>
+    <attr name="civ_border_width" format="dimension">
+    </attr>
+    <attr name="civ_circle_background_color" format="color">
+    </attr>
 
 
 </resources>

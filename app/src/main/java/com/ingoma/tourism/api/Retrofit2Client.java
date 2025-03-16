@@ -12,6 +12,9 @@ import static com.ingoma.tourism.constant.Constant.BASE_URL;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 
 public class Retrofit2Client {
 
@@ -40,7 +43,7 @@ public class Retrofit2Client {
         // Initialize Retrofit builder
         this.builder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(okHttpClient)                  // Add the OkHttpClient with interceptor
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         this.retrofit = builder.build();

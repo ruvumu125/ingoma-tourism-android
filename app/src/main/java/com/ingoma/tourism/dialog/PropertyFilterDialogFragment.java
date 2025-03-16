@@ -46,31 +46,22 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
     private AmenityApiService amenityApiService;
     private RecyclerView recyclerView;
     private AmenityAdapter adapter;
-    private List<Amenity> amenityList;
+    private List<Amenity> amenityList= new ArrayList<>();;
     private Retrofit2Client retrofit2Client;
     private LinearLayout section_skleton,section_error;
     private FrameLayout section_listing;
     private TextView btnAction;
 
-    private OnAmenitiesSelectedListener listener;
-
-    // Interface to send data to the Activity
-    public interface OnAmenitiesSelectedListener {
-        void onAmenitiesSelected(List<Amenity> selectedAmenities);
-    }
-
-    // Method to set the listener
-    public void setOnAmenitiesSelectedListener(OnAmenitiesSelectedListener listener) {
-        this.listener = listener;
-    }
 
 
-    public static PropertyFilterDialogFragment newInstance(String type,String city_or_property,String property_type) {
+
+    public static PropertyFilterDialogFragment newInstance(String type,String city_or_property,String property_type,ArrayList<Amenity> selectedAmenities) {
         PropertyFilterDialogFragment fragment = new PropertyFilterDialogFragment();
         Bundle args = new Bundle();
         args.putString("type", type);
         args.putString("city_or_property", city_or_property);
         args.putString("property_type", property_type);
+        args.putParcelableArrayList("selected_amenities", selectedAmenities);
 
         fragment.setArguments(args);
         return fragment;
@@ -89,10 +80,6 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
         btnAction=root.findViewById(R.id.btnAction);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        amenityList = new ArrayList<>();
-        adapter = new AmenityAdapter(getContext(), amenityList);
-        recyclerView.setAdapter(adapter);
-
         retrofit2Client=new Retrofit2Client(getContext());
         amenityApiService = retrofit2Client.createService(AmenityApiService.class);
 
@@ -100,6 +87,7 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
             String type = getArguments().getString("type","");
             String city_or_property = getArguments().getString("city_or_property", "");
             String property_type = getArguments().getString("property_type", "");
+            amenityList = getArguments().getParcelableArrayList("selected_amenities");
 
             if (type.equals("city")){
 
@@ -112,14 +100,15 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
 
         }
 
+        adapter = new AmenityAdapter(getContext(), amenityList);
+        recyclerView.setAdapter(adapter);
+
         // Show selected amenities when button is clicked
         btnAction.setOnClickListener(v -> {
 
-
-            if (listener != null) {
-                listener.onAmenitiesSelected(adapter.getSelectedAmenities());
-            }
-            dismiss(); // Close the bottom sheet
+            List<Amenity> selectedAmenities = adapter.getSelectedAmenities();
+            sendSelectedAmenities(selectedAmenities);
+            dismiss();
         });
 
         return root;
@@ -194,6 +183,16 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
             public void onResponse(Call<AmenityResponse> call, Response<AmenityResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
 
+                    List<Amenity> fetchedAmenities = response.body().getData();
+                    // Restore previous selection
+                    for (Amenity fetchedAmenity : fetchedAmenities) {
+                        for (Amenity selectedAmenity : adapter.getSelectedAmenities()) {
+                            if (fetchedAmenity.getId() == selectedAmenity.getId()) {
+                                fetchedAmenity.setSelected(true);
+                                break;
+                            }
+                        }
+                    }
                     amenityList.clear();
                     amenityList.addAll(response.body().getData());
                     adapter.notifyDataSetChanged();
@@ -258,5 +257,15 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
                 recyclerView.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void sendSelectedAmenities(List<Amenity> selectedAmenities) {
+        if (getActivity() instanceof OnAmenitiesSelectedListener) {
+            ((OnAmenitiesSelectedListener) getActivity()).onAmenitiesSelected(selectedAmenities);
+        }
+    }
+
+    public interface OnAmenitiesSelectedListener {
+        void onAmenitiesSelected(List<Amenity> selectedAmenities);
     }
 }

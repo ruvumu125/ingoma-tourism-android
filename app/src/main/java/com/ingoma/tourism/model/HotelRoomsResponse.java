@@ -3,9 +3,9 @@ package com.ingoma.tourism.model;
 import java.util.List;
 
 public class HotelRoomsResponse {
-    private List<Room> data;
+    private List<RoomHotel> data;
 
-    public List<Room> getData() {
+    public List<RoomHotel> getData() {
         return data;
     }
 }

@@ -3,7 +3,6 @@ package com.ingoma.tourism.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,16 +14,16 @@ import com.ingoma.tourism.model.Plan;
 
 import java.util.List;
 import com.ingoma.tourism.R;
-import com.ingoma.tourism.model.Room;
+import com.ingoma.tourism.model.RoomHotel;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder> {
 
     private List<Plan> planList;
-    private Room room;
+    private RoomHotel room;
     private RoomAdapter roomAdapter; // Reference to RoomAdapter
 
 
-    public PlanAdapter(List<Plan> planList, Room room, RoomAdapter roomAdapter) {
+    public PlanAdapter(List<Plan> planList, RoomHotel room, RoomAdapter roomAdapter) {
         this.planList = planList;
         this.room = room;
         this.roomAdapter = roomAdapter;

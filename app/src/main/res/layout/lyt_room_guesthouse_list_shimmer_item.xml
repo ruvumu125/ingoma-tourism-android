@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools2="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:background="@drawable/white_round_rect_8dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- RoomHotel Name -->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1000"
+            app:shimmer_intensity="0.5"
+            app:shimmer_direction="left_to_right"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_room_name"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shimmer_round_rect_2dp"
+                style="@style/TextStyles.Label.Medium.w3"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        <!-- RoomHotel PropertyImage and Details Layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- RoomHotel PropertyImage -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/htl_property_card_image_width1"
+                android:layout_height="@dimen/htl_property_card_image_width1"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="@dimen/radius_small"
+                app:cardBackgroundColor="@android:color/white">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        app:shimmer_auto_start="true"
+                        app:shimmer_duration="1000"
+                        app:shimmer_intensity="0.5"
+                        app:shimmer_direction="left_to_right"
+                        android:layout_width="@dimen/htl_property_card_image_height"
+                        android:layout_height="@dimen/htl_property_card_image_height"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="@dimen/htl_property_card_image_height"
+                            android:layout_height="@dimen/htl_property_card_image_height"
+                            android:layout_marginBottom="20dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/shimmer_round_rect_2dp"/>
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- RoomHotel Details (Guest Count, Bed Type, RoomHotel Surface) -->
+            <LinearLayout
+                android:translationY="-1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- Number of Guests -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shimmer_round_rect_2dp"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                <!-- Bed Type -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shimmer_round_rect_2dp"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <!-- RoomHotel Surface -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shimmer_round_rect_2dp"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <!-- RoomHotel Details -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    app:shimmer_auto_start="true"
+                    app:shimmer_duration="1000"
+                    app:shimmer_intensity="0.5"
+                    app:shimmer_direction="left_to_right"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shimmer_round_rect_2dp"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

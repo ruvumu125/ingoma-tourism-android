@@ -247,7 +247,14 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         });
 
         select_room_btn.setOnClickListener(view -> {
-            openPropertyRoomListActivity(property_id,property_name);
+
+            if (property_type.equals("hotel")){
+                openHotelRoomListActivity(property_id,property_name);
+            }
+            else{
+                openGuestHouseRoomListActivity(property_id,property_name);
+            }
+
         });
 
         fetchProperty(Long.parseLong(property_id),tv_property_price,tv_price_currency,view_all_amenities,view_all_rules,view_all_landmarks);
@@ -447,8 +454,8 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         propertyLandmarksDialogFragment.show(getSupportFragmentManager(), propertyLandmarksDialogFragment.getTag());
     }
 
-    private void openPropertyRoomListActivity(String property_id,String property_name) {
-        Intent intent = new Intent(this, PropertyRoomListActivity.class);
+    private void openHotelRoomListActivity(String property_id,String property_name) {
+        Intent intent = new Intent(this, HotelRoomListActivity.class);
         intent.putExtra("property_type", property_type);
         intent.putExtra("checkinDate", checkinDate);
         intent.putExtra("checkoutDate", checkoutDate);
@@ -465,4 +472,23 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
         startActivity(intent);
     }
+    private void openGuestHouseRoomListActivity(String property_id,String property_name) {
+        Intent intent = new Intent(this, GuestHouseRoomListActivity.class);
+        intent.putExtra("property_type", property_type);
+        intent.putExtra("checkinDate", checkinDate);
+        intent.putExtra("checkoutDate", checkoutDate);
+        intent.putExtra("checkinDateFrench", checkinDateFrench);
+        intent.putExtra("checkoutDateFrench", checkoutDateFrench);
+        intent.putExtra("city_or_property", city_or_property);
+        intent.putExtra("nb_adultes", nb_adultes);
+        intent.putExtra("nb_enfants",nb_enfants);
+        intent.putExtra("property_id", property_id);
+        intent.putExtra("property_name", property_name);
+
+        intent.putExtra("property_adress", property_adress);
+        intent.putExtra("property_first_image", property_first_image);
+
+        startActivity(intent);
+    }
+
 }

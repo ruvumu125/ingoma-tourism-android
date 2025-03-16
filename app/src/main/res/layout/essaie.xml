@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt" android:paddingBottom="@dimen/padding_16" android:layout_width="match_parent" android:layout_height="wrap_content">
-    <TextView android:id="@+id/tv_guest_no" android:layout_width="0dp" android:layout_height="wrap_content" android:text="Guest 1" app:layout_constraintEnd_toEndOf="0" app:layout_constraintStart_toStartOf="0" app:layout_constraintTop_toTopOf="0" style="@style/H2BoldTextAppearance"/>
-    <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/colorTextSecondary" android:id="@+id/textView34" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/first_name" app:layout_constraintEnd_toStartOf="@+id/textView35" app:layout_constraintHorizontal_bias="0" app:layout_constraintHorizontal_chainStyle="1" app:layout_constraintStart_toStartOf="0" app:layout_constraintTop_toBottomOf="@+id/tv_guest_no" style="@style/H3Avenir"/>
-    <androidx.appcompat.widget.AppCompatTextView android:textColor="@color/colorTextSecondary" android:id="@+id/textView35" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/last_name" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="0" app:layout_constraintHorizontal_bias="0.5" app:layout_constraintStart_toEndOf="@+id/textView34" app:layout_constraintTop_toBottomOf="@+id/tv_guest_no" style="@style/H3Avenir"/>
-    <androidx.appcompat.widget.AppCompatEditText android:id="@+id/et_first_name" android:background="@drawable/button_bg_stroke_only" android:padding="@dimen/padding_16" android:visibility="visible" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="@string/first_name_hint" android:ems="10" android:inputType="none|text|textCapWords|textEmailAddress|textShortMessage|textPersonName" android:imeOptions="actionNext" app:fontFamily="@font/avenir_regular" app:layout_constraintEnd_toStartOf="@+id/et_last_name" app:layout_constraintHorizontal_bias="0.5" app:layout_constraintStart_toStartOf="0" app:layout_constraintTop_toBottomOf="@+id/textView34" style="@style/H2TextAppearance"/>
-    <androidx.appcompat.widget.AppCompatEditText android:id="@+id/et_last_name" android:background="@drawable/button_bg_stroke_only" android:padding="@dimen/padding_16" android:visibility="visible" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="@string/last_name_hint" android:ems="10" android:inputType="none|text|textCapWords|textEmailAddress|textShortMessage|textPersonName" android:imeOptions="actionDone" android:layout_marginStart="8dp" app:fontFamily="@font/avenir_regular" app:layout_constraintEnd_toEndOf="0" app:layout_constraintHorizontal_bias="0.5" app:layout_constraintStart_toEndOf="@+id/et_first_name" app:layout_constraintTop_toBottomOf="@+id/textView34" style="@style/H2TextAppearance"/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:tag="layout/fragment_my_property_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

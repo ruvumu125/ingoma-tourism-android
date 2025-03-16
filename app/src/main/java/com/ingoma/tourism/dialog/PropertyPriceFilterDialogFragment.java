@@ -1,5 +1,7 @@
 package com.ingoma.tourism.dialog;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,7 +20,6 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -48,12 +49,11 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
     private Retrofit2Client retrofit2Client;
     private LinearLayout section_skleton,section_error,section_content;
     private TextView btnAction;
-
     private OnPriceRangeSelectedListener listener;
 
     // Interface to send data to the Activity
     public interface OnPriceRangeSelectedListener {
-        void onPriceRangeSelected(float minValue,float maxValue);
+        void onPriceRangeSelected(Float minValue,Float maxValue);
     }
 
     // Method to set the listener
@@ -62,12 +62,15 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
     }
 
 
-    public static PropertyPriceFilterDialogFragment newInstance(String type,String city_or_property,String property_type) {
+    public static PropertyPriceFilterDialogFragment newInstance(String type,String city_or_property,String property_type,Float selectedMinimumPriceFilter,Float selectedMaximumPriceFilter) {
         PropertyPriceFilterDialogFragment fragment = new PropertyPriceFilterDialogFragment();
         Bundle args = new Bundle();
         args.putString("type", type);
         args.putString("city_or_property", city_or_property);
         args.putString("property_type", property_type);
+
+        args.putFloat("selectedMinimumPriceFilter",selectedMinimumPriceFilter);
+        args.putFloat("selectedMaximumPriceFilter",selectedMaximumPriceFilter);
 
         fragment.setArguments(args);
         return fragment;
@@ -98,13 +101,45 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
             String city_or_property = getArguments().getString("city_or_property", "");
             String property_type = getArguments().getString("property_type", "");
 
-            if (type.equals("city")){
-                //adapter.clearData();
-                fetchPriceRangeByPropertyTypeAndCityName(property_type, city_or_property,rangeSlider);
+            Float selectedMinimumPriceFilter = getArguments().getFloat("selectedMinimumPriceFilter");
+            Float selectedMaximumPriceFilter = getArguments().getFloat("selectedMaximumPriceFilter");
+
+
+
+            if (selectedMinimumPriceFilter>0 && selectedMaximumPriceFilter >0){
+
+                section_skleton.setVisibility(View.GONE);
+                section_error.setVisibility(View.GONE);
+                section_content.setVisibility(View.VISIBLE);
+
+                // Restore previous user-selected values (or default inside range)
+                float[] savedValues = getSavedSliderValues(0f, 0f);
+                rangeSlider.setValueFrom(savedValues[0]);
+                rangeSlider.setValueTo(savedValues[1]);
+
+                minValueEditText.setText(String.valueOf((float) selectedMinimumPriceFilter));
+                maxValueEditText.setText(String.valueOf((float) selectedMaximumPriceFilter));
+                rangeSlider.setStepSize(1);
+                rangeSlider.setValues(selectedMinimumPriceFilter, selectedMaximumPriceFilter);
+
+
             }
-            else {
-                //adapter.clearData();
-                fetchPriceRangeByPropertyTypeAndPropertyName(property_type, city_or_property,rangeSlider);            }
+            else{
+
+                if (type.equals("city")){
+                    //adapter.clearData();
+                    fetchPriceRangeByPropertyTypeAndCityName(property_type, city_or_property,rangeSlider);
+                }
+                else {
+                    //adapter.clearData();
+                    fetchPriceRangeByPropertyTypeAndPropertyName(property_type, city_or_property,rangeSlider);
+                }
+
+
+            }
+
+
+
         }
 
         // Update EditTexts when RangeSlider values change
@@ -185,6 +220,7 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
 
         btnAction.setOnClickListener(view -> {
             if (listener != null) {
+
                 listener.onPriceRangeSelected(Float.parseFloat(minValueEditText.getText().toString()),Float.parseFloat(maxValueEditText.getText().toString()));
             }
             dismiss(); // Close the bottom sheet
@@ -276,6 +312,10 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
                             section_error.setVisibility(View.GONE);
                             section_content.setVisibility(View.VISIBLE);
 
+                            //save Fixed slider values
+                            clearSliderPreferences();
+                            saveSliderValues((float) minPrice, (float) maxPrice);
+
                         } else {
 
                             section_skleton.setVisibility(View.GONE);
@@ -319,6 +359,11 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
                             section_error.setVisibility(View.GONE);
                             section_content.setVisibility(View.VISIBLE);
 
+                            //save Fixed slider values
+                            clearSliderPreferences();
+                            saveSliderValues((float) minPrice, (float) maxPrice);
+
+
                         } else {
 
                             section_skleton.setVisibility(View.GONE);
@@ -336,6 +381,38 @@ public class PropertyPriceFilterDialogFragment extends BottomSheetDialogFragment
                     }
                 });
     }
+
+    private void saveSliderValues(Float selectedMin, Float selectedMax) {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PreviousValuesMyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("selectedMin", selectedMin);
+        editor.putFloat("selectedMax", selectedMax);
+        editor.apply();
+    }
+
+    private float[] getSavedSliderValues(float defaultMin, float defaultMax) {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PreviousValuesMyPrefs", Context.MODE_PRIVATE);
+
+        float selectedMin = sharedPreferences.contains("selectedMin")
+                ? sharedPreferences.getFloat("selectedMin", defaultMin)
+                : defaultMin;
+
+        float selectedMax = sharedPreferences.contains("selectedMax")
+                ? sharedPreferences.getFloat("selectedMax", defaultMax)
+                : defaultMax;
+
+        return new float[]{selectedMin, selectedMax};
+    }
+
+
+    private void clearSliderPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PreviousValuesMyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("selectedMin");
+        editor.remove("selectedMax");
+        editor.apply();
+    }
+
 
 
 }

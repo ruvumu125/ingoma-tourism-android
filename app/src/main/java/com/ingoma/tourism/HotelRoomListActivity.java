@@ -3,26 +3,17 @@ package com.ingoma.tourism;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowInsets;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,16 +23,15 @@ import com.ingoma.tourism.api.Retrofit2Client;
 import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
 import com.ingoma.tourism.model.HotelRoomsResponse;
 import com.ingoma.tourism.model.Plan;
-import com.ingoma.tourism.model.Room;
+import com.ingoma.tourism.model.RoomHotel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PropertyRoomListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener{
+public class HotelRoomListActivity extends AppCompatActivity implements EditBookingInfoDialogFragment.CallBackListener{
 
     private RecyclerView rvRooms;
     private RoomAdapter roomAdapter;
@@ -59,7 +49,7 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
     private LinearLayout section_skleton,section_error;
     // Variable to store the selected plan
     private Plan selectedPlan = null;
-    private Room selectedRoom = null;
+    private RoomHotel selectedRoom = null;
     private ConstraintLayout section_price;
     private String property_price="";
     private String price_currency="";
@@ -67,7 +57,7 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_property_room_list);
+        setContentView(R.layout.activity_hotel_room_list);
 
         retrofit2Client=new Retrofit2Client(getApplicationContext());
         propertyApiService = retrofit2Client.createService(PropertyApiService.class);
@@ -214,7 +204,7 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
             @Override
             public void onResponse(Call<HotelRoomsResponse> call, Response<HotelRoomsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Room> rooms = response.body().getData();
+                    List<RoomHotel> rooms = response.body().getData();
                     roomAdapter = new RoomAdapter(getApplicationContext(), rooms,(plan, room) -> {
 
                         selectedPlan = plan;
@@ -242,7 +232,7 @@ public class PropertyRoomListActivity extends AppCompatActivity implements EditB
 
             @Override
             public void onFailure(Call<HotelRoomsResponse> call, Throwable t) {
-                //Toast.makeText(PropertyRoomListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(HotelRoomListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
 
                 section_skleton.setVisibility(View.GONE);
                 section_skeleton_footer_price.setVisibility(View.GONE);

@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Room Name -->
+        <!-- RoomHotel Name -->
         <TextView
             android:textColor="#222222"
             android:id="@+id/tv_room_name"
@@ -27,14 +27,14 @@
             android:paddingBottom="8dp"
             style="@style/TextStyles.Label.Medium.w3"/>
 
-        <!-- Room PropertyImage and Details Layout -->
+        <!-- RoomHotel PropertyImage and Details Layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- Room PropertyImage -->
+            <!-- RoomHotel PropertyImage -->
             <androidx.cardview.widget.CardView
                 android:layout_width="@dimen/htl_property_card_image_width1"
                 android:layout_height="@dimen/htl_property_card_image_width1"
@@ -95,7 +95,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Room Details (Guest Count, Bed Type, Room Surface) -->
+            <!-- RoomHotel Details (Guest Count, Bed Type, RoomHotel Surface) -->
             <LinearLayout
                 android:translationY="-1dp"
                 android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
                         android:paddingStart="8dp"/>
                 </LinearLayout>
 
-                <!-- Room Surface -->
+                <!-- RoomHotel Surface -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
                         android:paddingStart="8dp"/>
                 </LinearLayout>
 
-                <!-- Room Details -->
+                <!-- RoomHotel Details -->
                 <LinearLayout
                     android:layout_marginTop="2dp"
                     android:layout_width="wrap_content"

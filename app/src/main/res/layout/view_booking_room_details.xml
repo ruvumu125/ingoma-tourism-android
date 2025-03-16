@@ -68,7 +68,7 @@
                                 android:paddingBottom="10dp"
                                 android:gravity="center_vertical">
 
-                                <!-- Room PropertyImage -->
+                                <!-- RoomHotel PropertyImage -->
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="@dimen/htl_property_card_image_width1"
                                     android:layout_height="@dimen/htl_property_card_image_width1"
@@ -130,7 +130,7 @@
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Room Details (Guest Count, Bed Type, Room Surface) -->
+                                <!-- RoomHotel Details (Guest Count, Bed Type, RoomHotel Surface) -->
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
@@ -202,7 +202,7 @@
                                             android:paddingStart="8dp"/>
                                     </LinearLayout>
 
-                                    <!-- Room Surface -->
+                                    <!-- RoomHotel Surface -->
                                     <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"

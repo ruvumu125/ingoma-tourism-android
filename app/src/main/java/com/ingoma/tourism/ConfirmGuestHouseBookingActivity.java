@@ -1,47 +1,48 @@
 package com.ingoma.tourism;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
-import com.bumptech.glide.Glide;
 import com.ingoma.tourism.constant.Constant;
-import com.ingoma.tourism.model.HotelModel;
+import com.ingoma.tourism.databinding.ActivityConfirmGuestHouseBookingBinding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class ConfirmHotelBookingActivity extends AppCompatActivity {
+public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
 
-    private String property_price,price_currency,plan_name,plan_description,room_name,room_size,room_bed_type,room_main_image,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String property_price,price_currency,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private LinearLayout continue_btn;
     private TextView tv_booking_info,txtStartDate,txtEndDate,txtNight;
-    private TextView tv_property_type,tvPropertyName,tvPropertyAddress,tvRooName,tvPlanName,tvPlanDescription;
-    private AppCompatImageView propertyImageView,roomImageView;
+    private TextView tvPropertyName,tvPropertyAddress;
+    private AppCompatImageView propertyImageView;
     private TextView unStrikedPrice,txtPerNight;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm_hotel_booking);
+        setContentView(R.layout.activity_confirm_guest_house_booking);
 
         //padding status bar and bottom navigation bar
         View RootLayout = findViewById(R.id.cordinatorLyt);
@@ -56,14 +57,10 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
         txtNight = findViewById(R.id.txtNight);
         continue_btn = findViewById(R.id.lyt_cta);
 
-        tv_property_type = findViewById(R.id.tv_property_type);
+
         tvPropertyName = findViewById(R.id.tvPropertyName);
         tvPropertyAddress = findViewById(R.id.tvPropertyAddress);
-        tvRooName = findViewById(R.id.tvRooName);
-        tvPlanName= findViewById(R.id.tvPlanName);
-        tvPlanDescription= findViewById(R.id.tvPlanDescription);
         propertyImageView = findViewById(R.id.propertyImageView);
-        roomImageView = findViewById(R.id.roomImageView);
         unStrikedPrice = findViewById(R.id.unStrikedPrice);
         txtPerNight = findViewById(R.id.txtPerNight);
 
@@ -83,19 +80,10 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             checkinDateFrench = intent.getStringExtra("checkinDateFrench");
             checkoutDateFrench = intent.getStringExtra("checkoutDateFrench");
             city_or_property = intent.getStringExtra("city_or_property");
-            nb_adultes = intent.getStringExtra("nb_adultes");
-            nb_enfants = intent.getStringExtra("nb_enfants");
-
-            room_name= intent.getStringExtra("room_name");
-            room_size= intent.getStringExtra("room_size");
-            room_bed_type = intent.getStringExtra("room_bed_type");
-            room_main_image= intent.getStringExtra("room_main_image");
-
-            plan_name= intent.getStringExtra("plan_name");
-            plan_description= intent.getStringExtra("plan_description");
-
             property_price= intent.getStringExtra("property_price");
             price_currency= intent.getStringExtra("price_currency");
+            nb_adultes = intent.getStringExtra("nb_adultes");
+            nb_enfants = intent.getStringExtra("nb_enfants");
 
 
             String guest_info=displayGuestInfo(property_type,nb_adultes,nb_enfants);
@@ -113,12 +101,8 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             txtNight.setText(nbNight);
 
             //autres data
-            tv_property_type.setText(property_type);
             tvPropertyName.setText(property_name);
             tvPropertyAddress.setText(property_adress);
-            tvRooName.setText(room_name);
-            tvPlanName.setText(plan_name);
-            tvPlanDescription.setText(plan_description);
 
             //calculate total amount
             long nbOfNight=getDaysBetween(checkinDate,checkoutDate);
@@ -131,22 +115,15 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             String baseUrlProperty = Constant.BASE_URL + "api/v1/property-image/";
             String fullImageUrlProperty = baseUrlProperty+ property_first_image;
 
-            String baseUrlRoom = Constant.BASE_URL + "api/v1/room-image/";
-            String fullImageUrlRoom = baseUrlRoom+ room_main_image;
-
             Glide.with(this)
                     .load(fullImageUrlProperty)
                     .placeholder(R.drawable.hotel_place_holder)
                     .into(propertyImageView);
 
-            Glide.with(this)
-                    .load(fullImageUrlRoom)
-                    .placeholder(R.drawable.hotel_place_holder)
-                    .into(roomImageView);
-
-
 
         }
+
+
     }
 
     public int getNavigationBarHeight(Activity activity) {

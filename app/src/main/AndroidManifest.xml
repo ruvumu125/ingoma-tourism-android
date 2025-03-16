@@ -16,6 +16,13 @@
         android:theme="@style/Theme.Goe"
         tools:targetApi="31">
         <activity
+            android:name=".ConfirmGuestHouseBookingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Goe" />
+        <activity
+            android:name=".GuestHouseRoomListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePasswordActivity"
             android:exported="false" />
         <activity
@@ -40,7 +47,7 @@
             android:name=".ConfirmHotelBookingActivity"
             android:exported="false" />
         <activity
-            android:name=".PropertyRoomListActivity"
+            android:name=".HotelRoomListActivity"
             android:exported="false" />
         <activity
             android:name=".PropertiesDetailsActivity"

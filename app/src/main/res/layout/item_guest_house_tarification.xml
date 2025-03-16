@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools2="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/pink_rounded"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/lytRoomParentInfoGuestHouse"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:id="@+id/ll_payment_wallet_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:textSize="14sp"
+                android:textColor="#222222"
+                android:id="@+id/tvParentRoomHeadingGuestHouse"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/amenities"
+                android:layout_weight="1"
+                style="@style/TextStyles.Label.Medium.w3"/>
+            <CheckBox
+                android:id="@+id/cb_room_guest_house"
+                android:background="@drawable/bg_checkbox_payment"
+                android:clickable="false"
+                android:checked="false"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:button="@null"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nanga"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="horizontal"
+                android:id="@+id/linearLayoutCompat"
+                android:paddingBottom="@dimen/padding_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:weightSum="4"
+                app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/ll_star">
+
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_gravity="start"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:textColor="@color/colorPrimary"
+                            android:ellipsize="end"
+                            android:text="70 000"
+                            android:id="@+id/tv_price_guest_house"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:letterSpacing="-0.027"
+                            style="@style/H2BoldTextAppearance" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:textSize="10sp"
+                            android:textColor="@color/colorPrimary"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:id="@+id/tv_bdt_price_guest_house"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bdt"
+                            android:maxLines="1"
+                            android:fontFamily="@font/gilroy_bold"
+                            android:layout_marginStart="4dp"
+                            app:fontFamily="@font/avenir_semi_bold"
+                            style="@style/H5TextAppearance" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,7 +2,7 @@ package com.ingoma.tourism.model;
 
 import java.util.List;
 
-public class Room {
+public class RoomHotel {
     private int id;
     private String type_name;
     private int property_id;
@@ -11,7 +11,7 @@ public class Room {
     private int max_guests;
     private String description;
     private List<RoomImage> images;
-    private List<PropertyAmenity> amenities;
+    private List<RoomAmenity> amenities;
     private List<Plan> plans;
     private Plan selectedPlan; // Store selected plan for this room
 
@@ -23,7 +23,7 @@ public class Room {
     public int getMaxGuests() { return max_guests; }
     public String getDescription() { return description; }
     public List<RoomImage> getImages() { return images; }
-    public List<PropertyAmenity> getAmenities() { return amenities; }
+    public List<RoomAmenity> getAmenities() { return amenities; }
     public List<Plan> getPlans() { return plans; }
 
     public Plan getSelectedPlan() {
