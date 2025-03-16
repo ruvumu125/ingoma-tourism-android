@@ -1,5 +1,6 @@
 package com.ingoma.tourism;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -70,13 +71,12 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
     private List<Amenity> selectedAmenities = new ArrayList<>();
     private Sort selectedSort; // Store last selected sort
 
-
     private Float selectedMinimumPriceFilter=null;
     private Float selectedMaximumPriceFilter=null;
     private List<Integer> selectedAmenitiesFilter=new ArrayList<>();
     private String selectedSortFilter="";
 
-
+    private ImageView icon_top_right_trier,icon_top_right_filtrer,icon_top_right_prix;
 
 
     @Override
@@ -106,6 +106,10 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         Ll_sort=findViewById(R.id.layout_trier);
         Ll_filter=findViewById(R.id.layout_filtrer);
         Ll_price=findViewById(R.id.layout_prix);
+
+        icon_top_right_trier=findViewById(R.id.icon_top_right_trier);
+        icon_top_right_filtrer=findViewById(R.id.icon_top_right_filtrer);
+        icon_top_right_prix=findViewById(R.id.icon_top_right_prix);
 
         // Get default dates from hotel search activity
         Intent intent = getIntent();
@@ -209,14 +213,14 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
             PropertyPriceFilterDialogFragment propertyPriceFilterDialogFragment = PropertyPriceFilterDialogFragment.newInstance(type_search,city_or_property,property_type,minimumPrice,maxmumPrice);
             propertyPriceFilterDialogFragment.setOnPriceRangeSelectedListener((minValue, maxValue) -> {
-                Toast.makeText(this, String.valueOf(minValue), Toast.LENGTH_SHORT).show();
-                Toast.makeText(this,String.valueOf(maxValue), Toast.LENGTH_SHORT).show();
 
                 selectedMinimumPriceFilter=minValue;
                 selectedMaximumPriceFilter=maxValue;
 
                 hotelAdapter.clearData();
                 fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
+
+                SortFilterPriceAppliedNotifier();
             });
             propertyPriceFilterDialogFragment.show(getSupportFragmentManager(), "PropertyPriceFilterBottomSheetDialog");
 
@@ -226,9 +230,6 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "destroy", Toast.LENGTH_SHORT).show();
-        //SharedPreferences sharedPreferences = getSharedPreferences("AmenityPrefs", Context.MODE_PRIVATE);
-        //sharedPreferences.edit().clear().apply();
     }
 
     private String displayGuestInfo(String property_type,String nb_adultes,String nb_enfants){
@@ -411,8 +412,9 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
 
     @Override
-    public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
+    public void onModifyButtonClicked(String search_type,String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
 
+        type_search=search_type;
         checkinDate=checkinDate_response;
         checkoutDate=checkoutDate_response;
         checkinDateFrench=checkinDateFrenchFormat_response;
@@ -432,6 +434,8 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         hotelAdapter.clearData();
         currentPage=1;
         fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
+
+        SortFilterPriceAppliedNotifier();
 
 
     }
@@ -471,7 +475,9 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         }
         hotelAdapter.clearData();
         fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
-        Toast.makeText(this, "Yaaaambiiiii"+String.valueOf(selectedAmenities.size()), Toast.LENGTH_SHORT).show();
+
+        SortFilterPriceAppliedNotifier();
+
     }
 
     @Override
@@ -486,6 +492,38 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         hotelAdapter.clearData();
         fetchProperties(property_type, city_or_property,selectedSortFilter,selectedMinimumPriceFilter,selectedMaximumPriceFilter, selectedAmenitiesFilter,pageSize,currentPage);
 
+        SortFilterPriceAppliedNotifier();
 
     }
+
+    private void SortFilterPriceAppliedNotifier(){
+
+        if (selectedSortFilter.equals("")){
+            icon_top_right_trier.setVisibility(View.GONE);
+        }
+        else{
+            icon_top_right_trier.setVisibility(View.VISIBLE);
+
+        }
+
+        if (selectedMinimumPriceFilter == null && selectedMaximumPriceFilter == null){
+            icon_top_right_prix.setVisibility(View.GONE);
+
+        }
+        else{
+            icon_top_right_prix.setVisibility(View.VISIBLE);
+
+        }
+
+        if (selectedAmenitiesFilter.isEmpty()){
+            icon_top_right_filtrer.setVisibility(View.GONE);
+
+        }
+        else{
+            icon_top_right_filtrer.setVisibility(View.VISIBLE);
+
+        }
+
+    }
+
 }

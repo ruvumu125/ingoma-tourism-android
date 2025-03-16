@@ -318,8 +318,9 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
     }
 
     @Override
-    public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
+    public void onModifyButtonClicked(String search_type,String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
 
+        search_type="";
         checkinDate=checkinDate_response;
         checkoutDate=checkoutDate_response;
         checkinDateFrench=checkinDateFrenchFormat_response;

@@ -88,102 +88,148 @@
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp">
 
-                    <LinearLayout
-                        android:id="@+id/layout_trier"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="@drawable/bg_sort_button"
+                    <!-- Trier Button -->
+                    <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_marginEnd="5dp">
+                        android:layout_rowWeight="1">
 
+                        <LinearLayout
+                            android:id="@+id/layout_trier"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="@drawable/bg_sort_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:paddingEnd="5dp"
+                                android:visibility="visible"
+                                android:id="@+id/iv_sort_icon"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/htl_sort_filter_drawable"/>
+
+                            <TextView
+                                android:id="@+id/tv_sort"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Trier"
+                                android:textColor="@color/htl_color_grey"
+                                style="@style/TextStyles.Label.Medium.w1"/>
+                        </LinearLayout>
+
+                        <!-- Top-right icon -->
                         <ImageView
-                            android:paddingEnd="5dp"
-                            android:visibility="visible"
-                            android:id="@+id/iv_sort_icon"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/htl_sort_filter_drawable"/>
+                            android:visibility="gone"
+                            android:id="@+id/icon_top_right_trier"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:src="@drawable/hic_filter_aplied_dot"
+                            android:layout_gravity="top|end"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginTop="4dp"/>
+                    </FrameLayout>
 
-                        <TextView
-                            android:id="@+id/tv_sort"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Trier"
-                            android:textColor="@color/htl_color_grey"
-                            style="@style/TextStyles.Label.Medium.w1"
-                            />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layout_filtrer"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
+                    <!-- Filtrer Button -->
+                    <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_marginEnd="3dp"
-                        android:background="@drawable/bg_sort_button">
+                        android:layout_rowWeight="1">
 
+                        <LinearLayout
+                            android:id="@+id/layout_filtrer"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="@drawable/bg_sort_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:paddingEnd="5dp"
+                                android:visibility="visible"
+                                android:id="@+id/iv_filter_icon"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/ic_filters_filter_unified"
+                                app:tint="@color/black_70"/>
+
+                            <TextView
+                                android:id="@+id/tv_filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Filtres"
+                                android:textColor="@color/htl_color_grey"
+                                style="@style/TextStyles.Label.Medium.w1"/>
+                        </LinearLayout>
+
+                        <!-- Top-right icon -->
                         <ImageView
-                            android:paddingEnd="5dp"
-                            android:visibility="visible"
-                            android:id="@+id/iv_filter_icon"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/ic_filters_filter_unified"
-                            app:tint="@color/black_70" />
+                            android:visibility="gone"
+                            android:id="@+id/icon_top_right_filtrer"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:src="@drawable/hic_filter_aplied_dot"
+                            android:layout_gravity="top|end"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginTop="4dp"/>
+                    </FrameLayout>
 
-                        <TextView
-                            android:id="@+id/tv_filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Filtres"
-                            android:textColor="@color/htl_color_grey"
-                            style="@style/TextStyles.Label.Medium.w1"
-                            />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layout_prix"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
+                    <!-- Prix Button -->
+                    <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:background="@drawable/bg_sort_button">
+                        android:layout_rowWeight="1">
 
+                        <LinearLayout
+                            android:id="@+id/layout_prix"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="@drawable/bg_sort_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:paddingEnd="5dp"
+                                android:visibility="visible"
+                                android:id="@+id/iv_location_icon"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_filters_price_unified"
+                                app:tint="@color/black_70"/>
+
+                            <TextView
+                                android:id="@+id/tv_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Prix"
+                                android:textColor="@color/htl_color_grey"
+                                style="@style/TextStyles.Label.Medium.w1"/>
+                        </LinearLayout>
+
+                        <!-- Top-right icon -->
                         <ImageView
-                            android:paddingEnd="5dp"
-                            android:visibility="visible"
-                            android:id="@+id/iv_location_icon"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_filters_price_unified"
-                            app:tint="@color/black_70" />
-
-                        <TextView
-                            android:id="@+id/tv_location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Prix"
-                            android:textColor="@color/htl_color_grey"
-                            style="@style/TextStyles.Label.Medium.w1"/>
-
-                    </LinearLayout>
+                            android:visibility="gone"
+                            android:id="@+id/icon_top_right_prix"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:src="@drawable/hic_filter_aplied_dot"
+                            android:layout_gravity="top|end"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginTop="4dp"/>
+                    </FrameLayout>
                 </GridLayout>
+
+
 
             </LinearLayout>
 

@@ -431,8 +431,8 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
 
     @Override
-    public void onModifyButtonClicked(String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
-
+    public void onModifyButtonClicked(String search_type,String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
+        search_type="";
         displayBookingInfo(checkinDateFrenchFormat_response,checkoutDateFrenchFormat_response,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response),tvBookingInfoDate,tvBookingInfoGuest);
     }
 

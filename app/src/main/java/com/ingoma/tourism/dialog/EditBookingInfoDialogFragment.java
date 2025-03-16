@@ -44,14 +44,14 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
     private LinearLayoutCompat layout_check_in_date,layout_check_out_date,layout_guest,layout_destination;
     private AppCompatTextView tv_from_city,checkinDate,checkoutDate,tv_no_of_guest;
     private MaterialTextView checkinDay,checkoutDay;
-    private String provenance,property_type,city_or_property_edit,checkinDateEdit,checkoutDateEdit,nb_adultes_edit,nb_enfants_edit;
+    private String type,provenance,property_type,city_or_property_edit,checkinDateEdit,checkoutDateEdit,nb_adultes_edit,nb_enfants_edit;
     private MaterialButton btnDone;
     private LinearLayoutCompat Llc_guest;
 
     private CallBackListener callBackListener;
 
     public interface CallBackListener {
-        void onModifyButtonClicked(String city_or_property_response,String checkinDate_response,String checkoutDate_response,String checkinDateFrenchFormat_response,String checkoutDateFrenchFormat_response,int adultesNumber_response, int childrenNumber_response);
+        void onModifyButtonClicked(String type_search,String city_or_property_response,String checkinDate_response,String checkoutDate_response,String checkinDateFrenchFormat_response,String checkoutDateFrenchFormat_response,int adultesNumber_response, int childrenNumber_response);
         void onDialogFragmentDismiss();
     }
 
@@ -146,7 +146,7 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
         btnDone.setOnClickListener(v ->{
 
             if (callBackListener != null) {
-                callBackListener.onModifyButtonClicked(city_or_property_edit, checkinDateEdit,checkoutDateEdit,checkinDate.getText().toString(),checkoutDate.getText().toString(),Integer.valueOf(nb_adultes_edit),Integer.valueOf(nb_enfants_edit));
+                callBackListener.onModifyButtonClicked(type,city_or_property_edit, checkinDateEdit,checkoutDateEdit,checkinDate.getText().toString(),checkoutDate.getText().toString(),Integer.valueOf(nb_adultes_edit),Integer.valueOf(nb_enfants_edit));
                 dismiss(); // Close the dialog
             }
         });
@@ -276,8 +276,10 @@ public class EditBookingInfoDialogFragment extends BottomSheetDialogFragment imp
             if (data != null) {
 
                 String cityName = data.getStringExtra("selected_city");
+                String  type_search = data.getStringExtra("type");
                 tv_from_city.setText(cityName);
                 city_or_property_edit=cityName;
+                type=type_search;
 
             }
         }

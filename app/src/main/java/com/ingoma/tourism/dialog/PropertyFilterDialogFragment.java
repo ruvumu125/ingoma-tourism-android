@@ -94,6 +94,7 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
                 fetchAmenitiesByCity(property_type, city_or_property);
             }
             else{
+
                 fetchAmenitiesByPropertyName(property_type, city_or_property);
             }
 
@@ -203,9 +204,10 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
 
 
                 } else {
+
                     section_skleton.setVisibility(View.GONE);
                     section_error.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
+                    section_listing.setVisibility(View.GONE);
                     btnAction.setVisibility(View.GONE);
                 }
             }
@@ -226,25 +228,36 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
 
         section_skleton.setVisibility(View.VISIBLE);
         section_error.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
+        section_listing.setVisibility(View.GONE);
 
         amenityApiService.getAmenitiesByName(propertyType, propertyName).enqueue(new Callback<AmenityResponse>() {
             @Override
             public void onResponse(Call<AmenityResponse> call, Response<AmenityResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+
+                    List<Amenity> fetchedAmenities = response.body().getData();
+                    // Restore previous selection
+                    for (Amenity fetchedAmenity : fetchedAmenities) {
+                        for (Amenity selectedAmenity : adapter.getSelectedAmenities()) {
+                            if (fetchedAmenity.getId() == selectedAmenity.getId()) {
+                                fetchedAmenity.setSelected(true);
+                                break;
+                            }
+                        }
+                    }
                     amenityList.clear();
                     amenityList.addAll(response.body().getData());
                     adapter.notifyDataSetChanged();
 
                     section_skleton.setVisibility(View.GONE);
                     section_error.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    section_listing.setVisibility(View.VISIBLE);
 
                 } else {
 
                     section_skleton.setVisibility(View.GONE);
                     section_error.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
+                    section_listing.setVisibility(View.GONE);
                 }
             }
 
@@ -254,7 +267,7 @@ public class PropertyFilterDialogFragment extends BottomSheetDialogFragment  {
 
                 section_skleton.setVisibility(View.GONE);
                 section_error.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
+                section_listing.setVisibility(View.GONE);
             }
         });
     }
