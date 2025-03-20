@@ -169,6 +169,7 @@
             android:inputType="textCapWords"
             style="@style/TextStyles.Label.Base.w3"/>
     </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="wrap_content"

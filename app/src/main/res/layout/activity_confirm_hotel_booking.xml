@@ -747,24 +747,49 @@
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
 
-                                <LinearLayout
-                                    android:id="@+id/lyt_cta"
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/btn_next"
                                     android:background="@drawable/go_orange_selector_8dp"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingHorizontal="15dp"
-                                    android:paddingVertical="10dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintRight_toRightOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
                                     <TextView
+                                        android:id="@+id/continueBtn"
+                                        android:background="@drawable/primary_buttons_square"
+                                        android:layout_height="55dp"
+                                        android:layout_width="match_parent"
                                         android:text="Confirmer"
-                                        android:textColor="@color/white"
-                                        android:id="@+id/select_room_btn_tv"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        style="@style/TextStyles.Label.Medium.w3"/>
-                                </LinearLayout>
+                                        android:gravity="center"
+                                        android:paddingHorizontal="15dp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        style="@style/PrimaryButtonStyle"/>
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:id="@+id/loadingCartGif"
+                                        android:background="@color/thirtyPercentTransparent"
+                                        android:visibility="gone"
+                                        android:layout_width="0dp"
+                                        android:layout_height="55dp"
+                                        app:layout_constraintBottom_toBottomOf="@+id/continueBtn"
+                                        app:layout_constraintEnd_toEndOf="@+id/continueBtn"
+                                        app:layout_constraintStart_toStartOf="@+id/continueBtn"
+                                        app:layout_constraintTop_toTopOf="@+id/continueBtn">
+                                        <ProgressBar
+                                            android:layout_width="@dimen/_20sdp"
+                                            android:layout_height="@dimen/_20sdp"
+                                            android:progressTint="@color/white"
+                                            android:progressBackgroundTint="@color/white"
+                                            android:indeterminateTint="@color/white"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent"/>
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,16 +9,34 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import static com.ingoma.tourism.constant.Constant.BASE_URL;
-
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import com.ingoma.tourism.utils.LoginPreferencesManager;
 
 public class Retrofit2Client {
 
     private Context context;
+
+    // Create an interceptor to add the Authorization header dynamically
+    private Interceptor authInterceptor = new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            // Retrieve the token from LoginPreferencesManager
+            LoginPreferencesManager loginPreferencesManager = new LoginPreferencesManager(context);
+            String token = loginPreferencesManager.getToken(); // Fetch the token dynamically
+
+            Request originalRequest = chain.request();
+            Request.Builder builder = originalRequest.newBuilder();
+
+            // Add the token to the Authorization header if it's available
+            if (token != null && !token.isEmpty()) {
+                builder.header("Authorization", "Bearer " + token);
+            }
+
+            Request newRequest = builder.build();
+            return chain.proceed(newRequest);
+        }
+    };
 
     // Configure OkHttpClient with the interceptor and custom timeout values
     private OkHttpClient okHttpClient;
@@ -36,14 +54,15 @@ public class Retrofit2Client {
         this.okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)  // 30 seconds connection timeout
                 .readTimeout(30, TimeUnit.SECONDS)     // 30 seconds read timeout
-                .writeTimeout(30, TimeUnit.SECONDS)       // Add the auth interceptor
+                .writeTimeout(30, TimeUnit.SECONDS)    // 30 seconds write timeout
+                .addInterceptor(authInterceptor)       // Add the auth interceptor
                 .cache(null)
                 .build();
 
         // Initialize Retrofit builder
         this.builder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(okHttpClient)
+                .client(okHttpClient)                  // Add the OkHttpClient with interceptor
                 .addConverterFactory(GsonConverterFactory.create());
 
         this.retrofit = builder.build();

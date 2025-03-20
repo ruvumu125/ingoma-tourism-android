@@ -301,6 +301,7 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
         intent.putExtra("nb_adultes", nb_adultes);
         intent.putExtra("nb_enfants",nb_enfants);
 
+        intent.putExtra("room_id",String.valueOf(selectedRoom.getId()));
         intent.putExtra("room_name",selectedRoom.getTypeName());
         intent.putExtra("room_size",selectedRoom.getRoomSize());
         intent.putExtra("room_bed_type",selectedRoom.getBedType());

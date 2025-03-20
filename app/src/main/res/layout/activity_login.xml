@@ -155,19 +155,55 @@
                     app:fontFamily="@font/avenir_regular"
                     style="@style/H2TextAppearance"/>
             </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogin"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_next"
                 android:padding="@dimen/padding_16"
+                android:layout_marginTop="32dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/log_in"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_password_layout"
-                style="@style/PrimaryButtonStyle"/>
+                app:layout_constraintTop_toBottomOf="@+id/et_password_layout">
+
+                <TextView
+                    android:id="@+id/continueBtn"
+                    android:background="@drawable/primary_buttons_square"
+                    android:layout_height="55dp"
+                    android:layout_width="match_parent"
+                    android:text="@string/log_in"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/PrimaryButtonStyle"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/loadingCartGif"
+                    android:background="@color/thirtyPercentTransparent"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/continueBtn"
+                    app:layout_constraintEnd_toEndOf="@+id/continueBtn"
+                    app:layout_constraintStart_toStartOf="@+id/continueBtn"
+                    app:layout_constraintTop_toTopOf="@+id/continueBtn">
+                    <ProgressBar
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:progressTint="@color/white"
+                        android:progressBackgroundTint="@color/white"
+                        android:indeterminateTint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:textSize="14sp"
                 android:textColor="@color/colorTextUnderlined"
@@ -183,7 +219,7 @@
                 app:fontFamily="@font/avenir_regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+                app:layout_constraintTop_toBottomOf="@+id/btn_next"
                 style="@style/H3TextAppearance"/>
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:orientation="horizontal"

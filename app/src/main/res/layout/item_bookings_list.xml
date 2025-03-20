@@ -19,27 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/RoundedImageView"
         app:srcCompat="@drawable/my_booking_item_hotel_icon"/>
-    <FrameLayout
-        android:background="@drawable/booking_img_tag_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:alpha="0.8"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_booked_hotel_img"
-        app:layout_constraintEnd_toEndOf="@+id/iv_booked_hotel_img"
-        app:layout_constraintStart_toStartOf="@+id/iv_booked_hotel_img">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:textSize="10sp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:id="@+id/tv_booked_hotel_tag"
-            android:layout_width="45dp"
-            android:layout_height="20dp"
-            android:text="Hotel"
-            android:lineSpacingExtra="20sp"
-            style="@style/h5AvenirBold"/>
-    </FrameLayout>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:orientation="vertical"
         android:layout_width="0dp"
@@ -77,32 +56,80 @@
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_booking_options_dots"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:textSize="13sp"
-            android:textColor="@color/colorSubTitleText"
-            android:gravity="start"
-            android:layout_gravity="start"
+        <LinearLayout
+            android:orientation="horizontal"
             android:id="@+id/tv_booked_hotel_timing_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="Fri, 4 Jun -Fri, 4 Jun | 3 Nights"
-            android:lineSpacingExtra="5sp"
-            android:alpha="0.7"
-            android:letterSpacing="-0.0024"
-            style="@style/H3Avenir"/>
+            android:layout_marginBottom="6dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_booking_start_date"
+                android:textSize="13sp"
+                android:textColor="@color/colorSubTitleText"
+                android:gravity="start"
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="10-08-2025"
+                android:lineSpacingExtra="5sp"
+                android:alpha="0.7"
+                android:letterSpacing="-0.0024"
+                style="@style/H3Avenir"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="→"
+                android:layout_marginEnd="1dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="-10dp"
+                style="@style/H3Avenir"
+                android:textSize="20sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_booking_end_date"
+                android:textSize="13sp"
+                android:textColor="@color/colorSubTitleText"
+                android:gravity="start"
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="10-08-2025"
+                android:lineSpacingExtra="5sp"
+                android:alpha="0.7"
+                android:letterSpacing="-0.0024"
+                style="@style/H3Avenir"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_booking_duration"
+                android:textSize="13sp"
+                android:textColor="@color/colorSubTitleText"
+                android:gravity="start"
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | 4 nuits"
+                android:lineSpacingExtra="5sp"
+                android:alpha="0.7"
+                android:letterSpacing="-0.0024"
+                style="@style/H3Avenir"/>
+
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:textSize="13sp"
-            android:textColor="@color/colorSubTitleText"
+            android:textColor="@color/white"
             android:gravity="start"
             android:layout_gravity="start"
+            android:padding="5dp"
             android:id="@+id/tv_booked_hotel_pax_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pax : 02"
-            android:lineSpacingExtra="5sp"
-            android:alpha="0.7"
-            android:letterSpacing="-0.0024"
+            android:text="Pending"
+            android:background="@drawable/status_cancelled_bg"
             style="@style/H3Avenir"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

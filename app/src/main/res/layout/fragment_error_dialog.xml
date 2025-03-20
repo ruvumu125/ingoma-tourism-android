@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dialog_width_1"
+    android:layout_height="wrap_content"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="8dp">
+    <LinearLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@drawable/rounded_background"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/img_danger"/>
+        <TextView
+            android:textColor="@color/dangerous"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/error_message"
+            style="@style/Text.PrimaryBig"/>
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_submitted"
+            style="@style/TextRegular"/>
+
+        <TextView
+            android:id="@+id/error_message_array"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_submitted"
+            style="@style/TextRegular"/>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="100dp"
+            android:layout_height="50dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:gravity="center"
+                android:id="@+id/btn_error_done"
+                android:background="@drawable/button_red"
+                android:padding="0dp"
+                android:visibility="visible"
+                android:clickable="false"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:minHeight="0dp"
+                android:text="Ok"
+                android:layout_weight="1"
+                style="@style/Button.Red"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

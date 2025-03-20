@@ -2,40 +2,73 @@ package com.ingoma.tourism;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
+import com.ingoma.tourism.api.BookingService;
+import com.ingoma.tourism.api.LoginService;
+import com.ingoma.tourism.api.Retrofit2Client;
 import com.ingoma.tourism.constant.Constant;
+import com.ingoma.tourism.dialog.SuccessDialogFragment;
+import com.ingoma.tourism.model.Booking;
 import com.ingoma.tourism.model.HotelModel;
+import com.ingoma.tourism.model.User;
+import com.ingoma.tourism.model.ValidationErrorResponse;
+import com.ingoma.tourism.utils.LoginPreferencesManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConfirmHotelBookingActivity extends AppCompatActivity {
 
-    private String property_price,price_currency,plan_name,plan_description,room_name,room_size,room_bed_type,room_main_image,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
-    private LinearLayout continue_btn;
+    private String property_price,price_currency,plan_name,plan_description,room_id,room_name,room_size,room_bed_type,room_main_image,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private TextView tv_booking_info,txtStartDate,txtEndDate,txtNight;
     private TextView tv_property_type,tvPropertyName,tvPropertyAddress,tvRooName,tvPlanName,tvPlanDescription;
     private AppCompatImageView propertyImageView,roomImageView;
     private TextView unStrikedPrice,txtPerNight;
+
+    private ConstraintLayout btn_next;
+    private ConstraintLayout loadingCartGif;
+    private TextView tvContinue;
+    private Boolean valid = true;
+    private LoginPreferencesManager loginPreferencesManager;
+    private TextInputEditText edtFirstName,edtLastName,edtPhoneNo,edtEmail;
+
+    private Retrofit2Client retrofit2Client;
+    private BookingService bookingService;
 
 
     @Override
@@ -49,12 +82,14 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
         paddingStatusBar(toolbar);
         paddingBottomNavigationBar(RootLayout);
 
+        retrofit2Client=new Retrofit2Client(getApplicationContext());
+        bookingService=retrofit2Client.createService(BookingService.class);
+
         // initialisation
         tv_booking_info = findViewById(R.id.toolbar_custom_sub_title);
         txtStartDate = findViewById(R.id.txtStartDate);
         txtEndDate = findViewById(R.id.txtEndDate);
         txtNight = findViewById(R.id.txtNight);
-        continue_btn = findViewById(R.id.lyt_cta);
 
         tv_property_type = findViewById(R.id.tv_property_type);
         tvPropertyName = findViewById(R.id.tvPropertyName);
@@ -64,8 +99,18 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
         tvPlanDescription= findViewById(R.id.tvPlanDescription);
         propertyImageView = findViewById(R.id.propertyImageView);
         roomImageView = findViewById(R.id.roomImageView);
+
+        edtFirstName = findViewById(R.id.edtFirstName);
+        edtLastName= findViewById(R.id.edtLastName);
+        edtPhoneNo= findViewById(R.id.edtPhoneNo);
+        edtEmail= findViewById(R.id.edtEmail);
+
         unStrikedPrice = findViewById(R.id.unStrikedPrice);
         txtPerNight = findViewById(R.id.txtPerNight);
+        btn_next = findViewById(R.id.btn_next);
+        loadingCartGif = findViewById(R.id.loadingCartGif);
+        tvContinue = findViewById(R.id.continueBtn);
+        loginPreferencesManager = new LoginPreferencesManager(getApplicationContext());
 
 
         // Get default dates from hotel list activity
@@ -86,6 +131,7 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             nb_adultes = intent.getStringExtra("nb_adultes");
             nb_enfants = intent.getStringExtra("nb_enfants");
 
+            room_id= intent.getStringExtra("room_id");
             room_name= intent.getStringExtra("room_name");
             room_size= intent.getStringExtra("room_size");
             room_bed_type = intent.getStringExtra("room_bed_type");
@@ -144,9 +190,64 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
                     .placeholder(R.drawable.hotel_place_holder)
                     .into(roomImageView);
 
+            //user info
+            User user = loginPreferencesManager.getUser();
+            if (user != null) {
+                edtFirstName.setText(user.getFirst_name());
+                edtLastName.setText(user.getLast_name());
+                edtPhoneNo.setText(user.getPhone_number());
+                edtEmail.setText(user.getEmail());
+
+            }
+
 
 
         }
+
+        btn_next.setOnClickListener(view -> {
+
+            if (!loginPreferencesManager.isLoggedIn()) {
+
+                Intent intentLogin = new Intent(this, LoginActivity.class);
+                loginActivityLauncher.launch(intentLogin); // Use ActivityResultLauncher
+                //return false; // Prevent navigation to AccountFragment
+            }
+            else{
+
+                loadingCartGif.setVisibility(View.VISIBLE);
+                btn_next.setEnabled(false);
+                tvContinue.setText("");
+
+                User user = loginPreferencesManager.getUser();
+                if (user != null) {
+
+                    String user_id=String.valueOf(user.getId());
+                    String pricing_type="daily";
+                    String duration=String.valueOf(getDaysBetween(checkinDate,checkoutDate));
+                    String total_price=unStrikedPrice.getText().toString();
+                    String booking_type="hotel";
+                    String first_name=edtFirstName.getText().toString();
+                    String last_name=edtLastName.getText().toString();
+                    String phone=edtPhoneNo.getText().toString();
+                    String email=edtEmail.getText().toString();
+
+
+
+                    saveBooking(
+                            Integer.valueOf(user_id),Integer.valueOf(property_id),checkinDate,checkoutDate,Double.valueOf(property_price),
+                            pricing_type,duration,Double.valueOf(total_price),price_currency,booking_type,
+                            first_name,last_name,phone,email,Integer.valueOf(nb_adultes),Integer.valueOf(nb_enfants),Integer.valueOf(room_id)
+                    );
+
+
+
+                }
+
+
+            }
+
+
+        });
     }
 
     public int getNavigationBarHeight(Activity activity) {
@@ -252,6 +353,106 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             e.printStackTrace();
             return -1; // Return -1 if there's an error
         }
+    }
+
+    private final ActivityResultLauncher<Intent> loginActivityLauncher =
+    registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == RESULT_OK) {
+            // User logged in, proceed with original action
+            continueAfterLogin();
+        }
+    });
+
+    private void continueAfterLogin() {
+        Toast.makeText(this, "Continuing with Activity A data intact!", Toast.LENGTH_SHORT).show();
+        // Your logic to proceed after login
+    }
+
+
+
+    public void saveBooking(int user_id, int property_id, String checkinDate, String checkoutDate, double property_price, String pricing_type, String duration, double total_price, String price_currency, String booking_type, String first_name, String last_name, String phone, String email, int nb_adultes, int nb_enfants, int room_id) {
+
+        Booking booking = new Booking (user_id, property_id, checkinDate, checkoutDate, property_price, pricing_type, duration, total_price, price_currency, booking_type, first_name, last_name, phone, email, nb_adultes, nb_enfants, room_id);
+
+        // Send the POST request
+        Call<Booking> call = bookingService.saveBooking(booking);
+        call.enqueue(new Callback<Booking>() {
+            @Override
+            public void onResponse(Call<Booking> call, Response<Booking> response) {
+                if (response.isSuccessful()) {
+
+                    loadingCartGif.setVisibility(View.GONE);
+                    btn_next.setEnabled(true);
+                    tvContinue.setText("Continuer");
+
+                    SuccessDialogFragment successDialogFragment = new SuccessDialogFragment(() -> {
+
+                        Intent intent = new Intent(ConfirmHotelBookingActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    });
+                    Bundle args = new Bundle();
+                    args.putString("success_message", "Reservation fait avec success");
+                    successDialogFragment.setArguments(args);
+                    successDialogFragment.show(getSupportFragmentManager(), "SuccessDialog");
+
+                } else {
+
+                    loadingCartGif.setVisibility(View.GONE);
+                    btn_next.setEnabled(true);
+                    tvContinue.setText("Continuer");
+
+                    handleValidationError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Booking> call, Throwable t) {
+                Toast.makeText(ConfirmHotelBookingActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("BookingError", t.getMessage());
+
+                loadingCartGif.setVisibility(View.GONE);
+                btn_next.setEnabled(true);
+                tvContinue.setText("Continuer");
+            }
+        });
+    }
+
+    private void handleValidationError(Response<?> response) {
+        try {
+            String errorBody = response.errorBody().string(); // Raw error response
+            Gson gson = new Gson();
+            ValidationErrorResponse errorResponse = gson.fromJson(errorBody, ValidationErrorResponse.class);
+
+            if (errorResponse != null && errorResponse.getData() != null) {
+                // Build a dynamic error message
+                StringBuilder errorMessages = new StringBuilder("Validation Errors:\n");
+
+                for (Map.Entry<String, List<String>> entry : errorResponse.getData().entrySet()) {
+                    String field = entry.getKey();
+                    List<String> messages = entry.getValue();
+
+                    errorMessages.append("- ").append(field).append(": ");
+                    for (String message : messages) {
+                        errorMessages.append(message).append(" ");
+                    }
+                    errorMessages.append("\n");
+                }
+
+                // Show the AlertDialog
+                showErrorDialog(errorMessages.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorDialog("An unexpected error occurred.");
+        }
+    }
+    private void showErrorDialog(String errorMessages) {
+        new AlertDialog.Builder(this)
+                .setTitle("Validation Errors")
+                .setMessage(errorMessages)
+                .setPositiveButton("OK", null)
+                .show();
     }
 
 

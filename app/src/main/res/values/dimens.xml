@@ -91,4 +91,10 @@
     <dimen name="_28sdp">28dp</dimen>
     <dimen name="_8sdp">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="_20sdp">20dp</dimen>
+    <dimen name="dimen_15">15dp</dimen>
+    <dimen name="_35sdp">35dp</dimen>
+    <dimen name="dialog_width_1">270dp</dimen>
+    <dimen name="dialog_width">320dp</dimen>
+    <dimen name="title_font_size">18sp</dimen>
 </resources>

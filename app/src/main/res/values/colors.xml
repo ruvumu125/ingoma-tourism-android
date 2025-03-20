@@ -130,5 +130,12 @@
     <color name="colorTextNotificationTime">#7a869a</color>
     <color name="colorDividerLight">#f2f2f2</color>
     <color name="colorRed2">#dc3545</color>
+    <color name="thirtyPercentTransparent">#59ffffff</color>
+    <color name="dangerous">#f44336</color>
+
+    <color name="pending_color">#FFC107</color>
+    <color name="confirmed_color">#007BFF</color>
+    <color name="cancelled_color">#DC3545</color>
+    <color name="paid_color">#28A745</color>
 </resources>
 

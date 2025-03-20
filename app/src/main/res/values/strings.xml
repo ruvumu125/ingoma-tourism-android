@@ -124,6 +124,7 @@
     <string name="welcome_back_text">Welcome Back!</string>
     <string name="continue_your_journey_with_go_zayaan">Continue your journey with GoZayaan</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="log_in">Log in</string>
     <string name="continue_with_google">Continue With Google</string>
     <string name="forgot_password_text">Forgot Password?</string>
@@ -158,6 +159,9 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
+    <string name="thank_you">Success !</string>
+    <string name="error_message">Error !</string>
+    <string name="feedback_submitted">Saran kamu telah kami terima.</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -195,5 +199,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="close">Close</string>
 
 </resources>

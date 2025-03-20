@@ -35,6 +35,7 @@ import com.ingoma.tourism.model.Amenity;
 import com.ingoma.tourism.model.PropertyList;
 import com.ingoma.tourism.model.PropertyListResponse;
 import com.ingoma.tourism.model.Sort;
+import com.ingoma.tourism.utils.LoginPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
