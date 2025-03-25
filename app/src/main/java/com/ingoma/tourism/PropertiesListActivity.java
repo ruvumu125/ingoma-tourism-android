@@ -37,6 +37,9 @@ import com.ingoma.tourism.model.PropertyListResponse;
 import com.ingoma.tourism.model.Sort;
 import com.ingoma.tourism.utils.LoginPreferencesManager;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +56,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
     private LinearLayout Ll_date_guest_infos;
     private ImageView imgEditArrow;
 
-    private String type_search,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String tarification_type,type_search,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private boolean isLoading = false;
     private int currentPage = 1;
     private int totalPage = 1;
@@ -123,6 +126,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         nb_adultes = intent.getStringExtra("nb_adultes");
         nb_enfants = intent.getStringExtra("nb_enfants");
         property_type = intent.getStringExtra("property_type");
+        tarification_type = intent.getStringExtra("tarification_type");
 
         //set textview
         toolbar_custom_title.setText(city_or_property);
@@ -423,6 +427,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
         city_or_property=city_or_property_response;
         nb_adultes=String.valueOf(adultesNumber_response);
         nb_enfants=String.valueOf(childrenNumber_response);
+        tarification_type=getTarificationType(checkinDate_response,checkoutDate_response);
 
         //set textview
         toolbar_custom_title.setText(city_or_property_response);
@@ -463,6 +468,7 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
         intent.putExtra("property_adress", hotelModel.getAddress());
         intent.putExtra("property_first_image", hotelModel.getImages().get(0));
+        intent.putExtra("tarification_type", tarification_type);
 
         startActivity(intent);
     }
@@ -525,6 +531,21 @@ public class PropertiesListActivity extends AppCompatActivity implements EditBoo
 
         }
 
+    }
+
+    public static String getTarificationType(String dateStr1, String dateStr2) {
+        // Define the date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Parse the strings into LocalDate
+        LocalDate date1 = LocalDate.parse(dateStr1, formatter);
+        LocalDate date2 = LocalDate.parse(dateStr2, formatter);
+
+        // Calculate the difference in days
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+
+        // Return "Daily" if under a month, otherwise "Monthly"
+        return Math.abs(daysBetween) < 30 ? "daily" : "monthly";
     }
 
 }

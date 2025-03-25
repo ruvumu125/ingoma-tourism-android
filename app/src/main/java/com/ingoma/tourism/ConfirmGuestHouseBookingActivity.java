@@ -42,6 +42,9 @@ import com.ingoma.tourism.utils.LoginPreferencesManager;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +56,7 @@ import retrofit2.Response;
 
 public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
 
-    private String property_price,price_currency,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String database_tarification_type,tarification_type,property_price,price_currency,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private TextView tv_booking_info,txtStartDate,txtEndDate,txtNight;
     private TextView tvPropertyName,tvPropertyAddress;
     private AppCompatImageView propertyImageView;
@@ -126,6 +129,8 @@ public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
             price_currency= intent.getStringExtra("price_currency");
             nb_adultes = intent.getStringExtra("nb_adultes");
             nb_enfants = intent.getStringExtra("nb_enfants");
+            tarification_type=intent.getStringExtra("tarification_type");
+            database_tarification_type=intent.getStringExtra("database_tarification_type");
 
 
             String guest_info=displayGuestInfo(property_type,nb_adultes,nb_enfants);
@@ -133,25 +138,42 @@ public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
             txtStartDate.setText(checkinDateFrench);
             txtEndDate.setText(checkoutDateFrench);
 
-            String nbNight="";
-            if (getDaysBetween(checkinDate,checkoutDate)>1){
-                nbNight=String.valueOf(getDaysBetween(checkinDate,checkoutDate))+" "+"nuits";
+            if (tarification_type.equals("daily") || database_tarification_type.equals("daily")){
+
+                String nbNight="";
+                if (getDaysBetween(checkinDate,checkoutDate)>1){
+                    nbNight=String.valueOf(getDaysBetween(checkinDate,checkoutDate))+" "+"nuits";
+                }
+                else {
+                    nbNight=String.valueOf(getDaysBetween(checkinDate,checkoutDate))+" "+"nuit";
+                }
+                txtNight.setText(nbNight);
+
+                //calculate total amount
+                long nbOfNight=getDaysBetween(checkinDate,checkoutDate);
+                Double price=Double.parseDouble(property_price);
+                Double total=price*nbOfNight;
+                unStrikedPrice.setText(String.valueOf(total));
+                txtPerNight.setText(price_currency);
             }
-            else {
-                nbNight=String.valueOf(getDaysBetween(checkinDate,checkoutDate))+" "+"nuit";
+            else{
+
+                txtNight.setText(String.valueOf(getDecimalMonthsBetween(checkinDate,checkoutDate))+" "+"mois");
+
+                //calculate total amount
+                double nbOfMonths=getDecimalMonthsBetween(checkinDate,checkoutDate);
+                Double price=Double.parseDouble(property_price);
+                Double total=price*nbOfMonths;
+                unStrikedPrice.setText(String.valueOf(total));
+                txtPerNight.setText(price_currency);
+
             }
-            txtNight.setText(nbNight);
 
             //autres data
             tvPropertyName.setText(property_name);
             tvPropertyAddress.setText(property_adress);
 
-            //calculate total amount
-            long nbOfNight=getDaysBetween(checkinDate,checkoutDate);
-            Double price=Double.parseDouble(property_price);
-            Double total=price*nbOfNight;
-            unStrikedPrice.setText(String.valueOf(total));
-            txtPerNight.setText(price_currency);
+
 
             //images
             String baseUrlProperty = Constant.BASE_URL + "api/v1/property-image/";
@@ -195,7 +217,7 @@ public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
                 if (user != null) {
 
                     String user_id=String.valueOf(user.getId());
-                    String pricing_type="daily";
+                    String pricing_type=tarification_type;
                     String duration=String.valueOf(getDaysBetween(checkinDate,checkoutDate));
                     String total_price=unStrikedPrice.getText().toString();
                     String booking_type="guest_house";
@@ -209,7 +231,7 @@ public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
                             checkinDate,checkoutDate,Double.valueOf(property_price),
                             pricing_type,duration,
                             Double.valueOf(total_price),price_currency,
-                            booking_type,first_name,last_name,phone,email,1,0,1
+                            booking_type,first_name,last_name,phone,email,1,0,1,1
                     );
 
 
@@ -330,6 +352,36 @@ public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
         }
     }
 
+    public static double getDecimalMonthsBetween(String dateStr1, String dateStr2) {
+        // Define the date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Parse the strings into LocalDate
+        LocalDate startDate = LocalDate.parse(dateStr1, formatter);
+        LocalDate endDate = LocalDate.parse(dateStr2, formatter);
+
+        // Calculate full months
+        long fullMonths = ChronoUnit.MONTHS.between(startDate, endDate);
+
+        // Move start date forward by the full months
+        LocalDate tempDate = startDate.plusMonths(fullMonths);
+
+        // Calculate remaining days after full months
+        long remainingDays = ChronoUnit.DAYS.between(tempDate, endDate);
+
+        // Get the total days in the last month from the adjusted start date
+        int daysInLastMonth = tempDate.lengthOfMonth();
+
+        // Convert remaining days into fraction of a month
+        double fraction = (double) remainingDays / daysInLastMonth;
+
+        // Compute the final decimal months value
+        double totalMonths = fullMonths + fraction;
+
+        // Round to 1 decimal place
+        return Math.round(totalMonths * 10.0) / 10.0;  // Round to 1 decimal place
+    }
+
     private final ActivityResultLauncher<Intent> loginActivityLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
@@ -352,7 +404,7 @@ public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
                             double total_price, String price_currency,
                             String booking_type, String first_name,
                             String last_name,
-                            String phone, String email,int nb_adultes, int nb_enfants, int room_id) {
+                            String phone, String email,int nb_adultes, int nb_enfants, int room_id, int plan_id) {
 
         Booking booking = new Booking (
                 user_id, property_id,
@@ -360,7 +412,7 @@ public class ConfirmGuestHouseBookingActivity extends AppCompatActivity {
                 property_price, pricing_type,
                 duration, total_price,
                 price_currency, booking_type,
-                first_name, last_name, phone, email,nb_adultes,nb_enfants,room_id);
+                first_name, last_name, phone, email,nb_adultes,nb_enfants,room_id,plan_id);
 
         // Send the POST request
         Call<Booking> call = bookingService.saveBooking(booking);

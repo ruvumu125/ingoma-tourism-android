@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class BookingList {
 
     @SerializedName("booking_id")
-    private int bookingId;
+    private Long bookingId;
 
     @SerializedName("booking_number")
     private String bookingNumber;
@@ -28,7 +28,7 @@ public class BookingList {
     @SerializedName("property")
     private BookingListProperty property;
 
-    public int getBookingId() {
+    public Long getBookingId() {
         return bookingId;
     }
 

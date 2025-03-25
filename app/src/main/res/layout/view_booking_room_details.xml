@@ -81,7 +81,7 @@
                                         android:layout_height="match_parent">
 
                                         <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/imageView"
+                                            android:id="@+id/iv_booking_details_room_imageView"
                                             android:layout_width="@dimen/htl_property_card_image_height"
                                             android:layout_height="@dimen/htl_property_card_image_height"
                                             android:layout_marginBottom="20dp"
@@ -104,8 +104,8 @@
                                             android:visibility="gone"
                                             android:paddingEnd="@dimen/margin_extra_small"
                                             android:layout_marginEnd="5dp"
-                                            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                                            app:layout_constraintEnd_toEndOf="@+id/imageView">
+                                            app:layout_constraintBottom_toBottomOf="@+id/iv_booking_details_room_imageView"
+                                            app:layout_constraintEnd_toEndOf="@+id/iv_booking_details_room_imageView">
                                             <TextView
                                                 android:id="@+id/picture_numbers"
                                                 android:textColor="@color/white"
@@ -145,7 +145,7 @@
 
                                         <androidx.appcompat.widget.AppCompatTextView
                                             android:ellipsize="end"
-                                            android:id="@+id/tv_room_title"
+                                            android:id="@+id/tv_booking_details_room_name"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:maxLines="2"
@@ -168,7 +168,7 @@
                                             android:src="@drawable/account_circle_24px"/>
 
                                         <TextView
-                                            android:id="@+id/tv_guest_count"
+                                            android:id="@+id/tv_booking_details_guest_count"
                                             android:layout_width="wrap_content"
                                             android:layout_height="match_parent"
                                             android:text="2 Guests"
@@ -194,7 +194,7 @@
 
                                         <TextView
                                             android:textColor="@color/colorTextLight"
-                                            android:id="@+id/tv_bed_type"
+                                            android:id="@+id/tv_booking_details_bed_type"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="King Bed"
@@ -216,7 +216,7 @@
                                             android:src="@drawable/square_foot_24px"/>
 
                                         <TextView
-                                            android:id="@+id/tv_room_surface"
+                                            android:id="@+id/tv_booking_details_room_surface"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="30m²"
@@ -242,7 +242,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/room_head"/>
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_room_option"
+                            android:id="@+id/rv_room_amenities"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"

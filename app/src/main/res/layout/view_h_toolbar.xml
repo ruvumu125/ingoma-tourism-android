@@ -73,7 +73,7 @@
                 android:id="@+id/lytEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
+                android:text="Modifier"
                 android:paddingHorizontal="4dp"
                 style="@style/TextStyles.Label.Small.w1"/>
             <ImageView
@@ -94,7 +94,7 @@
         <ImageView
             android:id="@+id/imgShare"
             android:focusable="true"
-            android:visibility="visible"
+            android:visibility="gone"
             android:clickable="true"
             android:layout_width="32dp"
             android:layout_height="32dp"

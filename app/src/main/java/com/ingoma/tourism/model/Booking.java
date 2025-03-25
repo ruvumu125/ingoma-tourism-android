@@ -19,8 +19,9 @@ public class Booking {
     private int adults;
     private int children;
     private int room_id;
+    private int room_plan_id;
 
-    public Booking(int user_id, int property_id, String check_in_date, String check_out_date, double unit_price, String pricing_type, String duration, double total_price, String currency, String booking_type, String first_name, String last_name, String phone, String email, int adults, int children, int room_id) {
+    public Booking(int user_id, int property_id, String check_in_date, String check_out_date, double unit_price, String pricing_type, String duration, double total_price, String currency, String booking_type, String first_name, String last_name, String phone, String email, int adults, int children, int room_id, int room_plan_id) {
         this.user_id = user_id;
         this.property_id = property_id;
         this.check_in_date = check_in_date;
@@ -38,9 +39,10 @@ public class Booking {
         this.adults = adults;
         this.children = children;
         this.room_id = room_id;
+        this.room_plan_id = room_plan_id;
     }
 
-    public Booking(int property_id, String check_in_date, String check_out_date, double unit_price, String pricing_type, String duration, double total_price, String currency, String booking_type, String first_name, String phone, String last_name, String email, int children, int adults, int room_id) {
+    public Booking(int property_id, String check_in_date, String check_out_date, double unit_price, String pricing_type, String duration, double total_price, String currency, String booking_type, String first_name, String phone, String last_name, String email, int children, int adults, int room_id, int room_plan_id) {
         this.property_id = property_id;
         this.check_in_date = check_in_date;
         this.check_out_date = check_out_date;
@@ -57,6 +59,7 @@ public class Booking {
         this.children = children;
         this.adults = adults;
         this.room_id = room_id;
+        this.room_plan_id = room_plan_id;
     }
 
 
@@ -196,6 +199,14 @@ public class Booking {
 
     public void setRoom_id(int room_id) {
         this.room_id = room_id;
+    }
+
+    public int getRoom_plan_id() {
+        return room_plan_id;
+    }
+
+    public void setRoom_plan_id(int room_plan_id) {
+        this.room_plan_id = room_plan_id;
     }
 }
 

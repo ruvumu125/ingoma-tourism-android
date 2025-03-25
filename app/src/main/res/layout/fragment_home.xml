@@ -43,10 +43,10 @@
                 app:civ_border_color="@color/white"/>
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_hello"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hello, Traveller"
+                android:text=""
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@id/iv_profile"
                 app:layout_constraintTop_toTopOf="@id/iv_profile"
@@ -165,7 +165,7 @@
                                     android:textColor="@color/black"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:text="Saisir une destination"
+                                    android:text="Choisissez une destination"
                                     style="@style/TextStyles.Label.Large.w2"/>
                                 <com.google.android.material.textview.MaterialTextView
                                     android:id="@+id/tv_from_airport"
@@ -349,7 +349,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="16dp"
                                     android:layout_marginBottom="32dp"
-                                    android:text="@string/done"
+                                    android:text="Rechercher"
                                     android:layout_alignParentBottom="true"
                                     android:layout_marginStart="@dimen/padding_16"
                                     android:layout_marginEnd="@dimen/padding_16"
@@ -368,7 +368,7 @@
                             android:id="@+id/deals_layout"
                             android:background="@color/colorDivider"
                             android:paddingBottom="10dp"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:clipToPadding="false"
                             android:paddingStart="@dimen/padding_16"
                             android:paddingEnd="@dimen/padding_16"
@@ -383,24 +383,21 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:text="@string/hot_deals"
+                                android:text="Publicité"
                                 android:fontFamily="@font/gilroy_bold"
                                 app:textAllCaps="false"
                                 style="@style/H1TextAppearance"/>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/jimbo"
-                                android:background="@color/white"
+                                android:background="@drawable/white_bg"
                                 android:layout_width="match_parent"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="8dp"
-                                android:paddingStart="@dimen/padding_16"
-                                android:paddingEnd="@dimen/padding_16"
+                                android:layout_marginTop="7dp"
                                 android:visibility="visible"
                                 android:layout_height="wrap_content">
 
                                 <com.smarteist.autoimageslider.SliderView
-                                    android:id="@+id/imageSlider"
+                                    android:id="@+id/imageSliderAdvertisement"
                                     android:layout_width="fill_parent"
                                     android:layout_height="150dp"
                                     app:layout_constraintEnd_toEndOf="parent"

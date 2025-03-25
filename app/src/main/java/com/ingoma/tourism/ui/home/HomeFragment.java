@@ -3,23 +3,35 @@ package com.ingoma.tourism.ui.home;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textview.MaterialTextView;
 import com.ingoma.tourism.HotelDatePickerActivity;
-import com.ingoma.tourism.HotelSearchActivity;
 import com.ingoma.tourism.LocationSearchActivity;
+import com.ingoma.tourism.PropertiesDetailsActivity;
 import com.ingoma.tourism.PropertiesListActivity;
 import com.ingoma.tourism.R;
+import com.ingoma.tourism.adapter.HomeMainSliderAdapter;
+import com.ingoma.tourism.adapter.SliderPropertyDetailsAdapter;
+import com.ingoma.tourism.api.AdvertisementApiService;
+import com.ingoma.tourism.api.Retrofit2Client;
 import com.ingoma.tourism.dialog.GuestSelectionDialogFragment;
+import com.ingoma.tourism.model.Advertisement;
+import com.ingoma.tourism.model.AdvertisementResponse;
+import com.ingoma.tourism.model.User;
+import com.ingoma.tourism.utils.LoginPreferencesManager;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,10 +42,18 @@ import androidx.fragment.app.Fragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements GuestSelectionDialogFragment.CallBackListener{
 
@@ -52,10 +72,37 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
     private int nbAdultes=1;
     private int nbChildren=0;
     private MaterialButton btnDone;
+    private TextView tv_hello;
+    private LoginPreferencesManager loginPreferencesManager;
 
+    private SliderView sliderView;
+    private HomeMainSliderAdapter sliderAdapter;
+    private List<Advertisement> imageUrls = new ArrayList<Advertisement>();
+    private Retrofit2Client retrofit2Client;
+    private AdvertisementApiService advertisementApiService;
+    private LinearLayoutCompat deals_layout;
+
+
+    @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        loginPreferencesManager = new LoginPreferencesManager(getContext());
+        retrofit2Client=new Retrofit2Client(getContext());
+        advertisementApiService = retrofit2Client.createService(AdvertisementApiService.class);
+
+        sliderView = root.findViewById(R.id.imageSliderAdvertisement);
+        sliderAdapter=new HomeMainSliderAdapter(getContext());
+        sliderView.setSliderAdapter(sliderAdapter);
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+        sliderView.setIndicatorSelectedColor(getResources().getColor(R.color.primary));
+        sliderView.setIndicatorUnselectedColor(Color.WHITE);
+        sliderView.setScrollTimeInSec(6);
+        sliderView.setAutoCycle(true);
+        sliderView.startAutoCycle();
+
 
         Llc_guest = root.findViewById(R.id.Llc_guest);
         chipGroup = root.findViewById(R.id.trip_chip_group);
@@ -70,6 +117,22 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
         layout_guest = root.findViewById(R.id.layout_guest);
         layout_destination = root.findViewById(R.id.layout_destination);
         btnDone = root.findViewById(R.id.btnDone);
+        tv_hello= root.findViewById(R.id.tv_hello);
+        deals_layout=root.findViewById(R.id.deals_layout);
+
+        fetchAdvertisements(deals_layout);
+
+        if (loginPreferencesManager.isLoggedIn()) {
+
+            User user = loginPreferencesManager.getUser();
+            if (user != null) {
+
+                tv_hello.setText("Bonjour "+user.getLast_name());
+            }
+        }
+        else{
+            tv_hello.setText("Bonjour voyageur");
+        }
 
         // Define default dates
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -133,7 +196,6 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
                 toast.show();
                 return;
             }
-
             openPropertyListActivity();
 
         });
@@ -211,6 +273,7 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
         intent.putExtra("nb_adultes", String.valueOf(nbAdultes));
         intent.putExtra("nb_enfants",String.valueOf(nbChildren));
         intent.putExtra("property_type",property_type);
+        intent.putExtra("tarification_type",getTarificationType(checkinStr,checkoutStr));
 
         startActivity(intent);
     }
@@ -219,6 +282,40 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
         Intent intent = new Intent(getContext(), LocationSearchActivity.class);
         intent.putExtra("property_type",property_type);
         selectLocationActivityResultLauncher.launch(intent);
+    }
+
+    private void fetchAdvertisements(LinearLayoutCompat deals_layout) {
+
+        Call<AdvertisementResponse> call = advertisementApiService.getAdvertisements();
+
+        call.enqueue(new Callback<AdvertisementResponse>() {
+            @Override
+            public void onResponse(Call<AdvertisementResponse> call, Response<AdvertisementResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Advertisement> ads = response.body().getData();
+
+                    if (ads.isEmpty()){
+                        deals_layout.setVisibility(View.GONE);
+                    }
+                    else{
+                        deals_layout.setVisibility(View.VISIBLE);
+
+                        imageUrls.addAll(ads);
+                        sliderAdapter.renewItems(imageUrls);
+                    }
+
+
+                } else {
+                    Toast.makeText(getContext(), "Failed to retrieve images", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AdvertisementResponse> call, Throwable t) {
+
+                Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -235,4 +332,20 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
             tv_no_of_guest.setText(String.valueOf(sum)+" voyageur");
         }
     }
+
+    public static String getTarificationType(String dateStr1, String dateStr2) {
+        // Define the date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Parse the strings into LocalDate
+        LocalDate date1 = LocalDate.parse(dateStr1, formatter);
+        LocalDate date2 = LocalDate.parse(dateStr2, formatter);
+
+        // Calculate the difference in days
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+
+        // Return "Daily" if under a month, otherwise "Monthly"
+        return Math.abs(daysBetween) < 30 ? "daily" : "monthly";
+    }
+
 }

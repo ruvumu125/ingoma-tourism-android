@@ -517,11 +517,9 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:orientation="horizontal"
-                                            android:gravity="center_vertical"
-                                            android:paddingBottom="8dp">
+                                            android:gravity="center_vertical">
 
                                             <TextView
-                                                android:text="kkk"
                                                 android:id="@+id/tvPlanDescription"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
@@ -723,7 +721,7 @@
                                 <TextView
                                     android:textColor="#717171"
                                     android:id="@+id/tvTnc"
-                                    android:visibility="visible"
+                                    android:visibility="gone"
                                     android:text="bhyuuu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -760,7 +758,7 @@
                                         android:background="@drawable/primary_buttons_square"
                                         android:layout_height="55dp"
                                         android:layout_width="match_parent"
-                                        android:text="Confirmer"
+                                        android:text="Réserver"
                                         android:gravity="center"
                                         android:paddingHorizontal="15dp"
                                         app:layout_constraintBottom_toBottomOf="parent"

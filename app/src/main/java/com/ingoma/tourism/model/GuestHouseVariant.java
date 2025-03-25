@@ -5,6 +5,7 @@ public class GuestHouseVariant {
     private String variant;
     private double price;
     private String currency;
+    private String tarification_type;
 
     public int getId() {
         return id;
@@ -20,5 +21,9 @@ public class GuestHouseVariant {
 
     public String getCurrency() {
         return currency;
+    }
+
+    public String getTarification_type() {
+        return tarification_type;
     }
 }

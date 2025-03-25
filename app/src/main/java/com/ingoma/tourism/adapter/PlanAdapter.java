@@ -1,11 +1,14 @@
 package com.ingoma.tourism.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +23,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
 
     private List<Plan> planList;
     private RoomHotel room;
-    private RoomAdapter roomAdapter; // Reference to RoomAdapter
+    private RoomAdapter roomAdapter;
+    private Context context;
 
 
     public PlanAdapter(List<Plan> planList, RoomHotel room, RoomAdapter roomAdapter) {
         this.planList = planList;
         this.room = room;
         this.roomAdapter = roomAdapter;
+        this.context=context;
     }
 
     @NonNull
@@ -40,9 +45,23 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
     public void onBindViewHolder(@NonNull PlanViewHolder holder, int position) {
         Plan plan = planList.get(position);
         holder.tvPlanName.setText(plan.getPlanType());
-        holder.tvPlanDetails.setText(plan.getPlanType());
+
+        String description;
+        if (plan.getDescription() == null || "null".equals(plan.getDescription())) {
+            description = "";
+        } else {
+            description = plan.getDescription();
+        }
+        holder.tvPlanDetails.setText(description);
         holder.tvPlanPrice.setText(plan.getPrice());
-        holder.tvCurrency.setText(plan.getCurrency());
+
+        if (plan.getCurrency().equals("bif")){
+            holder.tvCurrency.setText("BIF");
+        }
+        else {
+            holder.tvCurrency.setText("$");
+        }
+
 
         // Set checkbox state based on RoomAdapter's selected plan
         holder.cb_room.setChecked(plan == room.getSelectedPlan());
@@ -60,7 +79,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
     }
 
     public static class PlanViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatTextView tvPlanPrice,tvCurrency;
+        private AppCompatTextView tvPlanPrice,tvCurrency,tv_day_or_night_to_stay;
         private TextView tvPlanName,tvPlanDetails;
         private CheckBox cb_room;
         private LinearLayout lytRoomParentInfo;
@@ -71,6 +90,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             tvPlanDetails = itemView.findViewById(R.id.mlv_goods_detail_description);
             tvPlanPrice = itemView.findViewById(R.id.tv_price);
             tvCurrency = itemView.findViewById(R.id.tv_bdt_price);
+            tv_day_or_night_to_stay = itemView.findViewById(R.id.tv_day_or_night_to_stay);
             cb_room = itemView.findViewById(R.id.cb_room);
             lytRoomParentInfo = itemView.findViewById(R.id.lytRoomParentInfo);
         }

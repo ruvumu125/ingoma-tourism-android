@@ -20,9 +20,9 @@
     <string name="special">Special</string>
     <string name="starts_from">Starts from</string>
     <string name="bdt">BDT</string>
-    <string name="for_1_night_per_room">for 1 Night, per room</string>
+    <string name="for_1_night_per_room">pour 1 nuit</string>
     <string name="hotel">Hôtel</string>
-    <string name="city_area_property_name">Où voyagez-vous ?</string>
+    <string name="city_area_property_name">Ville ou nom du logement</string>
     <string name="check_in">Date d\'arrivée</string>
     <string name="check_out">Date de départ</string>
     <string name="guests">Voyageurs</string>

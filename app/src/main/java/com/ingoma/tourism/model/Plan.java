@@ -6,6 +6,7 @@ public class Plan {
     private String plan_type;
     private String price;
     private String currency;
+    private String description;
     private String created_at;
     private String updated_at;
 
@@ -14,6 +15,11 @@ public class Plan {
     public String getPlanType() { return plan_type; }
     public String getPrice() { return price; }
     public String getCurrency() { return currency; }
+
+    public String getDescription() {
+        return description;
+    }
+
     public String getCreatedAt() { return created_at; }
     public String getUpdatedAt() { return updated_at; }
 }

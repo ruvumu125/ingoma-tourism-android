@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -42,6 +43,9 @@ import com.ingoma.tourism.model.PropertyDetailsResponse;
 import com.ingoma.tourism.model.Rule;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,11 +61,11 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
     private SliderView sliderView;
     private RecyclerView rvAmenities, rvRules, rvLandmarks, rvSimilarProperties;
-    private TextView tvDescription;
+    private TextView tvDescription,select_room_btn_tv;
     private AppCompatTextView tvHotelType, tvRating;
     private TextView toolbarTitle,tvHotelName,tvAddress,tvPrice,tvBookingInfoDate,tvBookingInfoGuest,tvBookingInfoUpdate;
 
-    private String property_adress,property_first_image,property_minimum_price,price_currency,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String tarification_type,property_adress,property_first_image,property_minimum_price,price_currency,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private TextView view_all_amenities,view_all_rules,view_all_landmarks;
     private LinearLayout select_room_btn;
     private String property_id, property_name;
@@ -71,7 +75,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
     private LinearLayout section_skleton,section_error;
     private ConstraintLayout section_footer_price;
     private View section_skeleton_footer_price;
-    private TextView tv_property_price,tv_price_currency;
+    private TextView tv_property_price,tv_price_currency,tvTnc;
 
     private Retrofit2Client retrofit2Client;
     private PropertyApiService propertyApiService;
@@ -119,7 +123,9 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         section_skeleton_footer_price=findViewById(R.id.hd_footer_shimmer);
         tv_property_price=findViewById(R.id.unStrikedPrice);
         tv_price_currency=findViewById(R.id.txtPerNight);
+        tvTnc=findViewById(R.id.tvTnc);
         section_error=findViewById(R.id.section_error);
+        select_room_btn_tv=findViewById(R.id.select_room_btn_tv);
 
         hotel_rules_section=(LinearLayout) findViewById(R.id.hotel_rules_section);
         hotel_amenities_section=(LinearLayout) findViewById(R.id.hotel_amenities_section);
@@ -145,8 +151,15 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
             price_currency = intent.getStringExtra("price_currency");
             property_adress = intent.getStringExtra("property_adress");
             property_first_image = intent.getStringExtra("property_first_image");
-
+            tarification_type = intent.getStringExtra("tarification_type");
             toolbarTitle.setText(property_name);
+
+            if (property_type.equals("hotel")){
+                select_room_btn_tv.setText("Selectionner une chambre");
+            }
+            else{
+                select_room_btn_tv.setText("Voir les tarifs");
+            }
 
             displayBookingInfo(checkinDateFrench,checkoutDateFrench,nb_adultes,nb_enfants,tvBookingInfoDate,tvBookingInfoGuest);
         }
@@ -391,7 +404,15 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
                     section_skeleton_footer_price.setVisibility(View.GONE);
                     section_footer_price.setVisibility(View.VISIBLE);
                     tv_property_minimum_price.setText(property_minimum_price);
-                    tv_currency.setText(price_currency);
+
+                    String prix_devise;
+                    if (price_currency.equals("bif")){
+                        prix_devise="BIF";
+                    }
+                    else{
+                        prix_devise="$";
+                    }
+                    tv_currency.setText(prix_devise);
 
                 } else {
                     Log.e("ERROR", "Response failed");
@@ -433,6 +454,8 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
     @Override
     public void onModifyButtonClicked(String search_type,String city_or_property_response, String checkinDate_response, String checkoutDate_response, String checkinDateFrenchFormat_response, String checkoutDateFrenchFormat_response, int adultesNumber_response, int childrenNumber_response) {
         search_type="";
+        tarification_type=getTarificationType(checkinDate_response,checkoutDate_response);
+        Toast.makeText(this, tarification_type, Toast.LENGTH_SHORT).show();
         displayBookingInfo(checkinDateFrenchFormat_response,checkoutDateFrenchFormat_response,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response),tvBookingInfoDate,tvBookingInfoGuest);
     }
 
@@ -469,6 +492,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
         intent.putExtra("property_adress", property_adress);
         intent.putExtra("property_first_image", property_first_image);
+        intent.putExtra("tarification_type", tarification_type);
 
         startActivity(intent);
     }
@@ -487,8 +511,24 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
         intent.putExtra("property_adress", property_adress);
         intent.putExtra("property_first_image", property_first_image);
+        intent.putExtra("tarification_type", tarification_type);
 
         startActivity(intent);
+    }
+
+    public static String getTarificationType(String dateStr1, String dateStr2) {
+        // Define the date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Parse the strings into LocalDate
+        LocalDate date1 = LocalDate.parse(dateStr1, formatter);
+        LocalDate date2 = LocalDate.parse(dateStr2, formatter);
+
+        // Calculate the difference in days
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+
+        // Return "Daily" if under a month, otherwise "Monthly"
+        return Math.abs(daysBetween) < 30 ? "daily" : "monthly";
     }
 
 }

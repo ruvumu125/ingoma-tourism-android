@@ -83,7 +83,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edit"
+                        android:text="Modifier"
                         style="@style/TextStyles.Label.Small.w2"/>
                     <ImageView
                         android:gravity="center_vertical"

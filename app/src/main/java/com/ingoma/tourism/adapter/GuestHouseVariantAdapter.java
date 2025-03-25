@@ -44,7 +44,22 @@ public class GuestHouseVariantAdapter extends RecyclerView.Adapter<GuestHouseVar
         GuestHouseVariant variant = guestHouseVariants.get(position);
         holder.tvPlanName.setText(variant.getVariant());
         holder.tvPlanPrice.setText(String.valueOf(variant.getPrice()));
-        holder.tvCurrency.setText(variant.getCurrency());
+
+        String prix_devise;
+        if (variant.getCurrency().equals("bif")){
+            holder.tvCurrency.setText("BIF");
+        }
+        else{
+            holder.tvCurrency.setText("$");
+        }
+
+
+        if (variant.getTarification_type().equals("daily")){
+            holder.tv_day_or_night_to_stay.setText("par jour");
+        }
+        else{
+            holder.tv_day_or_night_to_stay.setText("par mois");
+        }
 
         // Set the radio button state based on selectedPosition
         holder.cb_room.setChecked(position == selectedPosition);
@@ -63,7 +78,7 @@ public class GuestHouseVariantAdapter extends RecyclerView.Adapter<GuestHouseVar
     }
 
     public static class GuestHouseVariantViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatTextView tvPlanPrice,tvCurrency;
+        private AppCompatTextView tvPlanPrice,tvCurrency, tv_day_or_night_to_stay;
         private TextView tvPlanName;
         private CheckBox cb_room;
         private LinearLayout lytRoomParentInfo;
@@ -73,6 +88,7 @@ public class GuestHouseVariantAdapter extends RecyclerView.Adapter<GuestHouseVar
             tvPlanName = itemView.findViewById(R.id.tvParentRoomHeadingGuestHouse);
             tvPlanPrice = itemView.findViewById(R.id.tv_price_guest_house);
             tvCurrency = itemView.findViewById(R.id.tv_bdt_price_guest_house);
+            tv_day_or_night_to_stay = itemView.findViewById(R.id.tv_day_or_night_to_stay);
             cb_room = itemView.findViewById(R.id.cb_room_guest_house);
             lytRoomParentInfo = itemView.findViewById(R.id.lytRoomParentInfoGuestHouse);
         }

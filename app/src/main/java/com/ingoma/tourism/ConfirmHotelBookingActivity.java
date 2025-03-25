@@ -54,7 +54,7 @@ import retrofit2.Response;
 
 public class ConfirmHotelBookingActivity extends AppCompatActivity {
 
-    private String property_price,price_currency,plan_name,plan_description,room_id,room_name,room_size,room_bed_type,room_main_image,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String tarification_type,property_price,price_currency,plan_id,plan_name,plan_description,room_id,room_name,room_size,room_bed_type,room_main_image,property_id,property_name,property_adress,property_first_image,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private TextView tv_booking_info,txtStartDate,txtEndDate,txtNight;
     private TextView tv_property_type,tvPropertyName,tvPropertyAddress,tvRooName,tvPlanName,tvPlanDescription;
     private AppCompatImageView propertyImageView,roomImageView;
@@ -137,11 +137,13 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             room_bed_type = intent.getStringExtra("room_bed_type");
             room_main_image= intent.getStringExtra("room_main_image");
 
+            plan_id=intent.getStringExtra("plan_id");
             plan_name= intent.getStringExtra("plan_name");
             plan_description= intent.getStringExtra("plan_description");
 
             property_price= intent.getStringExtra("property_price");
             price_currency= intent.getStringExtra("price_currency");
+            tarification_type=intent.getStringExtra("tarification_type");
 
 
             String guest_info=displayGuestInfo(property_type,nb_adultes,nb_enfants);
@@ -164,7 +166,9 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
             tvPropertyAddress.setText(property_adress);
             tvRooName.setText(room_name);
             tvPlanName.setText(plan_name);
-            tvPlanDescription.setText(plan_description);
+            if (plan_description != null && !plan_description.equals("null")){
+                tvPlanDescription.setText(plan_description);
+            }
 
             //calculate total amount
             long nbOfNight=getDaysBetween(checkinDate,checkoutDate);
@@ -231,12 +235,10 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
                     String phone=edtPhoneNo.getText().toString();
                     String email=edtEmail.getText().toString();
 
-
-
                     saveBooking(
                             Integer.valueOf(user_id),Integer.valueOf(property_id),checkinDate,checkoutDate,Double.valueOf(property_price),
                             pricing_type,duration,Double.valueOf(total_price),price_currency,booking_type,
-                            first_name,last_name,phone,email,Integer.valueOf(nb_adultes),Integer.valueOf(nb_enfants),Integer.valueOf(room_id)
+                            first_name,last_name,phone,email,Integer.valueOf(nb_adultes),Integer.valueOf(nb_enfants),Integer.valueOf(room_id),Integer.valueOf(plan_id)
                     );
 
 
@@ -370,9 +372,9 @@ public class ConfirmHotelBookingActivity extends AppCompatActivity {
 
 
 
-    public void saveBooking(int user_id, int property_id, String checkinDate, String checkoutDate, double property_price, String pricing_type, String duration, double total_price, String price_currency, String booking_type, String first_name, String last_name, String phone, String email, int nb_adultes, int nb_enfants, int room_id) {
+    public void saveBooking(int user_id, int property_id, String checkinDate, String checkoutDate, double property_price, String pricing_type, String duration, double total_price, String price_currency, String booking_type, String first_name, String last_name, String phone, String email, int nb_adultes, int nb_enfants, int room_id, int room_plan_id) {
 
-        Booking booking = new Booking (user_id, property_id, checkinDate, checkoutDate, property_price, pricing_type, duration, total_price, price_currency, booking_type, first_name, last_name, phone, email, nb_adultes, nb_enfants, room_id);
+        Booking booking = new Booking (user_id, property_id, checkinDate, checkoutDate, property_price, pricing_type, duration, total_price, price_currency, booking_type, first_name, last_name, phone, email, nb_adultes, nb_enfants, room_id, room_plan_id);
 
         // Send the POST request
         Call<Booking> call = bookingService.saveBooking(booking);

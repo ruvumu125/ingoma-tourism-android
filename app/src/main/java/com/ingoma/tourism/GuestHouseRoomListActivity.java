@@ -30,6 +30,12 @@ import com.ingoma.tourism.model.GuestHouse;
 import com.ingoma.tourism.model.GuestHouseVariant;
 import com.ingoma.tourism.model.Plan;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,9 +45,9 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
     private Retrofit2Client retrofit2Client;
     private PropertyApiService propertyApiService;
 
-    private String property_adress,property_first_image,property_id,property_name,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String tarification_type,property_adress,property_first_image,property_id,property_name,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private LinearLayout continue_btn;
-    private TextView toolbarTitle,tv_booking_info,unStrikedPrice,txtPerNight,continue_btn_tv;
+    private TextView select_room_btn_tv,toolbarTitle,tv_booking_info,unStrikedPrice,txtPerNight,continue_btn_tv;
     private LinearLayout booking_info_edit_section;
 
     private ConstraintLayout section_footer_price;
@@ -54,6 +60,7 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
     private GuestHouseVariant selectedGuestHouseVariant = null;
     private String property_price="";
     private String price_currency="";
+    private String database_tarification_type="";
 
 
     @Override
@@ -75,6 +82,7 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
         toolbarTitle = findViewById(R.id.toolbar_custom_title);
         tv_booking_info = findViewById(R.id.toolbar_custom_sub_title);
         booking_info_edit_section = findViewById(R.id.lytSubtitleWrap);
+        select_room_btn_tv=findViewById(R.id.select_room_btn_tv);
 
         unStrikedPrice=findViewById(R.id.unStrikedPrice);
         txtPerNight=findViewById(R.id.txtPerNight);
@@ -109,6 +117,7 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
             nb_adultes = intent.getStringExtra("nb_adultes");
             nb_enfants = intent.getStringExtra("nb_enfants");
             property_type = intent.getStringExtra("property_type");
+            tarification_type = intent.getStringExtra("tarification_type");
 
             toolbarTitle.setText(property_name);
 
@@ -144,7 +153,7 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
 
         roomTypesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         guestHouseVariantsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        fetchGuestHouseRoom(Long.parseLong(property_id));
+        fetchGuestHouseRoom(Long.parseLong(property_id), tarification_type);
     }
 
     public int getNavigationBarHeight(Activity activity) {
@@ -241,7 +250,7 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
         return guest_info;
     }
 
-    private void fetchGuestHouseRoom(Long property_id) {
+    private void fetchGuestHouseRoom(Long property_id,String type_tarification) {
 
         section_content.setVisibility(View.GONE);
         section_skleton.setVisibility(View.VISIBLE);
@@ -258,20 +267,42 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
                 if (response.isSuccessful() && response.body() != null) {
                     GuestHouse guestHouse = response.body();
 
+                    List<GuestHouseVariant> guestHouseVariants=guestHouse.getGuest_house_variants();
+
+                    List<GuestHouseVariant> filteredVariants;
+
+                    if (type_tarification != null && !type_tarification.isEmpty()) {
+                        filteredVariants = new ArrayList<>();
+                        for (GuestHouseVariant variant : guestHouseVariants) {
+                            if (variant.getTarification_type().equalsIgnoreCase(type_tarification)) {
+                                filteredVariants.add(variant);
+                            }
+                        }
+                    } else {
+                        filteredVariants = guestHouseVariants;
+                    }
+
                     // Set up the RoomTypes RecyclerView
                     RoomGuestHouseAdapter roomGuestHouseAdapter = new RoomGuestHouseAdapter(getApplicationContext(),guestHouse.getRoomtypes());
                     roomTypesRecyclerView.setAdapter(roomGuestHouseAdapter);
 
                     // Set up the GuestHouseVariants RecyclerView
-                    GuestHouseVariantAdapter guestHouseVariantAdapter = new GuestHouseVariantAdapter(guestHouse.getGuest_house_variants(),guestHouseVariant -> {
+                    GuestHouseVariantAdapter guestHouseVariantAdapter = new GuestHouseVariantAdapter(filteredVariants,guestHouseVariant -> {
 
                         selectedGuestHouseVariant = guestHouseVariant;
                         unStrikedPrice.setText(String.valueOf(guestHouseVariant.getPrice()));
-                        txtPerNight.setText(guestHouseVariant.getCurrency());
-
                         property_price=String.valueOf(guestHouseVariant.getPrice());
-                        price_currency=guestHouseVariant.getCurrency();
 
+                        if (guestHouseVariant.getCurrency().equals("bif")){
+                            txtPerNight.setText("BIF");
+                            price_currency="BIF";
+                        }
+                        else{
+                            txtPerNight.setText("$");
+                            price_currency="$";
+                        }
+
+                        database_tarification_type=guestHouseVariant.getTarification_type();
                         section_price.setVisibility(View.VISIBLE);
                     });
                     guestHouseVariantsRecyclerView.setAdapter(guestHouseVariantAdapter);
@@ -318,8 +349,8 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
 
         intent.putExtra("property_price",property_price);
         intent.putExtra("price_currency",price_currency);
-
-
+        intent.putExtra("tarification_type",tarification_type);
+        intent.putExtra("database_tarification_type",database_tarification_type);
 
         startActivity(intent);
     }
@@ -340,14 +371,33 @@ public class GuestHouseRoomListActivity extends AppCompatActivity implements Edi
         city_or_property=city_or_property_response;
         nb_adultes=String.valueOf(adultesNumber_response);
         nb_enfants=String.valueOf(childrenNumber_response);
+        tarification_type=getTarificationType(checkinDate_response,checkoutDate_response);
+
 
         //set textview
         String guest_info=displayGuestInfo(property_type,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response));
         tv_booking_info.setText(checkinDateFrench+" - "+checkoutDateFrench+guest_info);
+
+        fetchGuestHouseRoom(Long.parseLong(property_id), tarification_type);
     }
 
     @Override
     public void onDialogFragmentDismiss() {
 
+    }
+
+    public static String getTarificationType(String dateStr1, String dateStr2) {
+        // Define the date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Parse the strings into LocalDate
+        LocalDate date1 = LocalDate.parse(dateStr1, formatter);
+        LocalDate date2 = LocalDate.parse(dateStr2, formatter);
+
+        // Calculate the difference in days
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+
+        // Return "Daily" if under a month, otherwise "Monthly"
+        return Math.abs(daysBetween) < 30 ? "daily" : "monthly";
     }
 }

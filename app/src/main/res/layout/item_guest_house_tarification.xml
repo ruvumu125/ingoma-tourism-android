@@ -73,40 +73,60 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.6">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_gravity="start"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:textColor="@color/colorPrimary"
-                            android:ellipsize="end"
-                            android:text="70 000"
-                            android:id="@+id/tv_price_guest_house"
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_gravity="start"
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:letterSpacing="-0.027"
-                            style="@style/H2BoldTextAppearance" />
+                            android:layout_marginTop="2dp">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorPrimary"
+                                android:ellipsize="end"
+                                android:text="70 000"
+                                android:id="@+id/tv_price_guest_house"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:letterSpacing="-0.027"
+                                style="@style/H2BoldTextAppearance" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textSize="10sp"
+                                android:textColor="@color/colorPrimary"
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:id="@+id/tv_bdt_price_guest_house"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/bdt"
+                                android:maxLines="1"
+                                android:fontFamily="@font/gilroy_bold"
+                                android:layout_marginStart="4dp"
+                                app:fontFamily="@font/avenir_semi_bold"
+                                style="@style/H5TextAppearance" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:textSize="10sp"
-                            android:textColor="@color/colorPrimary"
-                            android:ellipsize="end"
-                            android:gravity="end"
-                            android:id="@+id/tv_bdt_price_guest_house"
+                            android:textColor="@color/colorTextPrimary"
+                            android:gravity="start"
+                            android:id="@+id/tv_day_or_night_to_stay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/bdt"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/for_1_night_per_room"
                             android:maxLines="1"
-                            android:fontFamily="@font/gilroy_bold"
-                            android:layout_marginStart="4dp"
-                            app:fontFamily="@font/avenir_semi_bold"
-                            style="@style/H5TextAppearance" />
+                            app:fontFamily="@font/avenir_regular"
+                            style="@style/H5Avenir" />
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    </LinearLayout>
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 

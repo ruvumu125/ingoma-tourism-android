@@ -84,7 +84,7 @@
             android:background="@color/bg_htl_dtls"
             android:overScrollMode="never"/>
 
-        <!--no message-->
+        <!--no data  found-->
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/ll_no_notification"
@@ -144,6 +144,7 @@
 
         <!--skeleton-->
         <LinearLayout
+            android:id="@+id/shimmerPrincipaleNot"
             android:visibility="gone"
             android:layout_below="@+id/ll_no_notification"
             android:layout_width="match_parent"
@@ -169,6 +170,23 @@
 
         </LinearLayout>
         <!--skeleton-->
+
+        <!--error section-->
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/error_section_not"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/lytRool"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/lyt_connection_error"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

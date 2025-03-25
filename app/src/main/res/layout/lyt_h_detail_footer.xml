@@ -50,7 +50,7 @@
                 android:text="per night"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="5dp"
                 app:layout_constraintBottom_toBottomOf="@+id/unStrikedPrice"
                 app:layout_constraintLeft_toRightOf="@+id/unStrikedPrice"
@@ -60,7 +60,7 @@
             <TextView
                 android:textColor="#717171"
                 android:id="@+id/tvTnc"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:text="pour une nuit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

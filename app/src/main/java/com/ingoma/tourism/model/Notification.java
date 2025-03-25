@@ -1,20 +1,28 @@
 package com.ingoma.tourism.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Notification {
+    private int id;
+    @SerializedName("user_id")
+    private int userId;
+    private String type;
     private String message;
-    private String time;
+    @SerializedName("notification_date")
+    private String notificationDate;
+    @SerializedName("created_at")
+    private String createdAt;
+    @SerializedName("updated_at")
+    private String updatedAt;
 
-    public Notification(String message, String time) {
-        this.message = message;
-        this.time = time;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getTime() {
-        return time;
-    }
+    // Getters
+    public int getId() { return id; }
+    public int getUserId() { return userId; }
+    public String getType() { return type; }
+    public String getMessage() { return message; }
+    public String getNotificationDate() { return notificationDate; }
+    public String getCreatedAt() { return createdAt; }
+    public String getUpdatedAt() { return updatedAt; }
 }
+
 

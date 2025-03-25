@@ -42,6 +42,7 @@
             app:sliderIndicatorUnselectedColor="#FFF"
             app:sliderScrollTimeInSec="1"
             app:sliderStartAutoCycle="true" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_wishlist_container"
             android:layout_width="wrap_content"
@@ -220,6 +221,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintStart_toStartOf="@+id/guideline6"
                     app:layout_constraintTop_toBottomOf="@+id/ll_star">
+
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:orientation="vertical"
                         android:layout_width="0dp"

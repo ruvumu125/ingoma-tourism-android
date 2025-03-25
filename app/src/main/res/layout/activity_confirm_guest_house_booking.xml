@@ -621,7 +621,7 @@
                                 <TextView
                                     android:textColor="#717171"
                                     android:id="@+id/tvTnc"
-                                    android:visibility="visible"
+                                    android:visibility="gone"
                                     android:text="bhyuuu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

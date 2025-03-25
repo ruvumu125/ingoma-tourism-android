@@ -1,6 +1,7 @@
 package com.ingoma.tourism.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.ingoma.tourism.BookingDetailsActivity;
 import com.ingoma.tourism.constant.Constant;
 import com.ingoma.tourism.model.BookingList;
 import com.ingoma.tourism.R;
@@ -113,13 +115,9 @@ public class BookingsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             hotelViewHolder.booking_hotel_item.setOnClickListener(view -> {
 
-//                Intent intent = new Intent(context, BookingDetailsActivity.class);
-//                intent.putExtra("hotelName", booking.getHotelName());
-//                intent.putExtra("checkInDate", booking.getCheckInDate());
-//                intent.putExtra("checkOutDate", booking.getCheckOutDate());
-//                intent.putExtra("nights", booking.getNumberOfNights());
-//                intent.putExtra("guests", booking.getNumberOfGuests());
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, BookingDetailsActivity.class);
+                intent.putExtra("idBooking", booking.getBookingId());
+                context.startActivity(intent);
             });
 
         }

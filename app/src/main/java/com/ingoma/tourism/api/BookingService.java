@@ -1,6 +1,7 @@
 package com.ingoma.tourism.api;
 
 import com.ingoma.tourism.model.Booking;
+import com.ingoma.tourism.model.BookingDetailsResponse;
 import com.ingoma.tourism.model.BookingListResponse;
 
 import retrofit2.Call;
@@ -28,4 +29,7 @@ public interface BookingService {
             @Query("per_page") int perPage,
             @Query("page") int page
     );
+
+    @GET("api/v1/booking/details/{id}")
+    Call<BookingDetailsResponse> getBookingDetails(@Path("id") Long bookingId);
 }

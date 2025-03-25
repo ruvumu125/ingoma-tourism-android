@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:tag="layout/view_h_detail_house_rules_list_0"
+    android:background="@drawable/white_round_rect_8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/tvBookingDetailsTitle"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1000"
+            app:shimmer_intensity="0.5"
+            app:shimmer_direction="left_to_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <TextView
+                android:background="@drawable/shimmer_round_rect_2dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:padding="15dp"
+                android:maxLines="3"
+                style="@style/MainEditTextStyle"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+        <View
+            android:layout_below="@+id/tvBookingDetailsTitle"
+            android:id="@+id/separatorBookingDetais"
+            android:background="#eff3f8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:padding="13dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/separatorBookingDetais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:layout_constraintBottom_toTopOf="@+id/tv_hotel_address"
+                            app:layout_constraintEnd_toStartOf="@+id/iv_booked_hotel_img"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:id="@+id/tv_hotel_name"
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:ellipsize="end"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:maxLines="2"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                app:layout_constraintVertical_chainStyle="packed"
+                                style="@style/H2BoldTextAppearance"/>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:layout_constraintBottom_toTopOf="@+id/tv_hotel_address_road"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_hotel_name"
+                            android:id="@+id/tv_hotel_address"
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                android:ellipsize="end"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                style="@style/H3AvenirMedium"/>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_hotel_address"
+                            android:id="@+id/tv_hotel_address_road"
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textColor="@color/colorTextPrimary"
+                                android:ellipsize="end"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:background="@drawable/shimmer_round_rect_2dp"/>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_hotel_address_road"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tv_hotel_name"
+                            android:id="@+id/iv_booked_hotel_img"
+                            app:shimmer_auto_start="true"
+                            app:shimmer_duration="1000"
+                            app:shimmer_intensity="0.5"
+                            app:shimmer_direction="left_to_right"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/shimmer_round_rect_2dp"
+                                app:layout_constraintVertical_bias="0.5"
+                                app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

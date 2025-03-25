@@ -55,11 +55,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Booking Number :"
+                                android:text="N° de réservation :"
                                 app:fontFamily="@font/gilroy_bold"
                                 style="@style/H3Avenir"/>
 
                             <TextView
+                                android:id="@+id/tv_booking_details_num_reservation"
                                 android:layout_marginStart="5dp"
                                 android:text="@string/added_to"
                                 android:layout_width="wrap_content"
@@ -71,11 +72,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Booking Number :"
+                                android:text="Date de réservation :"
                                 app:fontFamily="@font/gilroy_bold"
                                 style="@style/H3Avenir"/>
 
                             <TextView
+                                android:id="@+id/tv_booking_details_date_reservation"
                                 android:layout_marginStart="5dp"
                                 android:text="@string/added_to"
                                 android:layout_width="wrap_content"
@@ -87,15 +89,137 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Booking Number :"
+                                android:text="Date d’arrivée :"
                                 app:fontFamily="@font/gilroy_bold"
                                 style="@style/H3Avenir"/>
 
                             <TextView
+                                android:id="@+id/tv_booking_details_date_arrivee"
                                 android:layout_marginStart="5dp"
                                 android:text="@string/added_to"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                app:fontFamily="@font/gilroy_regular"
+                                style="@style/H3Avenir"/>
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date de départ :"
+                                app:fontFamily="@font/gilroy_bold"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:id="@+id/tv_booking_details_date_depart"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:fontFamily="@font/gilroy_regular"
+                                style="@style/H3Avenir"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Durée du séjour :"
+                                app:fontFamily="@font/gilroy_bold"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:id="@+id/tv_booking_details_duree_sejour"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:fontFamily="@font/gilroy_regular"
+                                style="@style/H3Avenir"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Prix unitaire :"
+                                app:fontFamily="@font/gilroy_bold"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:id="@+id/tv_booking_details_prix_unitaire"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:fontFamily="@font/gilroy_regular"
+                                style="@style/H3Avenir"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total de la réservation :"
+                                app:fontFamily="@font/gilroy_bold"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:id="@+id/tv_booking_details_total_reservation"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:fontFamily="@font/gilroy_regular"
+                                style="@style/H3Avenir"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nombre d’adultes :"
+                                app:fontFamily="@font/gilroy_bold"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:id="@+id/tv_booking_details_nombre_adultes"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:fontFamily="@font/gilroy_regular"
+                                style="@style/H3Avenir"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nombre d’enfants :"
+                                app:fontFamily="@font/gilroy_bold"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:id="@+id/tv_booking_details_nombre_enfants"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:fontFamily="@font/gilroy_regular"
+                                style="@style/H3Avenir"/>
+                        </TableRow>
+                        <TableRow android:layout_marginTop="7dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Statut :"
+                                app:fontFamily="@font/gilroy_bold"
+                                style="@style/H3Avenir"/>
+
+                            <TextView
+                                android:id="@+id/tv_booking_details_statut"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/added_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/pending_color"
                                 app:fontFamily="@font/gilroy_regular"
                                 style="@style/H3Avenir"/>
                         </TableRow>

@@ -25,6 +25,9 @@ import com.ingoma.tourism.model.HotelRoomsResponse;
 import com.ingoma.tourism.model.Plan;
 import com.ingoma.tourism.model.RoomHotel;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,9 +39,9 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
     private RecyclerView rvRooms;
     private RoomAdapter roomAdapter;
 
-    private String property_adress,property_first_image,property_id,property_name,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
+    private String tarification_type,property_adress,property_first_image,property_id,property_name,property_type,checkinDate,checkoutDate,checkinDateFrench,checkoutDateFrench,city_or_property,nb_adultes,nb_enfants;
     private LinearLayout continue_btn;
-    private TextView toolbarTitle,tv_booking_info,unStrikedPrice,txtPerNight,continue_btn_tv;
+    private TextView select_room_btn_tv,toolbarTitle,tv_booking_info,unStrikedPrice,txtPerNight,continue_btn_tv;
     private LinearLayout booking_info_edit_section;
 
     private Retrofit2Client retrofit2Client;
@@ -77,6 +80,7 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
         txtPerNight=findViewById(R.id.txtPerNight);
         continue_btn = findViewById(R.id.lyt_cta);
         continue_btn_tv = findViewById(R.id.select_room_btn_tv);
+        select_room_btn_tv=findViewById(R.id.select_room_btn_tv);
 
         section_skleton=findViewById(R.id.section_skleton);
         section_price=findViewById(R.id.detail_price_offer_lyt);
@@ -102,6 +106,7 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
             nb_adultes = intent.getStringExtra("nb_adultes");
             nb_enfants = intent.getStringExtra("nb_enfants");
             property_type = intent.getStringExtra("property_type");
+            tarification_type = intent.getStringExtra("tarification_type");
 
             toolbarTitle.setText(property_name);
 
@@ -131,7 +136,7 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
             if (isAnyPlanSelected()) {
                 openConfirmHotelBookingActivity();
             } else {
-                Toast.makeText(this, "No Plan Selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Veuillez sélectionner une chambre", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -210,10 +215,16 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
                         selectedPlan = plan;
                         selectedRoom = room;
                         unStrikedPrice.setText(plan.getPrice());
-                        txtPerNight.setText(plan.getCurrency());
-
                         property_price=plan.getPrice();
-                        price_currency=plan.getCurrency();
+
+                        if (plan.getCurrency().equals("bif")){
+                            txtPerNight.setText("BIF");
+                            price_currency="BIF";
+                        }
+                        else{
+                            txtPerNight.setText("$");
+                            price_currency="$";
+                        }
 
                         section_price.setVisibility(View.VISIBLE);
                     });
@@ -307,11 +318,14 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
         intent.putExtra("room_bed_type",selectedRoom.getBedType());
         intent.putExtra("room_main_image",selectedRoom.getImages().get(0).getImageUrl());
 
+        intent.putExtra("plan_id",String.valueOf(selectedPlan.getId()));
         intent.putExtra("plan_name",selectedPlan.getPlanType());
-        intent.putExtra("plan_description",selectedPlan.getPlanType());
+        intent.putExtra("plan_description",selectedPlan.getDescription());
 
         intent.putExtra("property_price",property_price);
         intent.putExtra("price_currency",price_currency);
+        intent.putExtra("tarification_type",tarification_type);
+
 
 
 
@@ -329,6 +343,7 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
         city_or_property=city_or_property_response;
         nb_adultes=String.valueOf(adultesNumber_response);
         nb_enfants=String.valueOf(childrenNumber_response);
+        tarification_type=getTarificationType(checkinDate_response,checkoutDate_response);
 
         //set textview
         String guest_info=displayGuestInfo(property_type,String.valueOf(adultesNumber_response),String.valueOf(childrenNumber_response));
@@ -344,4 +359,20 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
     private boolean isAnyPlanSelected() {
         return selectedPlan != null;
     }
+
+    public static String getTarificationType(String dateStr1, String dateStr2) {
+        // Define the date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Parse the strings into LocalDate
+        LocalDate date1 = LocalDate.parse(dateStr1, formatter);
+        LocalDate date2 = LocalDate.parse(dateStr2, formatter);
+
+        // Calculate the difference in days
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+
+        // Return "Daily" if under a month, otherwise "Monthly"
+        return Math.abs(daysBetween) < 30 ? "daily" : "monthly";
+    }
+
 }

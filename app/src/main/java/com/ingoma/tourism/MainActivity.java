@@ -32,34 +32,35 @@ public class MainActivity extends AppCompatActivity {
         // Find the BottomNavigationView
         bottomNav = findViewById(R.id.nav_view);
 
-        // Find the NavController from the NavHostFragment
+// Find the NavController from the NavHostFragment
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        // Link BottomNavigationView with NavController
-        NavigationUI.setupWithNavController(bottomNav, navController);
-
-        // Handle item selection
+// Handle item selection manually
         bottomNav.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.navigation_account) { // Check if Account fragment is selected
-                if (!loginPreferencesManager.isLoggedIn()) {
+            int itemId = item.getItemId();
 
+            if (itemId == R.id.navigation_account || itemId == R.id.navigation_dashboard || itemId == R.id.navigation_notifications) {
+                if (!loginPreferencesManager.isLoggedIn()) {
                     Intent intent = new Intent(this, LoginActivity.class);
-                    loginActivityLauncher.launch(intent); // Use ActivityResultLauncher
-                    return false; // Prevent navigation to AccountFragment
+                    loginActivityLauncher.launch(intent);
+                    return false; // Prevent navigation
                 }
             }
-            NavigationUI.onNavDestinationSelected(item, navController);
+
+            // Navigate manually using NavController
+            navController.navigate(itemId);
             return true;
         });
+
     }
 
     private final ActivityResultLauncher<Intent> loginActivityLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    // Navigate to AccountFragment
                     navController.navigate(R.id.navigation_account);
-                    bottomNav.setSelectedItemId(R.id.navigation_account); // Ensure BottomNav updates UI
+                    // ✅ Fix: Ensure BottomNavigationView highlights Account icon
+                    bottomNav.setSelectedItemId(R.id.navigation_account);
                 }
             }
     );
