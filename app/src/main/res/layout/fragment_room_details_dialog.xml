@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:id="@+id/roomAmenitiesToolBar"
+        android:tag="binding_1"
+        android:background="@drawable/bg_shape_top_rounded_day_use_sheets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="21dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lytParentToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:ellipsize="end"
+                    android:id="@+id/toolbar_custom_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Détails de la chambre"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    style="@style/TextStyles.Label.Large.w3"/>
+
+                <LinearLayout
+                    android:id="@+id/lytSubtitleWrap"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/toolbar_custom_title"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar_custom_title">
+
+                    <TextView
+                        android:textColor="@color/toolbarCustomSubTitleColor"
+                        android:ellipsize="end"
+                        android:id="@+id/tv_property_name"
+                        android:layout_width="0dp"
+                        android:text="@string/amenities"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingBottom="3dp"
+                        android:layout_weight="1"
+                        style="@style/TextStyles.Label.Small.w1"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/imgBack"
+            android:padding="5dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="13dp"
+            app:srcCompat="@drawable/ic_htl_cross"
+            app:tint="@color/icon_grey"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:background="@drawable/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/roomAmenitiesToolBar"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/rvRoomDtls"
+        android:background="@color/bg_design_grey"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/roomAmenitiesToolBar">
+
+        <!--DEBUT ROOM DETAILS-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/white_round_rect_8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:paddingVertical="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginHorizontal="12dp">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/tvAmHeadingRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Amenities"
+                    style="@style/TextStyles.Label.Base.w3"/>
+
+                <com.smarteist.autoimageslider.SliderView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/view_pager_room"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="16:9"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:sliderScrollTimeInSec="1"
+                    app:sliderStartAutoCycle="true"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:textColor="@color/colorTextLight"
+                        android:id="@+id/tv_room_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+                        style="@style/TextStyles.Label.Small.w1"
+                        android:justificationMode="inter_word"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <LinearLayout
+                    android:id="@+id/rvTopFiltersUnified"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnCount="3"
+                        android:rowCount="1"
+                        android:useDefaultMargins="true"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="2dp">
+
+                        <!-- Number of Guests -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/account_circle_24px"/>
+
+                            <TextView
+                                android:id="@+id/tv_room_guest_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="2 Guests"
+                                android:textColor="@color/colorTextLight"
+                                android:paddingStart="8dp"
+                                android:gravity="center"
+                                style="@style/TextStyles.Label.Small.w1"
+                                />
+                        </LinearLayout>
+
+                        <!-- Bed Type -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/hotel_24px"/>
+
+                            <TextView
+                                android:textColor="@color/colorTextLight"
+                                android:id="@+id/tv_room_bed_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="King Bed"
+                                style="@style/TextStyles.Label.Small.w1"
+                                android:paddingStart="8dp"/>
+                        </LinearLayout>
+
+                        <!-- RoomHotel Surface -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="10dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/space_dashboard_24px"/>
+
+                            <TextView
+                                android:id="@+id/tv_room_surface"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="30m²"
+                                android:textColor="@color/colorTextLight"
+                                style="@style/TextStyles.Label.Small.w1"
+                                android:paddingStart="8dp"/>
+                        </LinearLayout>
+
+                    </GridLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--FIN ROOM DETAILS-->
+
+        <!--DEBUT ROOM AMENITIES-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/white_round_rect_8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:paddingVertical="12dp">
+            <TextView
+                android:textColor="@color/black"
+                android:id="@+id/tvAmHeading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Amenities"
+                android:layout_marginHorizontal="12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/TextStyles.Label.Base.w3"/>
+            <View
+                android:id="@+id/hDivider"
+                android:background="@color/bg_color"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAmHeading"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRoomAm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/hDivider"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--FIN ROOM AMENITIES-->
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

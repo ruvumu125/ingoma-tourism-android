@@ -200,5 +200,18 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="close">Close</string>
+    <string name="bullet">•</string>
+    <string name="bullet_point">•</string>
+    <string name="skip">Skip</string>
+    <string name="minkasu2fa_proceed">Proceed</string>
+    <string name="minkasu2fa_lblEnterOTP">Enter Setup Code</string>
+    <string name="minkasu2fa_lblResend">Resend Setup Code</string>
+    <string name="minkasu2fa_lbl_ptr_bank">This is a secure payment method offered in\10partnership with %1$s bank.</string>
+    <string name="please_enter_the_contact_details_of_the_person_who_would_like_to_receive_the_confirmation_and_be_contacted_if_required">Please enter the contact details of the person who would like to receive the confirmation and be contacted if required.</string>
+    <string name="receive_text_alerts_about_this_trip_message_and_data_rates_may_apply">Receive text alerts about this trip. Message and data rates may apply.</string>
+    <string name="mobile_verification">Mobile Verification</string>
+    <string name="enter_code_text">Enter your 4-Digit OTP.\10We’ve sent an sms with the OTP to</string>
+    <string name="notification_channel_message">Pour finaliser votre réservation, veuillez sélectionner ci-dessous le moyen par lequel vous souhaitez être informé de la disponibilité de vos réservations (disponible ou indisponible).</string>
+    <string name="select_canal_notification">Sélectionnez un canal de notification</string>
 
 </resources>

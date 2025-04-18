@@ -137,5 +137,15 @@
     <color name="confirmed_color">#007BFF</color>
     <color name="cancelled_color">#DC3545</color>
     <color name="paid_color">#28A745</color>
+    <color name="toolBarShadow">#b4979494</color>
+    <color name="bg_design_grey">#f4f4f4</color>
+    <color name="brownish_grey">#777777</color>
+    <color name="mkBackground">#ffffff</color>
+    <color name="mkTextColor">#000000</color>
+    <color name="mkButtonBackground">#2276e3</color>
+    <color name="mkButtonTextColor">#ffffff</color>
+    <color name="dotted_line_grey">#d4d4d4</color>
+    <color name="grey_otp">#eff3f8</color>
+    <color name="dark_grey">#777777</color>
 </resources>
 

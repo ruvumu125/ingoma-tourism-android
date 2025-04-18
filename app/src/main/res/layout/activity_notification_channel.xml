@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:tag="layout/fragment_otp_verifier_0"
+    android:background="@color/white"
+    android:id="@+id/rootLytChannel"
+    android:paddingBottom="@dimen/_32sdp"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarChannel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <!-- Back button -->
+        <FrameLayout
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/back_arrow"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_back_arrow_theme"
+                app:tint="@color/black" />
+
+        </FrameLayout>
+
+
+        <!-- Title (optional) -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choix du canal de notification"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            style="@style/Title218PxLeftBlack"/>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:textSize="@dimen/_12sdp"
+        android:id="@+id/txtLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/notification_channel_message"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:justificationMode="inter_word"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:lineSpacingExtra="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        style="@style/Label118PxCentreAsh"/>
+
+    <FrameLayout
+        android:id="@+id/imageView"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarChannel"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_red_circle"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/notifications_active_24px"
+            android:layout_gravity="center"
+            app:tint="@android:color/white" />
+    </FrameLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/spinner_select_channel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:boxStrokeColor="@color/text_input_outline_stroke_color"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtLabel"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <AutoCompleteTextView
+            android:textColorHint="@color/colorDivider"
+            android:id="@+id/et_spinner"
+            android:padding="@dimen/padding_16"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_canal_notification"
+            android:ems="10"
+            android:inputType="none"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/gilroy"
+            app:fontFamily="@font/avenir_regular"
+            style="@style/H2TextAppearance"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/mailAdress"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:boxStrokeColor="@color/text_input_outline_stroke_color"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_select_channel"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEmailAdress"
+            android:padding="@dimen/padding_16"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Entrer votre adresse e-mail"
+            android:fontFamily="@font/gilroy"
+            android:drawableStart="@drawable/ic_email_icon"
+            android:drawablePadding="@dimen/dp_10"
+            app:fontFamily="@font/avenir_regular"
+            style="@style/H2TextAppearance"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:id="@+id/layout_whatsapp_number"
+        android:visibility="gone"
+        android:background="@drawable/button_bg_stroke_only"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mailAdress">
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="12.42dp"
+            android:paddingEnd="0dp"
+            android:layout_marginEnd="5dp"
+            app:ccp_areaCodeDetectedCountry="true"
+            app:ccp_arrowColor="@color/colorTextPrimary"
+            app:ccp_arrowSize="29dp"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_countryPreference="bi,us"
+            app:ccp_defaultNameCode="bi"
+            app:ccp_rememberLastSelection="false"
+            app:ccp_showFlag="true"
+            app:ccp_showNameCode="false"
+            app:ccp_textSize="15sp"
+            style="@style/H2TextAppearance"/>
+        <View
+            android:background="@color/colorStroke"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtWhatsappNo"
+            android:background="@null"
+            android:padding="@dimen/padding_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Entrer votre N° Whatsapp"
+            android:singleLine="true"
+            android:inputType="phone"
+            android:imeOptions="actionDone"
+            android:layout_marginStart="4dp"
+            app:fontFamily="@font/avenir_regular"
+            style="@style/H2TextAppearance"/>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_next_notification_channel"
+        android:paddingTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_whatsapp_number">
+
+        <TextView
+            android:id="@+id/continueBtnNotificationChannnel"
+            android:background="@drawable/primary_buttons_square"
+            android:layout_height="55dp"
+            android:layout_width="match_parent"
+            android:text="Continuer"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/PrimaryButtonStyle"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loadingCartGifNotificationChannnel"
+            android:background="@color/thirtyPercentTransparent"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            app:layout_constraintBottom_toBottomOf="@+id/continueBtnNotificationChannnel"
+            app:layout_constraintEnd_toEndOf="@+id/continueBtnNotificationChannnel"
+            app:layout_constraintStart_toStartOf="@+id/continueBtnNotificationChannnel"
+            app:layout_constraintTop_toTopOf="@+id/continueBtnNotificationChannnel">
+            <ProgressBar
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:progressTint="@color/white"
+                android:progressBackgroundTint="@color/white"
+                android:indeterminateTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

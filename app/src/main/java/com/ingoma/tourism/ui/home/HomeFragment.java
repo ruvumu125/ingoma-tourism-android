@@ -17,6 +17,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textview.MaterialTextView;
 import com.ingoma.tourism.HotelDatePickerActivity;
 import com.ingoma.tourism.LocationSearchActivity;
+import com.ingoma.tourism.NotificationChannelActivity;
+import com.ingoma.tourism.OTPVerifierActivity;
 import com.ingoma.tourism.PropertiesDetailsActivity;
 import com.ingoma.tourism.PropertiesListActivity;
 import com.ingoma.tourism.R;
@@ -134,6 +136,7 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
             tv_hello.setText("Bonjour voyageur");
         }
 
+
         // Define default dates
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
@@ -198,6 +201,11 @@ public class HomeFragment extends Fragment implements GuestSelectionDialogFragme
             }
             openPropertyListActivity();
 
+        });
+
+        tv_hello.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), NotificationChannelActivity.class);
+            getContext().startActivity(intent);
         });
 
 

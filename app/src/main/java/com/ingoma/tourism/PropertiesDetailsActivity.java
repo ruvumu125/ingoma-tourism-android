@@ -35,11 +35,13 @@ import com.ingoma.tourism.api.Retrofit2Client;
 import com.ingoma.tourism.dialog.EditBookingInfoDialogFragment;
 import com.ingoma.tourism.dialog.PropertyAmenitiesDialogFragment;
 import com.ingoma.tourism.dialog.PropertyLandmarksDialogFragment;
+import com.ingoma.tourism.dialog.PropertyPhotosDialogFragment;
 import com.ingoma.tourism.dialog.PropertyRulesDialogFragment;
 import com.ingoma.tourism.model.PropertyAmenity;
 import com.ingoma.tourism.model.Landmark;
 import com.ingoma.tourism.model.PropertyDetails;
 import com.ingoma.tourism.model.PropertyDetailsResponse;
+import com.ingoma.tourism.model.PropertyImage;
 import com.ingoma.tourism.model.Rule;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -79,6 +81,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
     private Retrofit2Client retrofit2Client;
     private PropertyApiService propertyApiService;
+    private LinearLayout ll_all_pictures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +115,11 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         tvAddress = findViewById(R.id.tv_address);
         tvPrice = findViewById(R.id.unStrikedPrice);
         tvRating = findViewById(R.id.rating_bar);
+        ll_all_pictures = findViewById(R.id.ll_all_pictures);
         view_all_amenities = findViewById(R.id.view_all_amenities);
         view_all_rules = findViewById(R.id.view_all_rules);
         view_all_landmarks = findViewById(R.id.view_all_landmarks);
+
         select_room_btn = findViewById(R.id.lyt_cta);
         scrollView=findViewById(R.id.customScrollViewID);
         section_content=findViewById(R.id.section_content);
@@ -270,7 +275,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
         });
 
-        fetchProperty(Long.parseLong(property_id),tv_property_price,tv_price_currency,view_all_amenities,view_all_rules,view_all_landmarks);
+        fetchProperty(Long.parseLong(property_id),tv_property_price,tv_price_currency,ll_all_pictures,view_all_amenities,view_all_rules,view_all_landmarks);
     }
 
     public int getNavigationBarHeight(Activity activity) {
@@ -326,7 +331,7 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
         }
     }
 
-    private void fetchProperty(Long id,TextView tv_property_minimum_price,TextView tv_currency,TextView view_all_amenities,TextView view_all_rules,TextView view_all_landmarks) {
+    private void fetchProperty(Long id,TextView tv_property_minimum_price,TextView tv_currency,LinearLayout view_all_pictures,TextView view_all_amenities,TextView view_all_rules,TextView view_all_landmarks) {
 
         section_content.setVisibility(View.GONE);
         section_skleton.setVisibility(View.VISIBLE);
@@ -353,8 +358,12 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
 
 
                     // Load PropertyImage Slider
-                    sliderView.setSliderAdapter(new SliderPropertyDetailsAdapter(PropertiesDetailsActivity.this, property.getImages()));
+                    List<PropertyImage> displayedImages=property.getImages().size()>5? property.getImages().subList(0,5): property.getImages();
+                    sliderView.setSliderAdapter(new SliderPropertyDetailsAdapter(PropertiesDetailsActivity.this, displayedImages));
                     sliderView.startAutoCycle();
+                    view_all_pictures.setOnClickListener(view -> {
+                        showAllPropertyImages(property.getImages(),property.getName());
+                    });
 
                     // amenities
                     List<PropertyAmenity> displayedAmenities = property.getAmenities().size() > 5 ? property.getAmenities().subList(0, 5) : property.getAmenities();
@@ -462,6 +471,11 @@ public class PropertiesDetailsActivity extends AppCompatActivity implements Edit
     @Override
     public void onDialogFragmentDismiss() {
 
+    }
+
+    private void showAllPropertyImages(List<PropertyImage> images, String propertyName) {
+        PropertyPhotosDialogFragment dialog = PropertyPhotosDialogFragment.newInstance(images, propertyName);
+        dialog.show(getSupportFragmentManager(), "PropertyPhotosDialog");
     }
 
     private void showAllPropertyAmenities(List<PropertyAmenity> amenities) {

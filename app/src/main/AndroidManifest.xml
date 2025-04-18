@@ -16,6 +16,15 @@
         android:theme="@style/Theme.Goe"
         tools:targetApi="31">
         <activity
+            android:name=".NotificationChannelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OTPVerifierActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PagerGalleryActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity

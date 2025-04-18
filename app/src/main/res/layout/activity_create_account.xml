@@ -156,60 +156,6 @@
             app:layout_constraintTop_toBottomOf="@+id/et_last_name"
             style="@style/H2TextAppearance"/>
 
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:id="@+id/layout_phone"
-            android:background="@drawable/edit_text_without_border"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_email">
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/ccp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="12.42dp"
-                android:paddingEnd="0dp"
-                android:layout_marginEnd="5dp"
-                app:ccp_areaCodeDetectedCountry="true"
-                app:ccp_arrowColor="@color/colorTextPrimary"
-                app:ccp_arrowSize="29dp"
-                app:ccp_autoDetectCountry="true"
-                app:ccp_countryPreference="bd,pk,us"
-                app:ccp_defaultNameCode="bd"
-                app:ccp_rememberLastSelection="true"
-                app:ccp_showFlag="true"
-                app:ccp_showNameCode="false"
-                app:ccp_textSize="15sp"
-                style="@style/H2TextAppearance"/>
-            <View
-                android:background="@color/colorStroke"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"/>
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/et_phone"
-                android:background="@null"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/_170_xxx_xxxx"
-                android:singleLine="true"
-                android:inputType="phone"
-                android:imeOptions="actionDone"
-                android:paddingStart="@dimen/padding_16"
-                android:paddingEnd="@dimen/padding_16"
-                android:layout_marginStart="4dp"
-                app:fontFamily="@font/avenir_regular"
-                style="@style/H2TextAppearance"/>
-        </LinearLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_password_layout"
             android:layout_width="match_parent"
@@ -222,7 +168,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_phone"
+            app:layout_constraintTop_toBottomOf="@+id/et_email"
             app:passwordToggleDrawable="@drawable/password_toggle_options"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/colorTextLight">

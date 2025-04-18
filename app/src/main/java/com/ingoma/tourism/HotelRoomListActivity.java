@@ -1,6 +1,8 @@
 package com.ingoma.tourism;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -14,6 +16,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,6 +71,8 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
         propertyApiService = retrofit2Client.createService(PropertyApiService.class);
 
         //padding status bar and bottom navigation bar
+        // This is crucial for proper insets handling
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         View RootLayout = findViewById(R.id.cordinatorLyt);
         View toolbar = findViewById(R.id.htab_appbar);
         paddingStatusBar(toolbar);
@@ -145,56 +152,44 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
 
     }
 
-    public int getNavigationBarHeight(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) { // Android 11+
-            WindowInsets insets = activity.getWindowManager().getCurrentWindowMetrics().getWindowInsets();
-            return insets.getInsets(WindowInsets.Type.navigationBars()).bottom;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Android 6+
-            View decorView = activity.getWindow().getDecorView();
-            return decorView.getRootWindowInsets().getStableInsetBottom();
-        } else { // Older versions (pre-Marshmallow)
-            Resources resources = activity.getResources();
-            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-            return resourceId > 0 ? resources.getDimensionPixelSize(resourceId) : 0;
-        }
+    private void paddingStatusBar(View view) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+            v.setPadding(v.getPaddingLeft(),
+                    statusBarHeight,
+                    v.getPaddingRight(),
+                    v.getPaddingBottom());
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(view);
     }
 
-    public int getStatusBarHeight() {
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        int statusBarHeight = 0;
-        if (resourceId > 0) {
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        }
-
-        // Convert 10dp to pixels
-        int extraHeight = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                10,
-                Resources.getSystem().getDisplayMetrics()
-        );
-
-        return statusBarHeight + extraHeight;
-    }
-
-    private void paddingStatusBar(View layout){
-        int statusBarHeight = getStatusBarHeight();
-        layout.setPadding(layout.getPaddingLeft(), statusBarHeight, layout.getPaddingRight(), layout.getPaddingBottom());
-
-    }
-    private void paddingBottomNavigationBar(View layout){
-
-        // Get the system bottom inset (dynamic)
-        int navBarHeight = getNavigationBarHeight(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            layout.setOnApplyWindowInsetsListener((v, insets) -> {
-
-                v.setPadding(0, 0, 0, navBarHeight);
+    private void paddingBottomNavigationBar(View layout) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ViewCompat.setOnApplyWindowInsetsListener(layout, (v, insets) -> {
+                int bottomInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+                v.setPadding(v.getPaddingLeft(),
+                        v.getPaddingTop(),
+                        v.getPaddingRight(),
+                        bottomInset);
                 return insets;
             });
+            ViewCompat.requestApplyInsets(layout);
         } else {
-
-            layout.setPadding(0, 0, 0, navBarHeight);
+            // Fallback for very old devices
+            int navBarHeight = getNavigationBarHeightLegacy(layout.getContext());
+            layout.setPadding(layout.getPaddingLeft(),
+                    layout.getPaddingTop(),
+                    layout.getPaddingRight(),
+                    navBarHeight);
         }
+    }
+
+    @SuppressLint("InternalInsetResource")
+    private int getNavigationBarHeightLegacy(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        return resourceId > 0 ? resources.getDimensionPixelSize(resourceId) : 0;
     }
 
     private void fetchRooms(Long property_id) {
@@ -210,7 +205,7 @@ public class HotelRoomListActivity extends AppCompatActivity implements EditBook
             public void onResponse(Call<HotelRoomsResponse> call, Response<HotelRoomsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<RoomHotel> rooms = response.body().getData();
-                    roomAdapter = new RoomAdapter(getApplicationContext(), rooms,(plan, room) -> {
+                    roomAdapter = new RoomAdapter(getApplicationContext(), rooms,property_name,getSupportFragmentManager(),(plan, room) -> {
 
                         selectedPlan = plan;
                         selectedRoom = room;

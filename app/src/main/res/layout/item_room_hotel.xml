@@ -123,7 +123,7 @@
                         android:textColor="@color/colorTextLight"
                         android:paddingStart="8dp"
                         android:gravity="center"
-                        style="@style/TextStyles.Label.Small.w2"
+                        style="@style/TextStyles.Label.Small.w1"
                         />
                 </LinearLayout>
 
@@ -138,7 +138,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_hotel_bed"/>
+                        android:src="@drawable/hotel_24px"/>
 
                     <TextView
                         android:textColor="@color/colorTextLight"
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="King Bed"
-                        style="@style/TextStyles.Label.Small.w2"
+                        style="@style/TextStyles.Label.Small.w1"
                         android:paddingStart="8dp"/>
                 </LinearLayout>
 
@@ -161,7 +161,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/square_foot_24px"/>
+                        android:src="@drawable/space_dashboard_24px"/>
 
                     <TextView
                         android:id="@+id/tv_room_surface"
@@ -169,8 +169,7 @@
                         android:layout_height="wrap_content"
                         android:text="30m²"
                         android:textColor="@color/colorTextLight"
-                        android:layout_marginTop="5dp"
-                        style="@style/TextStyles.Label.Small.w2"
+                        style="@style/TextStyles.Label.Small.w1"
                         android:paddingStart="8dp"/>
                 </LinearLayout>
 

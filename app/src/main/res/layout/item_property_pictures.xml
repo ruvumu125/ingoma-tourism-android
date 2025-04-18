@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:tools="http://schemas.androidly.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:id="@+id/card_view"
+    android:layout_width="95dp"
+    android:layout_height="95dp"
+    app:cardCornerRadius="2dp"
+    app:cardUseCompatPadding="true">
+    <ImageView
+        android:src="@drawable/hotel_place_holder"
+        android:id="@+id/gi_photo_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
+</androidx.cardview.widget.CardView>

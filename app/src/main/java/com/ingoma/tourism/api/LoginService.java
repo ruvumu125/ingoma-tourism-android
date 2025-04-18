@@ -15,4 +15,6 @@ public interface LoginService {
 
     @POST("api/v1/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
+
+
 }

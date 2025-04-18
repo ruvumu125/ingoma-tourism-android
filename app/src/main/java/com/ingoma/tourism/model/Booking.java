@@ -15,13 +15,12 @@ public class Booking {
     private String first_name;
     private String last_name;
     private String phone;
-    private String email;
     private int adults;
     private int children;
     private int room_id;
     private int room_plan_id;
 
-    public Booking(int user_id, int property_id, String check_in_date, String check_out_date, double unit_price, String pricing_type, String duration, double total_price, String currency, String booking_type, String first_name, String last_name, String phone, String email, int adults, int children, int room_id, int room_plan_id) {
+    public Booking(int user_id, int property_id, String check_in_date, String check_out_date, double unit_price, String pricing_type, String duration, double total_price, String currency, String booking_type, String first_name, String last_name, String phone, int adults, int children, int room_id, int room_plan_id) {
         this.user_id = user_id;
         this.property_id = property_id;
         this.check_in_date = check_in_date;
@@ -35,7 +34,6 @@ public class Booking {
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone = phone;
-        this.email = email;
         this.adults = adults;
         this.children = children;
         this.room_id = room_id;
@@ -55,7 +53,6 @@ public class Booking {
         this.first_name = first_name;
         this.phone = phone;
         this.last_name = last_name;
-        this.email = email;
         this.children = children;
         this.adults = adults;
         this.room_id = room_id;
@@ -169,13 +166,7 @@ public class Booking {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public int getAdults() {
         return adults;
